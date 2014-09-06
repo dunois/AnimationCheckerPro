@@ -1,6 +1,8 @@
 ﻿Imports System.Net
 Imports System.IO
 Imports Microsoft.Win32
+Imports System.Text.RegularExpressions
+
 Public Class ProgramOption
     Dim REG As RegistryKey = Registry.LocalMachine
     Dim RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
@@ -98,6 +100,10 @@ Public Class ProgramOption
             End Try
         ElseIf OptionTreeView.SelectedNode.Name = "ExpandModeSetting" Then
             ExpandModePanel.BringToFront()
+        ElseIf OptionTreeView.SelectedNode.Name = "NTSearchSettingNode" Then
+            NTSetPanel.BringToFront()
+        ElseIf OptionTreeView.SelectedNode.Name = "TTSearchSettingNode" Then
+            TTSetPanel.BringToFront()
         End If
     End Sub
 
@@ -254,5 +260,35 @@ Public Class ProgramOption
         MainForm.SubListBox.Items.Add("애니메이션을 선택하세요")
         MsgBox("다운로드가 완료되었습니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "완료")
         Me.Close()
+    End Sub
+
+    Private Sub TTSizeCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TTSizeCheckBox.CheckedChanged
+        If TTSizeCheckBox.Checked = True Then
+            TTSizeGroupPanel.Enabled = True
+        Else
+            TTSizeGroupPanel.Enabled = False
+        End If
+    End Sub
+
+    Private Sub SubmitterCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles SubmitterCheckBox.CheckedChanged
+        If SubmitterCheckBox.Checked = True Then
+            SubmitterTextBox.Enabled = True
+        Else
+            SubmitterTextBox.Enabled = False
+        End If
+    End Sub
+
+    Private Sub MaxSizeTextBox_TextChanged(sender As Object, e As EventArgs) Handles MaxSizeTextBox.TextChanged
+        If IsNumeric(MaxSizeTextBox.Text) = False And Not MaxSizeTextBox.Text = "" Then
+            MsgBox("숫자만 입력 가능합니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+            MaxSizeTextBox.Text = ""
+        End If
+    End Sub
+
+    Private Sub MinSizeTextBox_TextChanged(sender As Object, e As EventArgs) Handles MinSizeTextBox.TextChanged
+        If IsNumeric(MinSizeTextBox.Text) = False And Not MinSizeTextBox.Text = "" Then
+            MsgBox("숫자만 입력 가능합니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+            MinSizeTextBox.Text = ""
+        End If
     End Sub
 End Class

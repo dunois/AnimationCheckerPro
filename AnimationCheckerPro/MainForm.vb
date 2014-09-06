@@ -13,7 +13,6 @@ Public Class MainForm
     Dim CloseCheck As Boolean = False
     Dim HideCheck As Boolean = False
     Dim getUserBrowser As String
-    Dim REQStatus As String = "Success"
     Public WeekdayName As String
     Dim TodayDate = Weekday(My.Computer.Clock.LocalTime)
     Dim ResizeMode As Boolean = False
@@ -24,9 +23,14 @@ Public Class MainForm
     Dim getNoticeLinked As Integer
     Dim ScreenNotSupport As Boolean = False
     Dim SystemTrayed As Boolean = False
+    Dim ProgramMode As Integer = 0
+    Dim ErrorStatuse As Boolean = False
     Public Declare Function GetPrivateProfileString Lib "kernel32" Alias "GetPrivateProfileStringA" (ByVal lpApplicationName As String, ByVal lpKeyName As String, ByVal lpDefault As String, ByVal lpReturnedString As String, ByVal nSize As Integer, ByVal lpFileName As String) As Integer
     Dim bCreated As Boolean
     Dim mtx As New System.Threading.Mutex(True, "AnimationCheckerPro.exe", bCreated)
+    Public NTStatus As String = ""
+    Public TTStatus As String = ""
+    Public GStatus As String = ""
     '필요 구분 선언
     Public Function INIRead(ByVal Session As String, ByVal KeyValue As String, ByVal INIFILE As String) As String
         Dim s As New String("", 1024)
@@ -77,10 +81,40 @@ Public Class MainForm
             ThisResponese.Close()
             DownloadProgressBar.Value = 100
         Catch ex As Exception
-            REQStatus = "오류"
+            ErrorStatuse = True
             MsgBox("필수 구성요소(" & FileType & ") 다운로드 실패!" & Chr(10) & "인터넷 문제일수 있습니다. 이 문제가 계속되면 tarry403@gmail.com 으로 메일을 보내주세요", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
             ErrorCloseButton.Visible = True
         End Try
+    End Sub
+    Public Sub ACConfigDownLoad()
+        If My.Computer.FileSystem.FileExists(ACDataFolder & "\Config.ini") Then
+            My.Computer.FileSystem.DeleteFile(ACDataFolder & "\Config.ini")
+        End If
+        Try
+            My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/ACPData/SystemConfig.ini", ACDataFolder & "\Config.ini")
+        Catch ex As Exception
+            MsgBox("다운로드에 실패하였습니다! 인터넷 문제일수있습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+            DownloadStatusLabel.Text = "다운로드 오류"
+            DownSpeedLabel.Text = "다운로드 오류"
+            ErrorStatuse = True
+            ErrorCloseButton.Visible = True
+            End
+        End Try
+    End Sub
+    Public Sub UpdaterProcess()
+        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
+        Dim UpdaterVersion As Double = regkey.GetValue("UpdaterVersion", 0)
+        Dim InternalUpdaterVersion As Double = INIRead("System", "UpdaterVersion", ACDataFolder & "\Config.ini")
+        If My.Computer.FileSystem.FileExists(ACDataFolder & "\ACPUpdater.exe") Then
+
+        Else
+            GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/ACPUpdater.exe", ACDataFolder & "\ACPUpdater.exe", "Updater")
+        End If
+        If UpdaterVersion < InternalUpdaterVersion Then
+            My.Computer.FileSystem.DeleteFile(ACDataFolder & "\ACPUpdater.exe")
+            GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/ACPUpdater.exe", ACDataFolder & "\ACPUpdater.exe", "Updater")
+            regkey.SetValue("UpdaterVersion", InternalUpdaterVersion, RegistryValueKind.String)
+        End If
     End Sub
     Public Sub VersionCheck()
         Dim getVersion As Double = INIRead("System", "Version", ACDataFolder & "\Config.ini")
@@ -99,21 +133,6 @@ Public Class MainForm
 
             End If
         End If
-    End Sub
-    Public Sub ACConfigDownLoad()
-        If My.Computer.FileSystem.FileExists(ACDataFolder & "\Config.ini") Then
-            My.Computer.FileSystem.DeleteFile(ACDataFolder & "\Config.ini")
-        End If
-        Try
-            My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/ACPData/SystemConfig.ini", ACDataFolder & "\Config.ini")
-        Catch ex As Exception
-            MsgBox("다운로드에 실패하였습니다! 인터넷 문제일수있습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
-            DownloadStatusLabel.Text = "다운로드 오류"
-            DownSpeedLabel.Text = "다운로드 오류"
-            REQStatus = "오류"
-            ErrorCloseButton.Visible = True
-            End
-        End Try
     End Sub
     Public Sub FactorCheck()
         Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
@@ -170,7 +189,14 @@ Public Class MainForm
     End Sub
     Public Sub SettingApply()
         Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
-        getUserBrowser = regkey.GetValue("Browser", "IE")
+        Dim getMode As Integer = regkey.GetValue("ModeType", 1)
+        Dim getButtonAct As Integer = regkey.GetValue("ButtonActSet", 0)
+        Dim SkinUseCheck As Integer = regkey.GetValue("SkinUse", 0)
+        Dim ImageMode As Integer = regkey.GetValue("ImageMode", 0)
+        Dim ScreenWidth As String = Screen.PrimaryScreen.WorkingArea.Size.Width
+        Dim ScreenHeight As String = Screen.PrimaryScreen.WorkingArea.Size.Height + 20
+        getUserBrowser = regkey.GetValue("Browser", "IE") 'UserBrowserGet
+        '브라우져 설정 적용 시작
         If getUserBrowser = "IE" Then
             getUserBrowser = My.Computer.FileSystem.SpecialDirectories.ProgramFiles & "\Internet Explorer\iexplore.exe"
         Else
@@ -180,9 +206,10 @@ Public Class MainForm
                 MsgBox("오류 : 기본으로 설정한 브라우저가 존재하지 않습니다. IE를 기본 브라우저로 선택합니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
                 getUserBrowser = My.Computer.FileSystem.SpecialDirectories.ProgramFiles & "\Internet Explorer\iexplore.exe"
             End If
-        End If '기본 브라우저 적용
+        End If
+        '브라우져 설정 종료
         MainPanel.Visible = True
-        Dim SkinUseCheck As Integer = regkey.GetValue("SkinUse", 0)
+        '스킨 적용 시작
         If SkinUseCheck = 1 Then
             regkey = REG.OpenSubKey(RegStorage & "\\Skin")
             Dim SkinLocation As String = regkey.GetValue("SkinLocation")
@@ -193,49 +220,84 @@ Public Class MainForm
             End If
         Else
 
-        End If '스킨 적용
-        Dim ImageMode As Integer = regkey.GetValue("ImageMode", 0)
+        End If
+        '스킨 적용 종료
+        '이미지 모드 적용 시작
         If ImageMode = 1 Then
             StillCutPictureBox.SizeMode = PictureBoxSizeMode.StretchImage
         ElseIf ImageMode = 0 Then
             StillCutPictureBox.SizeMode = PictureBoxSizeMode.AutoSize
-        End If '이미지 모드 적용
-
-    End Sub
-    Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If Not bCreated Then '뮤텍스가 정상적으로 생성되지 않았으면 같은 이름의 뮤텍스가 있는것으로 판단
-            MsgBox("프로그램이 이미 실행중입니다!", MsgBoxStyle.Exclamation + MsgBoxStyle.OkOnly, "오류")
-            Application.ExitThread()
-            End
-        Else
-            If REG.OpenSubKey(RegStorage) Is Nothing Then
-                REG.CreateSubKey(RegStorage)
+        End If
+        '이미지 모드 적용 종료
+        '프로그램 모드 적용 시작
+        If getMode = 1 Then
+            LoadResize = 1
+            If ScreenWidth <= 1280 Or ScreenHeight <= 720 Then
+                Me.Width = 310
+                getMode = 0
+                MsgBox("이 해상도는 지원하지 않으므로 확장모드를 사용할수없습니다.", MsgBoxStyle.Exclamation + MsgBoxStyle.OkOnly, "해상도 오류")
+                ScreenNotSupport = True
+                ProgramMode = 0
             Else
-
-            End If
-            Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
-            If My.Computer.FileSystem.FileExists(ACDataFolder & "\ACPUpdater.exe") Then
-                Dim UpdaterVersion As Double = regkey.GetValue("UpdaterVersion", 0)
-                Dim InternalUpdaterVersion As Double = INIRead("System", "UpdaterVersion", ACDataFolder & "\Config.ini")
-                regkey.SetValue("Location", My.Application.Info.DirectoryPath & "\")
-                If UpdaterVersion < InternalUpdaterVersion Then
-                    My.Computer.FileSystem.DeleteFile(ACDataFolder & "\ACPUpdater.exe")
-                    GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/ACPUpdater.exe", ACDataFolder & "\ACPUpdater.exe", "Updater")
-                    regkey.SetValue("UpdaterVersion", InternalUpdaterVersion, RegistryValueKind.String)
+                Me.Width = 1370
+                Me.CenterToScreen()
+                If getButtonAct = 1 Then
+                    SearchButton.Visible = False
+                    SubLinkButton.Visible = False
                 End If
-            Else
-                GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/ACPUpdater.exe", ACDataFolder & "\ACPUpdater.exe", "Updater")
+                ProgramMode = 1
             End If
-            regkey.SetValue("CurrentProgramVersion", Version, RegistryValueKind.String)
+            LoadResize = 0
+        ElseIf getMode = 0 Then
+            Me.Width = 310
+            LoadResize = 0
+            ProgramMode = 0
+        End If
+        '프로그램 모드 적용 종료
+        '트레이 모드 적용 시작
+        Dim getTrayStatus As Integer = regkey.GetValue("SystemTrayType", 3)
+        If getTrayStatus = 0 Then
+            NotifyIcon.Visible = True
+        End If
+        '트레이 모드 적용 종료
+    End Sub
+    Public Sub ExtraWork()
+        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
+        If regkey.GetValue("Update Status", 0) = 1 Then
+            If My.Computer.FileSystem.FileExists(ACDataFolder & "\Update.log") Then
+                My.Computer.FileSystem.DeleteFile(ACDataFolder & "\Update.log")
+            End If
+            My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/ACPData/Update.log", ACDataFolder & "\Update.log")
+            UpdateCompleteForm.ShowDialog()
+            regkey.SetValue("Update Status", 0, RegistryValueKind.String)
+        End If
+
+        Dim getCurrentNoticeType As String = regkey.GetValue("NoticeType", "None")
+        Dim getNoticeType As String = INIRead("Notice", "ImpNoticeType", ACDataFolder & "\AnimationCheckerProList.ini")
+        If getCurrentNoticeType = getNoticeType = False Then
+            ImportantNotice.ShowDialog()
+        Else
 
         End If
-    End Sub
-    Public Sub ProjectLoading(ByVal Phase As Integer)
-        Application.DoEvents()
-        ACConfigDownLoad()
-        VersionCheck()
-        FactorCheck()
-        ACListDownload()
+        Dim NoticeRecvCheck As Integer = regkey.GetValue("NoticeReceive", 0)
+        If NoticeRecvCheck = 0 Then
+            If My.Computer.FileSystem.FileExists(ACDataFolder & "\Notice.ini") Then
+                My.Computer.FileSystem.DeleteFile(ACDataFolder & "\Notice.ini")
+            End If
+            Try
+                My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/ACPData/Notice.ini", ACDataFolder & "\Notice.ini")
+                NoticeTimer.Enabled = True
+                NoticeTimer.Interval = 5000
+            Catch ex As Exception
+                MsgBox("다운로드에 실패하였습니다! 인터넷 문제일수있습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+                DownloadStatusLabel.Text = "다운로드 오류"
+                DownSpeedLabel.Text = "다운로드 오류"
+                ErrorStatuse = True
+                ErrorCloseButton.Visible = True
+            End Try
+        Else
+            NoticeLabel.Text = ""
+        End If
     End Sub
     Public Sub Listloading()
         Dim getWeekdayName As Integer = WeekComboBox.SelectedIndex + 1
@@ -263,6 +325,59 @@ Public Class MainForm
                 AnimationListBox.Items.Add(INIRead(WeekdayName, "Ani" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini"))
             End If
         Next
+    End Sub
+    Public Sub WebReachTest(ByVal Website As String)
+        MsgBox(My.Computer.Network.Ping("192.168.0.1"))
+    End Sub
+    Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        If Not bCreated Then '뮤텍스가 정상적으로 생성되지 않았으면 같은 이름의 뮤텍스가 있는것으로 판단
+            MsgBox("프로그램이 이미 실행중입니다!", MsgBoxStyle.Exclamation + MsgBoxStyle.OkOnly, "오류")
+            Application.ExitThread()
+            End
+        Else
+            If REG.OpenSubKey(RegStorage) Is Nothing Then
+                REG.CreateSubKey(RegStorage)
+            Else
+
+            End If
+            Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
+            regkey.SetValue("CurrentProgramVersion", Version, RegistryValueKind.String)
+            regkey.SetValue("Location", My.Application.Info.DirectoryPath & "\")
+            FormLoadCompleteTimer.Enabled = True
+        End If
+    End Sub
+    Private Sub FormLoadCompleteTimer_Tick(sender As Object, e As EventArgs) Handles FormLoadCompleteTimer.Tick
+        FormLoadCompleteTimer.Enabled = False
+        For i As Integer = 1 To 8
+            ProjectLoading(i)
+        Next
+    End Sub
+    Public Sub ProjectLoading(ByVal Stage As Integer)
+        Application.DoEvents()
+        If ErrorStatuse = False Then
+            If Stage = 1 Then
+                ACConfigDownLoad()
+            ElseIf Stage = 2 Then
+                UpdaterProcess()
+            ElseIf Stage = 3 Then
+                VersionCheck()
+            ElseIf Stage = 4 Then
+                FactorCheck()
+            ElseIf Stage = 5 Then
+                ACListDownload()
+            ElseIf Stage = 6 Then
+                SettingApply()
+            ElseIf Stage = 7 Then
+                ExtraWork()
+            ElseIf Stage = 8 Then
+                'Listloading()
+                WebReachTest("http://www.nyaa.se")
+                WebReachTest("http://tokyotosho.info")
+                WebReachTest("http://www.google.com")
+            End If
+        Else
+            MsgBox("Error with stage : " & Stage)
+        End If
     End Sub
     Private Sub ErrorCloseButton_Click(sender As Object, e As EventArgs) Handles ErrorCloseButton.Click
         End
@@ -362,13 +477,12 @@ Public Class MainForm
 
                 End If
                 Dim FinalLink = getSearchEngine & getSearchCat & "&filter=" & getSearchFilter & "&term=" & getString
-                Dim getMode As Integer = regkey.GetValue("ModeType", "1")
                 Dim getButtonAct As Integer = regkey.GetValue("ButtonActSet", 0)
-                If getMode = 0 Then
-                    Shell(getUserBrowser & " " & FinalLink, AppWinStyle.NormalFocus)
+                If ProgramMode = 0 Then
+                    Shell("explorer " & FinalLink, AppWinStyle.NormalFocus)
                 Else
                     If getButtonAct = 1 Then
-                        Shell(getUserBrowser & " " & FinalLink, AppWinStyle.NormalFocus)
+                        Shell("explorer " & FinalLink, AppWinStyle.NormalFocus)
                     End If
                 End If
             End If
@@ -396,11 +510,11 @@ Public Class MainForm
                 Dim getUrl As String = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Sub" & getSelectedSubItem & "Url", ACDataFolder & "\AnimationCheckerProList.ini")
                 Dim getMode As Integer = regkey.GetValue("ModeType", "1")
                 Dim getButtonAct As Integer = regkey.GetValue("ButtonActSet", 0)
-                If getMode = 0 Then
-                    Shell(getUserBrowser & " " & getUrl, AppWinStyle.NormalFocus)
+                If ProgramMode = 0 Then
+                    Shell("explorer " & getUrl, AppWinStyle.NormalFocus)
                 Else
                     If getButtonAct = 1 Then
-                        Shell(getUserBrowser & " " & getUrl, AppWinStyle.NormalFocus)
+                        Shell("explorer " & getUrl, AppWinStyle.NormalFocus)
                     End If
                 End If
             End If
@@ -419,8 +533,7 @@ Public Class MainForm
 
     Private Sub SearchListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SearchListBox.SelectedIndexChanged
         Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
-        Dim getMode As Integer = regkey.GetValue("ModeType", 1)
-        If getMode = 1 Then
+        If ProgramMode = 1 Then
             If SearchListBox.SelectedIndex = -1 Then
                 SearchButton.Enabled = False
             ElseIf SearchListBox.SelectedItem = "항목이 없습니다." Then
@@ -435,8 +548,7 @@ Public Class MainForm
 
     Private Sub SubListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SubListBox.SelectedIndexChanged
         Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
-        Dim getMode As Integer = regkey.GetValue("ModeType", 1)
-        If getMode = 1 Then
+        If ProgramMode = 1 Then
             If SubListBox.SelectedIndex = -1 Then
                 SubLinkButton.Enabled = False
             ElseIf SubListBox.SelectedItem = "등록된 자막 제작자가 없습니다." Then
@@ -468,7 +580,7 @@ Public Class MainForm
             End If
             Dim FinalLink = getSearchEngine & getSearchCat & "&filter=" & getSearchFilter & "&term=" & getString
             Dim getMode As Integer = regkey.GetValue("ModeType", "1")
-            Shell(getUserBrowser & " " & FinalLink, AppWinStyle.NormalFocus)
+            Shell("explorer " & FinalLink, AppWinStyle.NormalFocus)
         End If
     End Sub
 
@@ -479,7 +591,7 @@ Public Class MainForm
             Dim getSelectedListItem As Integer = AnimationListBox.SelectedIndex + 1
             Dim getSelectedSubItem As Integer = SubListBox.SelectedIndex + 1
             Dim getUrl As String = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Sub" & getSelectedSubItem & "Url", ACDataFolder & "\AnimationCheckerProList.ini")
-            Shell(getUserBrowser & " " & getUrl, AppWinStyle.NormalFocus)
+            Shell("explorer " & getUrl, AppWinStyle.NormalFocus)
         End If
     End Sub
 
