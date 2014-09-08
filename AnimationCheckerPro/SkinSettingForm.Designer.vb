@@ -55,7 +55,7 @@ Partial Class SkinSettingForm
         Me.SkinApplyButton.Name = "SkinApplyButton"
         Me.SkinApplyButton.Size = New System.Drawing.Size(86, 29)
         Me.SkinApplyButton.TabIndex = 1
-        Me.SkinApplyButton.Text = "스킨적용"
+        Me.SkinApplyButton.Text = "화면 적용"
         Me.SkinApplyButton.UseVisualStyleBackColor = True
         '
         'DeleteSkinButton
@@ -64,9 +64,9 @@ Partial Class SkinSettingForm
         Me.DeleteSkinButton.Location = New System.Drawing.Point(95, 9)
         Me.DeleteSkinButton.Margin = New System.Windows.Forms.Padding(0)
         Me.DeleteSkinButton.Name = "DeleteSkinButton"
-        Me.DeleteSkinButton.Size = New System.Drawing.Size(86, 29)
+        Me.DeleteSkinButton.Size = New System.Drawing.Size(108, 29)
         Me.DeleteSkinButton.TabIndex = 2
-        Me.DeleteSkinButton.Text = "스킨 지우기"
+        Me.DeleteSkinButton.Text = "배경화면 지우기"
         Me.DeleteSkinButton.UseVisualStyleBackColor = True
         '
         'SkinFileLocationTextBox
@@ -108,11 +108,11 @@ Partial Class SkinSettingForm
         'TipLabel
         '
         Me.TipLabel.AutoSize = True
-        Me.TipLabel.Location = New System.Drawing.Point(682, 9)
+        Me.TipLabel.Location = New System.Drawing.Point(658, 9)
         Me.TipLabel.Name = "TipLabel"
-        Me.TipLabel.Size = New System.Drawing.Size(263, 15)
+        Me.TipLabel.Size = New System.Drawing.Size(287, 15)
         Me.TipLabel.TabIndex = 6
-        Me.TipLabel.Text = "파일을 끌어오면 쉽게 스킨을 설정할수있습니다."
+        Me.TipLabel.Text = "파일을 끌어오면 쉽게 배경화면을 설정할수있습니다."
         '
         'ImageModeComboBox
         '

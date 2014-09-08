@@ -6,6 +6,7 @@ Imports System.Text.RegularExpressions
 Public Class ProgramOption
     Dim REG As RegistryKey = Registry.LocalMachine
     Dim RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
+    Dim TestInt As Integer = 0
     Private Sub ProgramOption_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim Pregkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
         Dim SystemTray As Integer = Pregkey.GetValue("SystemTrayType", 3)
@@ -14,17 +15,18 @@ Public Class ProgramOption
         Dim SearchFilter As Integer = Pregkey.GetValue("SearchFilter", 0)
         Dim AnimationFolderUse As Integer = Pregkey.GetValue("AnimationFolderUse", 0)
         Dim AnimationFolder As String = Pregkey.GetValue("AnimationFolder")
-        Dim UserBrowser As String = Pregkey.GetValue("Browser", "IE")
         Dim OldListCheck As Integer = Pregkey.GetValue("OldListCheck", 0)
         Dim ListDate As String = MainForm.INIRead("System", "ListDate", MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
         Dim ListProducer As String = MainForm.INIRead("System", "ListProducer", MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
         Dim getMode As Integer = Pregkey.GetValue("ModeType", 1)
-        Dim UserBrowserUse As Integer = Pregkey.GetValue("UserBrowserUse", 0)
         Dim NoticeRecive As Integer = Pregkey.GetValue("NoticeReceive", 0)
         Dim ActionSet As Integer = Pregkey.GetValue("ButtonActSet", 0)
         Dim ImageMode As Integer = Pregkey.GetValue("ImageMode", 0)
+        Dim TTCats As Integer = Pregkey.GetValue("TTSearchCat", 0)
+        Dim TTMin As String = Pregkey.GetValue("TTMinSize", "")
+        Dim TTMax As String = Pregkey.GetValue("TTMaxSize", "")
+        Dim TTSub As String = Pregkey.GetValue("TTSubmitter", "")
         OptionPresetChooseComboBox.SelectedIndex = 0
-        OptionTreeView.SelectedNode = OptionTreeView.Nodes("CommonConfig")
         SystemTrayComboBox.SelectedIndex = SystemTray
         CloseAlertComboBox.SelectedIndex = CloseAlert
         If SearchCats = "1_11" Then
@@ -46,14 +48,6 @@ Public Class ProgramOption
             AnimationFolderSetButton.Enabled = True
             AnimationFolderTextBox.Text = AnimationFolder
         End If
-        If UserBrowserUse = 0 Then
-            BrowserSetCheckBox.Checked = False
-            BrowserLocationTextBox.Text = My.Computer.FileSystem.SpecialDirectories.ProgramFiles & "\Internet Explorer\iexplore.exe"
-            BrowserLocationSetButton.Enabled = False
-        Else
-            BrowserSetCheckBox.Checked = True
-            BrowserLocationTextBox.Text = UserBrowser
-        End If
         NoticeRecvComboBox.SelectedIndex = NoticeRecive
         OldListComboBox.SelectedIndex = OldListCheck
         ListDateLabel.Text = ListDate
@@ -61,14 +55,39 @@ Public Class ProgramOption
         ProgramModeComboBox.SelectedIndex = getMode
         ButtonActionComboBox.SelectedIndex = ActionSet
         ImageModeComboBox.SelectedIndex = ImageMode
+        NTSRLabel.Text = MainForm.NTStatus
+        TTSRLabel.Text = MainForm.TTStatus
+        GTRLabel.Text = MainForm.GStatus
+        If TTCats = 0 Then
+            TTCatComboBox.SelectedIndex = 0
+        ElseIf TTCats = 1 Then
+            TTCatComboBox.SelectedIndex = 1
+        ElseIf TTCats = 2 Then
+            TTCatComboBox.SelectedIndex = 2
+        ElseIf TTCats = 5 Then
+            TTCatComboBox.SelectedIndex = 3
+        ElseIf TTCats = 7 Then
+            TTCatComboBox.SelectedIndex = 3
+        End If
+        If TTMin = "" And TTMax = "" Then
+            TTSizeCheckBox.Checked = False
+        Else
+            TTSizeCheckBox.Checked = True
+            MinSizeTextBox.Text = TTMin
+            MaxSizeTextBox.Text = TTMax
+        End If
+        If TTSub = "" Then
+            SubmitterCheckBox.Checked = False
+        Else
+            SubmitterCheckBox.Checked = True
+            SubmitterTextBox.Text = TTSub
+        End If
     End Sub
 
     Private Sub OptionTreeView_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles OptionTreeView.AfterSelect
         OptionTab.Text = OptionTreeView.SelectedNode.Text
-        If OptionTreeView.SelectedNode.Name = "CommonConfig" Then
+        If OptionTreeView.SelectedNode.Name = "CommonConfigNode" Then
             ProgramConfigPanel.BringToFront()
-        ElseIf OptionTreeView.SelectedNode.Name = "DefaultBrowserSettingNode" Then
-            BrowserSetPanel.BringToFront()
         ElseIf OptionTreeView.SelectedNode.Name = "ListConfigNode" Then
             ListSettingPanel.BringToFront()
         ElseIf OptionTreeView.SelectedNode.Name = "ListInformationNode" Then
@@ -104,6 +123,16 @@ Public Class ProgramOption
             NTSetPanel.BringToFront()
         ElseIf OptionTreeView.SelectedNode.Name = "TTSearchSettingNode" Then
             TTSetPanel.BringToFront()
+        ElseIf OptionTreeView.SelectedNode.Name = "SiteStatusNode" Then
+            WebReachTestPanel.BringToFront()
+            If MainForm.PingTestStatus = 1 Then
+                ReTestButton.Enabled = True
+                NTSRLabel.Text = MainForm.NTStatus
+                TTSRLabel.Text = MainForm.TTStatus
+                GTRLabel.Text = MainForm.GStatus
+            Else
+                ReTestButton.Enabled = False
+            End If
         End If
     End Sub
 
@@ -131,30 +160,6 @@ Public Class ProgramOption
                 OpenFolderDialog.RootFolder = AnimationFolder
                 AnimationFolderTextBox.Text = FolderName
             End If
-        End If
-    End Sub
-
-    Private Sub BrowserSetCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles BrowserSetCheckBox.CheckedChanged
-        If BrowserSetCheckBox.Checked = True Then
-            BrowserLocationSetButton.Enabled = True
-        Else
-            BrowserLocationSetButton.Enabled = False
-        End If
-    End Sub
-
-    Private Sub BrowserLocationSetButton_Click(sender As Object, e As EventArgs) Handles BrowserLocationSetButton.Click
-        Dim Pregkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
-        Dim OpenFileDialog As New OpenFileDialog
-        Dim UserBrowser As String = Pregkey.GetValue("Browser", "IE")
-        If UserBrowser = "IE" Then
-            OpenFileDialog.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.Desktop
-        Else
-            OpenFileDialog.InitialDirectory = UserBrowser
-        End If
-        OpenFileDialog.Filter = "실행 파일 (*.exe)|*.exe|모든 파일 (*.*)|*.*"
-        If (OpenFileDialog.ShowDialog() = True) Then
-            Dim FileName As String = OpenFileDialog.FileName
-            BrowserLocationTextBox.Text = FileName
         End If
     End Sub
 
@@ -188,21 +193,34 @@ Public Class ProgramOption
                 Pregkey.SetValue("AnimationFolder", AnimationFolderTextBox.Text)
             End If
         End If
-        If BrowserSetCheckBox.Checked = True Then
-            If BrowserLocationTextBox.Text = "" Then
-
-            Else
-                Pregkey.SetValue("UserBrowserUse", "1", RegistryValueKind.String)
-                Pregkey.SetValue("Browser", BrowserLocationTextBox.Text)
-            End If
-        Else
-
-        End If
         Pregkey.SetValue("OldListCheck", OldListComboBox.SelectedIndex, RegistryValueKind.String)
         Pregkey.SetValue("ModeType", ProgramModeComboBox.SelectedIndex, RegistryValueKind.String)
         Pregkey.SetValue("NoticeReceive", NoticeRecvComboBox.SelectedIndex, RegistryValueKind.String)
         Pregkey.SetValue("ButtonActSet", ButtonActionComboBox.SelectedIndex, RegistryValueKind.String)
         Pregkey.SetValue("ImageMode", ImageModeComboBox.SelectedIndex, RegistryValueKind.String)
+        If TTCatComboBox.SelectedIndex = 0 Then
+            Pregkey.SetValue("TTSearchCat", 0, RegistryValueKind.String)
+        ElseIf TTCatComboBox.SelectedIndex = 1 Then
+            Pregkey.SetValue("TTSearchCat", 1, RegistryValueKind.String)
+        ElseIf TTCatComboBox.SelectedIndex = 2 Then
+            Pregkey.SetValue("TTSearchCat", 2, RegistryValueKind.String)
+        ElseIf TTCatComboBox.SelectedIndex = 3 Then
+            Pregkey.SetValue("TTSearchCat", 5, RegistryValueKind.String)
+        ElseIf TTCatComboBox.SelectedIndex = 4 Then
+            Pregkey.SetValue("TTSearchCat", 7, RegistryValueKind.String)
+        End If
+        If TTSizeCheckBox.Checked = True Then
+            Pregkey.SetValue("TTMinSize", MinSizeTextBox.Text, RegistryValueKind.String)
+            Pregkey.SetValue("TTMaxSize", MaxSizeTextBox.Text, RegistryValueKind.String)
+        Else
+            Pregkey.SetValue("TTMinSize", "", RegistryValueKind.String)
+            Pregkey.SetValue("TTMaxSize", "", RegistryValueKind.String)
+        End If
+        If SubmitterCheckBox.Checked = True Then
+            Pregkey.SetValue("TTSubmitter", SubmitterTextBox.Text, RegistryValueKind.String)
+        Else
+            Pregkey.SetValue("TTSubmitter", "", RegistryValueKind.String)
+        End If
         MsgBox("저장되었습니다. 일부 옵션은 프로그램 재시작 후 적용됩니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "완료")
         Me.Close()
     End Sub
@@ -290,5 +308,22 @@ Public Class ProgramOption
             MsgBox("숫자만 입력 가능합니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
             MinSizeTextBox.Text = ""
         End If
+    End Sub
+
+    Private Sub WebReachTestPanel_Paint(sender As Object, e As PaintEventArgs) Handles WebReachTestPanel.Paint
+
+    End Sub
+
+    Private Sub ReTestButton_Click(sender As Object, e As EventArgs) Handles ReTestButton.Click
+        MainForm.PingTestStatus = 0
+        MainForm.NTStatus = "LOADING"
+        MainForm.TTStatus = "LOADING"
+        MainForm.GStatus = "LOADING"
+        NTSRLabel.Text = "LOADING"
+        TTSRLabel.Text = "LOADING"
+        GTRLabel.Text = "LOADING"
+        ReTestButton.Text = "진행중"
+        ReTestButton.Enabled = False
+        MainForm.PingBackgroundWorker.RunWorkerAsync()
     End Sub
 End Class

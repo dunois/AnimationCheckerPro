@@ -6,7 +6,7 @@ Public Class MainForm
 
     Public ACDataFolder As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData
     Dim ProjectLoadingFaild As Boolean = False
-    Public Version As Double = 1.26
+    Public Version As Double = 1.31
     Dim REG As RegistryKey = Registry.LocalMachine
     Public UserBrowser As String
     Dim RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
@@ -28,9 +28,12 @@ Public Class MainForm
     Public Declare Function GetPrivateProfileString Lib "kernel32" Alias "GetPrivateProfileStringA" (ByVal lpApplicationName As String, ByVal lpKeyName As String, ByVal lpDefault As String, ByVal lpReturnedString As String, ByVal nSize As Integer, ByVal lpFileName As String) As Integer
     Dim bCreated As Boolean
     Dim mtx As New System.Threading.Mutex(True, "AnimationCheckerPro.exe", bCreated)
-    Public NTStatus As String = ""
-    Public TTStatus As String = ""
-    Public GStatus As String = ""
+    Public NTStatus As String = "LOADING"
+    Public TTStatus As String = "LOADING"
+    Public GStatus As String = "LOAIDNG"
+    Public PingTestStatus = 0
+    Public SearchLink As String = ""
+    Public SubLink As String = ""
     '필요 구분 선언
     Public Function INIRead(ByVal Session As String, ByVal KeyValue As String, ByVal INIFILE As String) As String
         Dim s As New String("", 1024)
@@ -152,13 +155,12 @@ Public Class MainForm
         Else
             My.Computer.FileSystem.CreateDirectory(ACDataFolder & "\Skin")
         End If
-        WeekComboBox.SelectedIndex = TodayDate - 1
     End Sub
     Public Sub ListDownload(ByVal ListType)
         If ListType = "OldList" Then
-            GetFileFromUrl("http://dnsoft.me/ACPData/OLAnimationCheckerProList.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
+            GetFileFromUrl("http://dnsoft.me/ACPData/OLAnimationCheckerProList.rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
         ElseIf ListType = "ProList" Then
-            GetFileFromUrl("http://dnsoft.me/ACPData/AnimationCheckerProList.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
+            GetFileFromUrl("http://dnsoft.me/ACPData/AnimationCheckerProList.rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
         End If
     End Sub
     Public Sub ACListDownload()
@@ -195,17 +197,22 @@ Public Class MainForm
         Dim ImageMode As Integer = regkey.GetValue("ImageMode", 0)
         Dim ScreenWidth As String = Screen.PrimaryScreen.WorkingArea.Size.Width
         Dim ScreenHeight As String = Screen.PrimaryScreen.WorkingArea.Size.Height + 20
-        getUserBrowser = regkey.GetValue("Browser", "IE") 'UserBrowserGet
+        Dim CostomBrowser As Integer = regkey.GetValue("UserBrowserUse", 0)
         '브라우져 설정 적용 시작
-        If getUserBrowser = "IE" Then
-            getUserBrowser = My.Computer.FileSystem.SpecialDirectories.ProgramFiles & "\Internet Explorer\iexplore.exe"
-        Else
-            If My.Computer.FileSystem.FileExists(getUserBrowser) Then
-
-            Else
-                MsgBox("오류 : 기본으로 설정한 브라우저가 존재하지 않습니다. IE를 기본 브라우저로 선택합니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+        If CostomBrowser = 1 Then
+            getUserBrowser = regkey.GetValue("Browser", "IE") 'UserBrowserGet
+            If getUserBrowser = "IE" Then
                 getUserBrowser = My.Computer.FileSystem.SpecialDirectories.ProgramFiles & "\Internet Explorer\iexplore.exe"
+            Else
+                If My.Computer.FileSystem.FileExists(getUserBrowser) Then
+
+                Else
+                    MsgBox("오류 : 기본으로 설정한 브라우저가 존재하지 않습니다. IE를 기본 브라우저로 선택합니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+                    getUserBrowser = My.Computer.FileSystem.SpecialDirectories.ProgramFiles & "\Internet Explorer\iexplore.exe"
+                End If
             End If
+        Else
+            getUserBrowser = "explorer"
         End If
         '브라우져 설정 종료
         MainPanel.Visible = True
@@ -298,6 +305,7 @@ Public Class MainForm
         Else
             NoticeLabel.Text = ""
         End If
+        WeekComboBox.SelectedIndex = TodayDate - 1
     End Sub
     Public Sub Listloading()
         Dim getWeekdayName As Integer = WeekComboBox.SelectedIndex + 1
@@ -326,9 +334,6 @@ Public Class MainForm
             End If
         Next
     End Sub
-    Public Sub WebReachTest(ByVal Website As String)
-        MsgBox(My.Computer.Network.Ping("192.168.0.1"))
-    End Sub
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If Not bCreated Then '뮤텍스가 정상적으로 생성되지 않았으면 같은 이름의 뮤텍스가 있는것으로 판단
             MsgBox("프로그램이 이미 실행중입니다!", MsgBoxStyle.Exclamation + MsgBoxStyle.OkOnly, "오류")
@@ -352,6 +357,9 @@ Public Class MainForm
             ProjectLoading(i)
         Next
     End Sub
+    Public Sub WebReachTest(ByVal Website As String, ByVal Type As String)
+
+    End Sub
     Public Sub ProjectLoading(ByVal Stage As Integer)
         Application.DoEvents()
         If ErrorStatuse = False Then
@@ -371,19 +379,16 @@ Public Class MainForm
                 ExtraWork()
             ElseIf Stage = 8 Then
                 'Listloading()
-                WebReachTest("http://www.nyaa.se")
-                WebReachTest("http://tokyotosho.info")
-                WebReachTest("http://www.google.com")
+                PingBackgroundWorker.RunWorkerAsync()
             End If
         Else
-            MsgBox("Error with stage : " & Stage)
+            MsgBox("에러코드 : 6" & Chr(10) & "문제가 계속되면 tarry403@gmail.com 으로 연락주시기 바랍니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+            End
         End If
     End Sub
     Private Sub ErrorCloseButton_Click(sender As Object, e As EventArgs) Handles ErrorCloseButton.Click
         End
     End Sub
-
-
     Private Sub AnimationListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AnimationListBox.SelectedIndexChanged
         Dim getSelectedItem As Integer = AnimationListBox.SelectedIndex + 1
         Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
@@ -439,7 +444,14 @@ Public Class MainForm
                 SearchListBox.Items.Add("항목이 없습니다.")
             Else
                 For i As Integer = 1 To getSearchNumber
-                    SearchListBox.Items.Add(INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini"))
+                    Dim getSearchType As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Type", ACDataFolder & "\AnimationCheckerProList.ini")
+                    If getSearchType = 0 Then
+                        SearchListBox.Items.Add(INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini") & " (접속상태 : " & NTStatus & ")")
+                    ElseIf getSearchType = 1 Then
+                        SearchListBox.Items.Add(INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini") & " (접속상태 : " & TTStatus & ")")
+                    Else
+                        SearchListBox.Items.Add(INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini"))
+                    End If
                 Next
             End If
         End If
@@ -456,39 +468,6 @@ Public Class MainForm
         Listloading()
     End Sub
 
-    Private Sub SearchListBox_DoubleClick(sender As Object, e As EventArgs) Handles SearchListBox.DoubleClick
-        If SearchListBox.SelectedIndex = -1 Then
-
-        Else
-            If SearchListBox.SelectedItem.ToString = "애니메이션을 선택하세요" Or SearchListBox.SelectedItem.ToString = "항목이 없습니다." Then
-
-            Else
-                Dim getSelectedListItem As Integer = AnimationListBox.SelectedIndex + 1
-                Dim getSelectedSearchItem As Integer = SearchListBox.SelectedIndex + 1
-                Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
-                Dim getString As String = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Search" & getSelectedSearchItem & "String", ACDataFolder & "\AnimationCheckerProList.ini")
-                Dim getSearchType As Integer = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Search" & getSelectedSearchItem & "Type", ACDataFolder & "\AnimationCheckerProList.ini")
-                Dim getSearchCat As String = regkey.GetValue("SearchCat", "1_11")
-                Dim getSearchFilter As String = regkey.GetValue("SearchFilter", "0")
-                Dim getSearchEngine As String = ""
-                If getSearchType = 0 Then
-                    getSearchEngine = "http://www.nyaa.se/?page=search&cats="
-                Else
-
-                End If
-                Dim FinalLink = getSearchEngine & getSearchCat & "&filter=" & getSearchFilter & "&term=" & getString
-                Dim getButtonAct As Integer = regkey.GetValue("ButtonActSet", 0)
-                If ProgramMode = 0 Then
-                    Shell("explorer " & FinalLink, AppWinStyle.NormalFocus)
-                Else
-                    If getButtonAct = 1 Then
-                        Shell("explorer " & FinalLink, AppWinStyle.NormalFocus)
-                    End If
-                End If
-            End If
-        End If
-    End Sub
-
     Private Sub MiniModeButton_Click(sender As Object, e As EventArgs) Handles MiniModeButton.Click
         If Me.Width = 1370 Then
             ResizeMode = True
@@ -496,27 +475,72 @@ Public Class MainForm
             ResizeMode = False
         End If
     End Sub
-
-    Private Sub SubListBox_DoubleClick(sender As Object, e As EventArgs) Handles SubListBox.DoubleClick
-        If SubListBox.SelectedIndex = -1 Then
+    Public Sub GetSearchLink()
+        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
+        If SearchListBox.SelectedIndex = -1 Or SearchListBox.SelectedItem.ToString = "애니메이션을 선택하세요" Or SearchListBox.SelectedItem.ToString = "항목이 없습니다." Then
 
         Else
-            If SubListBox.SelectedItem.ToString = "애니메이션을 선택하세요" Or SubListBox.SelectedItem.ToString = "등록된 자막 제작자가 없습니다." Then
+            Dim getSelectedListItem As Integer = AnimationListBox.SelectedIndex + 1
+            Dim getSelectedSearchItem As Integer = SearchListBox.SelectedIndex + 1
+            Dim getSearchEngineType As Integer = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Search" & getSelectedSearchItem & "Type", ACDataFolder & "\AnimationCheckerProList.ini")
+            If getSearchEngineType = 0 Then 'NT
+                Dim getString As String = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Search" & getSelectedSearchItem & "String", ACDataFolder & "\AnimationCheckerProList.ini")
+                Dim getSearchCat As String = regkey.GetValue("SearchCat", "1_11")
+                Dim getSearchFilter As String = regkey.GetValue("SearchFilter", "0")
+                Dim SearchEngine As String = "http://www.nyaa.se/?page=search&cats="
+                SearchLink = SearchEngine & getSearchCat & "&filter=" & getSearchFilter & "&term=" & getString
+            ElseIf getSearchEngineType = 1 Then 'TT
+                Dim getString As String = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Search" & getSelectedSearchItem & "String", ACDataFolder & "\AnimationCheckerProList.ini")
+                Dim getSearchCat As String = regkey.GetValue("TTSearchCat", 0)
+                Dim getMaxSize As String = regkey.GetValue("TTMaxSize", "")
+                Dim getMinSize As String = regkey.GetValue("TTMinSize", "")
+                Dim getSubmitter As String = regkey.GetValue("TTSubmitter", "")
+                Dim SearchEngine As String = "http://tokyotosho.info/search.php?terms="
+                SearchLink = SearchEngine & getString & "&type=" & getSearchCat & "&size_min=" & getMinSize & "size_max=" & getMaxSize & "&username=" & getSubmitter
+            ElseIf getSearchEngineType = 2 Then 'Leopard
+                Dim getString As String = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Search" & getSelectedSearchItem & "String", ACDataFolder & "\AnimationCheckerProList.ini")
+                Dim SearchEngine As String = "http://leopard-raws.org/index.php?search="
+                SearchLink = SearchEngine & getString
+            ElseIf getSearchEngineType = 3 Then 'Costom
+                Dim getString As String = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Search" & getSelectedSearchItem & "String", ACDataFolder & "\AnimationCheckerProList.ini")
+                SearchLink = getString
+            End If
+        End If
+    End Sub
+    Public Sub GetSubLink()
+        If SubListBox.SelectedIndex = -1 Or SubListBox.SelectedItem.ToString = "애니메이션을 선택하세요" Or SubListBox.SelectedItem.ToString = "등록된 자막 제작자가 없습니다." Then
 
+        Else
+            Dim getSelectedListItem As Integer = AnimationListBox.SelectedIndex + 1
+            Dim getSelectedSubItem As Integer = SubListBox.SelectedIndex + 1
+            SubLink = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Sub" & getSelectedSubItem & "Url", ACDataFolder & "\AnimationCheckerProList.ini")
+        End If
+    End Sub
+    Private Sub SearchListBox_DoubleClick(sender As Object, e As EventArgs) Handles SearchListBox.DoubleClick
+        If SearchListBox.SelectedIndex = -1 Or SearchListBox.SelectedItem = "애니메이션을 선택하세요" Or SearchListBox.SelectedItem = "항목이 없습니다." Then
+
+        Else
+            Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
+            Dim getButtonAct As Integer = regkey.GetValue("ButtonActSet", 0)
+            If ProgramMode = 0 Or getButtonAct = 1 Then
+                Process.Start(SearchLink)
             Else
-                Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
-                Dim getSelectedListItem As Integer = AnimationListBox.SelectedIndex + 1
-                Dim getSelectedSubItem As Integer = SubListBox.SelectedIndex + 1
-                Dim getUrl As String = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Sub" & getSelectedSubItem & "Url", ACDataFolder & "\AnimationCheckerProList.ini")
-                Dim getMode As Integer = regkey.GetValue("ModeType", "1")
-                Dim getButtonAct As Integer = regkey.GetValue("ButtonActSet", 0)
-                If ProgramMode = 0 Then
-                    Shell("explorer " & getUrl, AppWinStyle.NormalFocus)
-                Else
-                    If getButtonAct = 1 Then
-                        Shell("explorer " & getUrl, AppWinStyle.NormalFocus)
-                    End If
-                End If
+
+            End If
+        End If
+    End Sub
+
+    Private Sub SubListBox_DoubleClick(sender As Object, e As EventArgs) Handles SubListBox.DoubleClick
+        If SubListBox.SelectedIndex = -1 Or SubListBox.SelectedItem = "애니메이션을 선택하세요" Or SubListBox.SelectedItem = "등록된 자막 제작자가 없습니다." Then
+
+        Else
+            Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
+            Dim getMode As Integer = regkey.GetValue("ModeType", "1")
+            Dim getButtonAct As Integer = regkey.GetValue("ButtonActSet", 0)
+            If ProgramMode = 0 Or getButtonAct = 1 Then
+                Process.Start(SubLink)
+            Else
+
             End If
         End If
     End Sub
@@ -532,11 +556,10 @@ Public Class MainForm
     End Sub
 
     Private Sub SearchListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SearchListBox.SelectedIndexChanged
+        GetSearchLink()
         Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
         If ProgramMode = 1 Then
-            If SearchListBox.SelectedIndex = -1 Then
-                SearchButton.Enabled = False
-            ElseIf SearchListBox.SelectedItem = "항목이 없습니다." Then
+            If SearchListBox.SelectedIndex = -1 Or SearchListBox.SelectedItem = "항목이 없습니다." Or SearchListBox.SelectedItem = "애니메이션을 선택하세요" Then
                 SearchButton.Enabled = False
             Else
                 SearchButton.Enabled = True
@@ -547,11 +570,10 @@ Public Class MainForm
     End Sub
 
     Private Sub SubListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SubListBox.SelectedIndexChanged
+        GetSubLink()
         Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
         If ProgramMode = 1 Then
-            If SubListBox.SelectedIndex = -1 Then
-                SubLinkButton.Enabled = False
-            ElseIf SubListBox.SelectedItem = "등록된 자막 제작자가 없습니다." Then
+            If SubListBox.SelectedIndex = -1 Or SubListBox.SelectedItem = "등록된 자막 제작자가 없습니다." Or SubListBox.SelectedItem = "애니메이션을 선택하세요" Then
                 SubLinkButton.Enabled = False
             Else
                 SubLinkButton.Enabled = True
@@ -562,36 +584,20 @@ Public Class MainForm
     End Sub
 
     Private Sub SearchButton_Click(sender As Object, e As EventArgs) Handles SearchButton.Click
-        If SearchListBox.SelectedIndex = -1 Then
+        If SearchListBox.SelectedIndex = -1 Or SearchListBox.SelectedItem.ToString = "애니메이션을 선택하세요" Or SearchListBox.SelectedItem.ToString = "항목이 없습니다." Then
 
         Else
-            Dim getSelectedListItem As Integer = AnimationListBox.SelectedIndex + 1
-            Dim getSelectedSearchItem As Integer = SearchListBox.SelectedIndex + 1
-            Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
-            Dim getString As String = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Search" & getSelectedSearchItem & "String", ACDataFolder & "\AnimationCheckerProList.ini")
-            Dim getSearchType As Integer = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Search" & getSelectedSearchItem & "Type", ACDataFolder & "\AnimationCheckerProList.ini")
-            Dim getSearchCat As String = regkey.GetValue("SearchCat", "1_11")
-            Dim getSearchFilter As String = regkey.GetValue("SearchFilter", "0")
-            Dim getSearchEngine As String = ""
-            If getSearchType = 0 Then
-                getSearchEngine = "http://www.nyaa.se/?page=search&cats="
-            Else
 
-            End If
-            Dim FinalLink = getSearchEngine & getSearchCat & "&filter=" & getSearchFilter & "&term=" & getString
-            Dim getMode As Integer = regkey.GetValue("ModeType", "1")
-            Shell("explorer " & FinalLink, AppWinStyle.NormalFocus)
+            Process.Start(SearchLink)
         End If
     End Sub
 
     Private Sub SubLinkButton_Click(sender As Object, e As EventArgs) Handles SubLinkButton.Click
-        If SubListBox.SelectedIndex = -1 Then
+        If SubListBox.SelectedIndex = -1 Or SubListBox.SelectedItem.ToString = "애니메이션을 선택하세요" Or SubListBox.SelectedItem.ToString = "등록된 자막 제작자가 없습니다." Then
 
         Else
-            Dim getSelectedListItem As Integer = AnimationListBox.SelectedIndex + 1
-            Dim getSelectedSubItem As Integer = SubListBox.SelectedIndex + 1
-            Dim getUrl As String = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Sub" & getSelectedSubItem & "Url", ACDataFolder & "\AnimationCheckerProList.ini")
-            Shell("explorer " & getUrl, AppWinStyle.NormalFocus)
+
+            Process.Start(SubLink)
         End If
     End Sub
 
@@ -755,5 +761,50 @@ Public Class MainForm
     Private Sub ManagementSkinButton_Click(sender As Object, e As EventArgs) Handles ManagementSkinButton.Click
         DownloadedSkinConfig.ShowDialog()
 
+    End Sub
+    Private Sub PingBackgroundWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles PingBackgroundWorker.DoWork
+        Dim Stage As Integer = 0
+        Try
+            Stage = Stage + 1
+            If My.Computer.Network.Ping("tokyotosho.info", 10000) = True Then
+                TTStatus = "접속됨"
+            Else
+                TTStatus = "접속실패"
+            End If
+        Catch ex As Exception
+            If Stage = 1 Then
+                TTStatus = "오류"
+            End If
+        End Try
+        ProgramOption.TTSRLabel.Text = TTStatus
+        Try
+            Stage = Stage + 1
+            If My.Computer.Network.Ping("google.com", 10000) = True Then
+                GStatus = "접속됨"
+            Else
+                GStatus = "접속실패"
+            End If
+        Catch ex As Exception
+            If Stage = 2 Then
+                GStatus = "오류"
+            End If
+        End Try
+        ProgramOption.GTRLabel.Text = GStatus
+        Try
+            Stage = Stage + 1
+            If My.Computer.Network.Ping("nyaa.se", 10000) = True Then
+                NTStatus = "접속됨"
+            Else
+                NTStatus = "접속실패"
+            End If
+        Catch ex As Exception
+            If Stage = 3 Then
+                NTStatus = "오류"
+            End If
+        End Try
+        ProgramOption.NTSRLabel.Text = NTStatus
+        ProgramOption.ReTestButton.Text = "다시 테스트"
+        ProgramOption.ReTestButton.Enabled = True
+        PingTestStatus = 1
     End Sub
 End Class

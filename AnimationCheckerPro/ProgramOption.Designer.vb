@@ -22,38 +22,22 @@ Partial Class ProgramOption
     '코드 편집기를 사용하여 수정하지 마십시오.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("기본 브라우저 설정")
-        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("확장모드 설정")
-        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("프로그램 설정", New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2})
-        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("리스트 정보")
-        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("다운로드 가능한 리스트")
-        Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("리스트 설정", New System.Windows.Forms.TreeNode() {TreeNode4, TreeNode5})
-        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("냐토렌트 검색 설정")
-        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("도쿄도서관 검색 설정")
-        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("사이트 현황")
-        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("검색엔진 설정", New System.Windows.Forms.TreeNode() {TreeNode7, TreeNode8, TreeNode9})
+        Me.components = New System.ComponentModel.Container()
+        Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("확장모드 설정")
+        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("프로그램 설정", New System.Windows.Forms.TreeNode() {TreeNode1})
+        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("리스트 정보")
+        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("다운로드 가능한 리스트")
+        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("리스트 설정", New System.Windows.Forms.TreeNode() {TreeNode3, TreeNode4})
+        Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("냐토렌트 검색 설정")
+        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("도쿄도서관 검색 설정")
+        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("사이트 현황")
+        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("검색엔진 설정", New System.Windows.Forms.TreeNode() {TreeNode6, TreeNode7, TreeNode8})
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ProgramOption))
         Me.OptionTreeView = New System.Windows.Forms.TreeView()
         Me.OptionPresetChooseComboBox = New System.Windows.Forms.ComboBox()
         Me.ResetButton = New System.Windows.Forms.Button()
         Me.SaveSettingButton = New System.Windows.Forms.Button()
         Me.OptionTab = New System.Windows.Forms.GroupBox()
-        Me.TTSetPanel = New System.Windows.Forms.Panel()
-        Me.SubmitterTextBox = New System.Windows.Forms.TextBox()
-        Me.SubmitterCheckBox = New System.Windows.Forms.CheckBox()
-        Me.TTSizeGroupPanel = New System.Windows.Forms.Panel()
-        Me.MaxSizeTextBox = New System.Windows.Forms.TextBox()
-        Me.MaxSizeLabel = New System.Windows.Forms.Label()
-        Me.MinSizeLabel = New System.Windows.Forms.Label()
-        Me.MinSizeTextBox = New System.Windows.Forms.TextBox()
-        Me.TTSizeCheckBox = New System.Windows.Forms.CheckBox()
-        Me.TTCatComboBox = New System.Windows.Forms.ComboBox()
-        Me.TTCatLabel = New System.Windows.Forms.Label()
-        Me.NTSetPanel = New System.Windows.Forms.Panel()
-        Me.SearchCatLabel = New System.Windows.Forms.Label()
-        Me.SearchCatComboBox = New System.Windows.Forms.ComboBox()
-        Me.SearchFilterLabel = New System.Windows.Forms.Label()
-        Me.SearchFilterComboBox = New System.Windows.Forms.ComboBox()
         Me.ProgramConfigPanel = New System.Windows.Forms.Panel()
         Me.ImageModeComboBox = New System.Windows.Forms.ComboBox()
         Me.ImageModeLabel = New System.Windows.Forms.Label()
@@ -77,10 +61,6 @@ Partial Class ProgramOption
         Me.ListSettingPanel = New System.Windows.Forms.Panel()
         Me.OldListComboBox = New System.Windows.Forms.ComboBox()
         Me.CheckOldListLabel = New System.Windows.Forms.Label()
-        Me.BrowserSetPanel = New System.Windows.Forms.Panel()
-        Me.BrowserSetCheckBox = New System.Windows.Forms.CheckBox()
-        Me.BrowserLocationSetButton = New System.Windows.Forms.Button()
-        Me.BrowserLocationTextBox = New System.Windows.Forms.TextBox()
         Me.AvailiableListPanel = New System.Windows.Forms.Panel()
         Me.AvailiableListDownloadButton = New System.Windows.Forms.Button()
         Me.AvailiableListLabel = New System.Windows.Forms.Label()
@@ -89,27 +69,44 @@ Partial Class ProgramOption
         Me.ActionSettingGroupBox = New System.Windows.Forms.GroupBox()
         Me.ActionSetLabel = New System.Windows.Forms.Label()
         Me.ButtonActionComboBox = New System.Windows.Forms.ComboBox()
+        Me.WebReachTestPanel = New System.Windows.Forms.Panel()
+        Me.ReTestButton = New System.Windows.Forms.Button()
+        Me.GTRLabel = New System.Windows.Forms.Label()
+        Me.TTSRLabel = New System.Windows.Forms.Label()
+        Me.NTSRLabel = New System.Windows.Forms.Label()
+        Me.GTLabel = New System.Windows.Forms.Label()
+        Me.TTSTLabel = New System.Windows.Forms.Label()
+        Me.NTSTLabel = New System.Windows.Forms.Label()
+        Me.TTSetPanel = New System.Windows.Forms.Panel()
+        Me.SubmitterTextBox = New System.Windows.Forms.TextBox()
+        Me.SubmitterCheckBox = New System.Windows.Forms.CheckBox()
+        Me.TTSizeGroupPanel = New System.Windows.Forms.Panel()
+        Me.MaxSizeTextBox = New System.Windows.Forms.TextBox()
+        Me.MaxSizeLabel = New System.Windows.Forms.Label()
+        Me.MinSizeLabel = New System.Windows.Forms.Label()
+        Me.MinSizeTextBox = New System.Windows.Forms.TextBox()
+        Me.TTSizeCheckBox = New System.Windows.Forms.CheckBox()
+        Me.TTCatComboBox = New System.Windows.Forms.ComboBox()
+        Me.TTCatLabel = New System.Windows.Forms.Label()
+        Me.NTSetPanel = New System.Windows.Forms.Panel()
+        Me.SearchCatLabel = New System.Windows.Forms.Label()
+        Me.SearchCatComboBox = New System.Windows.Forms.ComboBox()
+        Me.SearchFilterLabel = New System.Windows.Forms.Label()
+        Me.SearchFilterComboBox = New System.Windows.Forms.ComboBox()
         Me.OptionSaveButton = New System.Windows.Forms.Button()
         Me.FormCloseButton = New System.Windows.Forms.Button()
-        Me.WebReachTestPanel = New System.Windows.Forms.Panel()
-        Me.NTSTLabel = New System.Windows.Forms.Label()
-        Me.TTSTLabel = New System.Windows.Forms.Label()
-        Me.GTLabel = New System.Windows.Forms.Label()
-        Me.NTSRLabel = New System.Windows.Forms.Label()
-        Me.TTSRLabel = New System.Windows.Forms.Label()
-        Me.GTRLabel = New System.Windows.Forms.Label()
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.OptionTab.SuspendLayout()
-        Me.TTSetPanel.SuspendLayout()
-        Me.TTSizeGroupPanel.SuspendLayout()
-        Me.NTSetPanel.SuspendLayout()
         Me.ProgramConfigPanel.SuspendLayout()
         Me.ListInfoPanel.SuspendLayout()
         Me.ListSettingPanel.SuspendLayout()
-        Me.BrowserSetPanel.SuspendLayout()
         Me.AvailiableListPanel.SuspendLayout()
         Me.ExpandModePanel.SuspendLayout()
         Me.ActionSettingGroupBox.SuspendLayout()
         Me.WebReachTestPanel.SuspendLayout()
+        Me.TTSetPanel.SuspendLayout()
+        Me.TTSizeGroupPanel.SuspendLayout()
+        Me.NTSetPanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'OptionTreeView
@@ -117,27 +114,25 @@ Partial Class ProgramOption
         Me.OptionTreeView.Location = New System.Drawing.Point(12, 38)
         Me.OptionTreeView.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.OptionTreeView.Name = "OptionTreeView"
-        TreeNode1.Name = "DefaultBrowserSettingNode"
-        TreeNode1.Text = "기본 브라우저 설정"
-        TreeNode2.Name = "ExpandModeSetting"
-        TreeNode2.Text = "확장모드 설정"
-        TreeNode3.Name = "CommonConfig"
-        TreeNode3.Text = "프로그램 설정"
-        TreeNode4.Name = "ListInformationNode"
-        TreeNode4.Text = "리스트 정보"
-        TreeNode5.Name = "AvailiableListShowNode"
-        TreeNode5.Text = "다운로드 가능한 리스트"
-        TreeNode6.Name = "ListConfigNode"
-        TreeNode6.Text = "리스트 설정"
-        TreeNode7.Name = "NTSearchSettingNode"
-        TreeNode7.Text = "냐토렌트 검색 설정"
-        TreeNode8.Name = "TTSearchSettingNode"
-        TreeNode8.Text = "도쿄도서관 검색 설정"
-        TreeNode9.Name = "SiteStatus"
-        TreeNode9.Text = "사이트 현황"
-        TreeNode10.Name = "SearchEngineNode"
-        TreeNode10.Text = "검색엔진 설정"
-        Me.OptionTreeView.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode3, TreeNode6, TreeNode10})
+        TreeNode1.Name = "ExpandModeSetting"
+        TreeNode1.Text = "확장모드 설정"
+        TreeNode2.Name = "CommonConfigNode"
+        TreeNode2.Text = "프로그램 설정"
+        TreeNode3.Name = "ListInformationNode"
+        TreeNode3.Text = "리스트 정보"
+        TreeNode4.Name = "AvailiableListShowNode"
+        TreeNode4.Text = "다운로드 가능한 리스트"
+        TreeNode5.Name = "ListConfigNode"
+        TreeNode5.Text = "리스트 설정"
+        TreeNode6.Name = "NTSearchSettingNode"
+        TreeNode6.Text = "냐토렌트 검색 설정"
+        TreeNode7.Name = "TTSearchSettingNode"
+        TreeNode7.Text = "도쿄도서관 검색 설정"
+        TreeNode8.Name = "SiteStatusNode"
+        TreeNode8.Text = "사이트 현황"
+        TreeNode9.Name = "SearchEngineNode"
+        TreeNode9.Text = "검색엔진 설정"
+        Me.OptionTreeView.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode2, TreeNode5, TreeNode9})
         Me.OptionTreeView.Size = New System.Drawing.Size(255, 357)
         Me.OptionTreeView.TabIndex = 1
         '
@@ -173,15 +168,14 @@ Partial Class ProgramOption
         '
         'OptionTab
         '
-        Me.OptionTab.Controls.Add(Me.WebReachTestPanel)
-        Me.OptionTab.Controls.Add(Me.TTSetPanel)
-        Me.OptionTab.Controls.Add(Me.NTSetPanel)
         Me.OptionTab.Controls.Add(Me.ProgramConfigPanel)
         Me.OptionTab.Controls.Add(Me.ListInfoPanel)
         Me.OptionTab.Controls.Add(Me.ListSettingPanel)
-        Me.OptionTab.Controls.Add(Me.BrowserSetPanel)
         Me.OptionTab.Controls.Add(Me.AvailiableListPanel)
         Me.OptionTab.Controls.Add(Me.ExpandModePanel)
+        Me.OptionTab.Controls.Add(Me.WebReachTestPanel)
+        Me.OptionTab.Controls.Add(Me.TTSetPanel)
+        Me.OptionTab.Controls.Add(Me.NTSetPanel)
         Me.OptionTab.Location = New System.Drawing.Point(287, 0)
         Me.OptionTab.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.OptionTab.Name = "OptionTab"
@@ -189,159 +183,6 @@ Partial Class ProgramOption
         Me.OptionTab.Size = New System.Drawing.Size(467, 391)
         Me.OptionTab.TabIndex = 0
         Me.OptionTab.TabStop = False
-        '
-        'TTSetPanel
-        '
-        Me.TTSetPanel.Controls.Add(Me.SubmitterTextBox)
-        Me.TTSetPanel.Controls.Add(Me.SubmitterCheckBox)
-        Me.TTSetPanel.Controls.Add(Me.TTSizeGroupPanel)
-        Me.TTSetPanel.Controls.Add(Me.TTSizeCheckBox)
-        Me.TTSetPanel.Controls.Add(Me.TTCatComboBox)
-        Me.TTSetPanel.Controls.Add(Me.TTCatLabel)
-        Me.TTSetPanel.Location = New System.Drawing.Point(6, 22)
-        Me.TTSetPanel.Name = "TTSetPanel"
-        Me.TTSetPanel.Size = New System.Drawing.Size(446, 362)
-        Me.TTSetPanel.TabIndex = 7
-        '
-        'SubmitterTextBox
-        '
-        Me.SubmitterTextBox.Enabled = False
-        Me.SubmitterTextBox.Location = New System.Drawing.Point(65, 216)
-        Me.SubmitterTextBox.Name = "SubmitterTextBox"
-        Me.SubmitterTextBox.Size = New System.Drawing.Size(131, 22)
-        Me.SubmitterTextBox.TabIndex = 5
-        '
-        'SubmitterCheckBox
-        '
-        Me.SubmitterCheckBox.AutoSize = True
-        Me.SubmitterCheckBox.Location = New System.Drawing.Point(37, 191)
-        Me.SubmitterCheckBox.Name = "SubmitterCheckBox"
-        Me.SubmitterCheckBox.Size = New System.Drawing.Size(183, 19)
-        Me.SubmitterCheckBox.TabIndex = 4
-        Me.SubmitterCheckBox.Text = "등록자 이름을 필터링 합니다."
-        Me.SubmitterCheckBox.UseVisualStyleBackColor = True
-        '
-        'TTSizeGroupPanel
-        '
-        Me.TTSizeGroupPanel.Controls.Add(Me.MaxSizeTextBox)
-        Me.TTSizeGroupPanel.Controls.Add(Me.MaxSizeLabel)
-        Me.TTSizeGroupPanel.Controls.Add(Me.MinSizeLabel)
-        Me.TTSizeGroupPanel.Controls.Add(Me.MinSizeTextBox)
-        Me.TTSizeGroupPanel.Enabled = False
-        Me.TTSizeGroupPanel.Location = New System.Drawing.Point(65, 100)
-        Me.TTSizeGroupPanel.Name = "TTSizeGroupPanel"
-        Me.TTSizeGroupPanel.Size = New System.Drawing.Size(366, 70)
-        Me.TTSizeGroupPanel.TabIndex = 3
-        '
-        'MaxSizeTextBox
-        '
-        Me.MaxSizeTextBox.Location = New System.Drawing.Point(113, 42)
-        Me.MaxSizeTextBox.Name = "MaxSizeTextBox"
-        Me.MaxSizeTextBox.Size = New System.Drawing.Size(100, 22)
-        Me.MaxSizeTextBox.TabIndex = 3
-        '
-        'MaxSizeLabel
-        '
-        Me.MaxSizeLabel.AutoSize = True
-        Me.MaxSizeLabel.Location = New System.Drawing.Point(8, 45)
-        Me.MaxSizeLabel.Name = "MaxSizeLabel"
-        Me.MaxSizeLabel.Size = New System.Drawing.Size(99, 15)
-        Me.MaxSizeLabel.TabIndex = 2
-        Me.MaxSizeLabel.Text = "최대 크기(MB) : "
-        '
-        'MinSizeLabel
-        '
-        Me.MinSizeLabel.AutoSize = True
-        Me.MinSizeLabel.Location = New System.Drawing.Point(8, 14)
-        Me.MinSizeLabel.Name = "MinSizeLabel"
-        Me.MinSizeLabel.Size = New System.Drawing.Size(99, 15)
-        Me.MinSizeLabel.TabIndex = 1
-        Me.MinSizeLabel.Text = "최소 크기(MB) : "
-        '
-        'MinSizeTextBox
-        '
-        Me.MinSizeTextBox.Location = New System.Drawing.Point(113, 10)
-        Me.MinSizeTextBox.Name = "MinSizeTextBox"
-        Me.MinSizeTextBox.Size = New System.Drawing.Size(100, 22)
-        Me.MinSizeTextBox.TabIndex = 0
-        '
-        'TTSizeCheckBox
-        '
-        Me.TTSizeCheckBox.AutoSize = True
-        Me.TTSizeCheckBox.Location = New System.Drawing.Point(37, 69)
-        Me.TTSizeCheckBox.Name = "TTSizeCheckBox"
-        Me.TTSizeCheckBox.Size = New System.Drawing.Size(207, 19)
-        Me.TTSizeCheckBox.TabIndex = 2
-        Me.TTSizeCheckBox.Text = "파일 사이즈 필터링을 사용합니다."
-        Me.TTSizeCheckBox.UseVisualStyleBackColor = True
-        '
-        'TTCatComboBox
-        '
-        Me.TTCatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.TTCatComboBox.FormattingEnabled = True
-        Me.TTCatComboBox.Items.AddRange(New Object() {"All", "Anime", "Non-English", "Music", "Raws"})
-        Me.TTCatComboBox.Location = New System.Drawing.Point(159, 19)
-        Me.TTCatComboBox.Name = "TTCatComboBox"
-        Me.TTCatComboBox.Size = New System.Drawing.Size(121, 23)
-        Me.TTCatComboBox.TabIndex = 1
-        '
-        'TTCatLabel
-        '
-        Me.TTCatLabel.AutoSize = True
-        Me.TTCatLabel.Location = New System.Drawing.Point(34, 22)
-        Me.TTCatLabel.Name = "TTCatLabel"
-        Me.TTCatLabel.Size = New System.Drawing.Size(119, 15)
-        Me.TTCatLabel.TabIndex = 0
-        Me.TTCatLabel.Text = "검색 카테고리 설정 : "
-        '
-        'NTSetPanel
-        '
-        Me.NTSetPanel.Controls.Add(Me.SearchCatLabel)
-        Me.NTSetPanel.Controls.Add(Me.SearchCatComboBox)
-        Me.NTSetPanel.Controls.Add(Me.SearchFilterLabel)
-        Me.NTSetPanel.Controls.Add(Me.SearchFilterComboBox)
-        Me.NTSetPanel.Location = New System.Drawing.Point(6, 22)
-        Me.NTSetPanel.Name = "NTSetPanel"
-        Me.NTSetPanel.Size = New System.Drawing.Size(446, 362)
-        Me.NTSetPanel.TabIndex = 7
-        '
-        'SearchCatLabel
-        '
-        Me.SearchCatLabel.AutoSize = True
-        Me.SearchCatLabel.Location = New System.Drawing.Point(62, 25)
-        Me.SearchCatLabel.Name = "SearchCatLabel"
-        Me.SearchCatLabel.Size = New System.Drawing.Size(119, 15)
-        Me.SearchCatLabel.TabIndex = 4
-        Me.SearchCatLabel.Text = "검색 카테고리 설정 : "
-        '
-        'SearchCatComboBox
-        '
-        Me.SearchCatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.SearchCatComboBox.FormattingEnabled = True
-        Me.SearchCatComboBox.Items.AddRange(New Object() {"Raw-Animation", "모든 카테고리", "애니메이션 전체", "Audio 전체", "Lossless Audio", "Lossy Audio"})
-        Me.SearchCatComboBox.Location = New System.Drawing.Point(204, 22)
-        Me.SearchCatComboBox.Name = "SearchCatComboBox"
-        Me.SearchCatComboBox.Size = New System.Drawing.Size(140, 23)
-        Me.SearchCatComboBox.TabIndex = 5
-        '
-        'SearchFilterLabel
-        '
-        Me.SearchFilterLabel.AutoSize = True
-        Me.SearchFilterLabel.Location = New System.Drawing.Point(74, 61)
-        Me.SearchFilterLabel.Name = "SearchFilterLabel"
-        Me.SearchFilterLabel.Size = New System.Drawing.Size(107, 15)
-        Me.SearchFilterLabel.TabIndex = 6
-        Me.SearchFilterLabel.Text = "검색 필터링 설정 : "
-        '
-        'SearchFilterComboBox
-        '
-        Me.SearchFilterComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.SearchFilterComboBox.FormattingEnabled = True
-        Me.SearchFilterComboBox.Items.AddRange(New Object() {"모두", "A+ 이상", "신뢰된것 모두"})
-        Me.SearchFilterComboBox.Location = New System.Drawing.Point(204, 58)
-        Me.SearchFilterComboBox.Name = "SearchFilterComboBox"
-        Me.SearchFilterComboBox.Size = New System.Drawing.Size(140, 23)
-        Me.SearchFilterComboBox.TabIndex = 7
         '
         'ProgramConfigPanel
         '
@@ -571,44 +412,6 @@ Partial Class ProgramOption
         Me.CheckOldListLabel.TabIndex = 0
         Me.CheckOldListLabel.Text = "구작 리스트 확인 여부 : "
         '
-        'BrowserSetPanel
-        '
-        Me.BrowserSetPanel.Controls.Add(Me.BrowserSetCheckBox)
-        Me.BrowserSetPanel.Controls.Add(Me.BrowserLocationSetButton)
-        Me.BrowserSetPanel.Controls.Add(Me.BrowserLocationTextBox)
-        Me.BrowserSetPanel.Location = New System.Drawing.Point(6, 22)
-        Me.BrowserSetPanel.Name = "BrowserSetPanel"
-        Me.BrowserSetPanel.Size = New System.Drawing.Size(446, 362)
-        Me.BrowserSetPanel.TabIndex = 2
-        '
-        'BrowserSetCheckBox
-        '
-        Me.BrowserSetCheckBox.AutoSize = True
-        Me.BrowserSetCheckBox.Location = New System.Drawing.Point(18, 79)
-        Me.BrowserSetCheckBox.Name = "BrowserSetCheckBox"
-        Me.BrowserSetCheckBox.Size = New System.Drawing.Size(282, 19)
-        Me.BrowserSetCheckBox.TabIndex = 3
-        Me.BrowserSetCheckBox.Text = "프로그램에 사용할 기본 브라우저를 지정합니다."
-        Me.BrowserSetCheckBox.UseVisualStyleBackColor = True
-        '
-        'BrowserLocationSetButton
-        '
-        Me.BrowserLocationSetButton.Enabled = False
-        Me.BrowserLocationSetButton.Location = New System.Drawing.Point(356, 132)
-        Me.BrowserLocationSetButton.Name = "BrowserLocationSetButton"
-        Me.BrowserLocationSetButton.Size = New System.Drawing.Size(75, 23)
-        Me.BrowserLocationSetButton.TabIndex = 2
-        Me.BrowserLocationSetButton.Text = "위치 지정"
-        Me.BrowserLocationSetButton.UseVisualStyleBackColor = True
-        '
-        'BrowserLocationTextBox
-        '
-        Me.BrowserLocationTextBox.Location = New System.Drawing.Point(37, 104)
-        Me.BrowserLocationTextBox.Name = "BrowserLocationTextBox"
-        Me.BrowserLocationTextBox.ReadOnly = True
-        Me.BrowserLocationTextBox.Size = New System.Drawing.Size(394, 22)
-        Me.BrowserLocationTextBox.TabIndex = 1
-        '
         'AvailiableListPanel
         '
         Me.AvailiableListPanel.Controls.Add(Me.AvailiableListDownloadButton)
@@ -684,6 +487,237 @@ Partial Class ProgramOption
         Me.ButtonActionComboBox.Size = New System.Drawing.Size(158, 23)
         Me.ButtonActionComboBox.TabIndex = 1
         '
+        'WebReachTestPanel
+        '
+        Me.WebReachTestPanel.Controls.Add(Me.ReTestButton)
+        Me.WebReachTestPanel.Controls.Add(Me.GTRLabel)
+        Me.WebReachTestPanel.Controls.Add(Me.TTSRLabel)
+        Me.WebReachTestPanel.Controls.Add(Me.NTSRLabel)
+        Me.WebReachTestPanel.Controls.Add(Me.GTLabel)
+        Me.WebReachTestPanel.Controls.Add(Me.TTSTLabel)
+        Me.WebReachTestPanel.Controls.Add(Me.NTSTLabel)
+        Me.WebReachTestPanel.Location = New System.Drawing.Point(6, 22)
+        Me.WebReachTestPanel.Name = "WebReachTestPanel"
+        Me.WebReachTestPanel.Size = New System.Drawing.Size(446, 362)
+        Me.WebReachTestPanel.TabIndex = 15
+        '
+        'ReTestButton
+        '
+        Me.ReTestButton.Enabled = False
+        Me.ReTestButton.Location = New System.Drawing.Point(333, 12)
+        Me.ReTestButton.Name = "ReTestButton"
+        Me.ReTestButton.Size = New System.Drawing.Size(96, 23)
+        Me.ReTestButton.TabIndex = 6
+        Me.ReTestButton.Text = "다시 테스트"
+        Me.ReTestButton.UseVisualStyleBackColor = True
+        '
+        'GTRLabel
+        '
+        Me.GTRLabel.AutoSize = True
+        Me.GTRLabel.Location = New System.Drawing.Point(189, 120)
+        Me.GTRLabel.Name = "GTRLabel"
+        Me.GTRLabel.Size = New System.Drawing.Size(61, 15)
+        Me.GTRLabel.TabIndex = 5
+        Me.GTRLabel.Text = "LOADING"
+        '
+        'TTSRLabel
+        '
+        Me.TTSRLabel.AutoSize = True
+        Me.TTSRLabel.Location = New System.Drawing.Point(189, 80)
+        Me.TTSRLabel.Name = "TTSRLabel"
+        Me.TTSRLabel.Size = New System.Drawing.Size(61, 15)
+        Me.TTSRLabel.TabIndex = 4
+        Me.TTSRLabel.Text = "LOADING"
+        '
+        'NTSRLabel
+        '
+        Me.NTSRLabel.AutoSize = True
+        Me.NTSRLabel.Location = New System.Drawing.Point(189, 40)
+        Me.NTSRLabel.Name = "NTSRLabel"
+        Me.NTSRLabel.Size = New System.Drawing.Size(61, 15)
+        Me.NTSRLabel.TabIndex = 3
+        Me.NTSRLabel.Text = "LOADING"
+        '
+        'GTLabel
+        '
+        Me.GTLabel.AutoSize = True
+        Me.GTLabel.Location = New System.Drawing.Point(81, 120)
+        Me.GTLabel.Name = "GTLabel"
+        Me.GTLabel.Size = New System.Drawing.Size(102, 15)
+        Me.GTLabel.TabIndex = 2
+        Me.GTLabel.Text = "Google Stauts : "
+        '
+        'TTSTLabel
+        '
+        Me.TTSTLabel.AutoSize = True
+        Me.TTSTLabel.Location = New System.Drawing.Point(50, 80)
+        Me.TTSTLabel.Name = "TTSTLabel"
+        Me.TTSTLabel.Size = New System.Drawing.Size(133, 15)
+        Me.TTSTLabel.TabIndex = 1
+        Me.TTSTLabel.Text = "TokyoTosho Status : "
+        '
+        'NTSTLabel
+        '
+        Me.NTSTLabel.AutoSize = True
+        Me.NTSTLabel.Location = New System.Drawing.Point(107, 40)
+        Me.NTSTLabel.Name = "NTSTLabel"
+        Me.NTSTLabel.Size = New System.Drawing.Size(76, 15)
+        Me.NTSTLabel.TabIndex = 0
+        Me.NTSTLabel.Text = "NT Status : "
+        '
+        'TTSetPanel
+        '
+        Me.TTSetPanel.Controls.Add(Me.SubmitterTextBox)
+        Me.TTSetPanel.Controls.Add(Me.SubmitterCheckBox)
+        Me.TTSetPanel.Controls.Add(Me.TTSizeGroupPanel)
+        Me.TTSetPanel.Controls.Add(Me.TTSizeCheckBox)
+        Me.TTSetPanel.Controls.Add(Me.TTCatComboBox)
+        Me.TTSetPanel.Controls.Add(Me.TTCatLabel)
+        Me.TTSetPanel.Location = New System.Drawing.Point(6, 22)
+        Me.TTSetPanel.Name = "TTSetPanel"
+        Me.TTSetPanel.Size = New System.Drawing.Size(446, 362)
+        Me.TTSetPanel.TabIndex = 7
+        '
+        'SubmitterTextBox
+        '
+        Me.SubmitterTextBox.Enabled = False
+        Me.SubmitterTextBox.Location = New System.Drawing.Point(65, 216)
+        Me.SubmitterTextBox.Name = "SubmitterTextBox"
+        Me.SubmitterTextBox.Size = New System.Drawing.Size(131, 22)
+        Me.SubmitterTextBox.TabIndex = 5
+        '
+        'SubmitterCheckBox
+        '
+        Me.SubmitterCheckBox.AutoSize = True
+        Me.SubmitterCheckBox.Location = New System.Drawing.Point(37, 191)
+        Me.SubmitterCheckBox.Name = "SubmitterCheckBox"
+        Me.SubmitterCheckBox.Size = New System.Drawing.Size(183, 19)
+        Me.SubmitterCheckBox.TabIndex = 4
+        Me.SubmitterCheckBox.Text = "등록자 이름을 필터링 합니다."
+        Me.SubmitterCheckBox.UseVisualStyleBackColor = True
+        '
+        'TTSizeGroupPanel
+        '
+        Me.TTSizeGroupPanel.Controls.Add(Me.MaxSizeTextBox)
+        Me.TTSizeGroupPanel.Controls.Add(Me.MaxSizeLabel)
+        Me.TTSizeGroupPanel.Controls.Add(Me.MinSizeLabel)
+        Me.TTSizeGroupPanel.Controls.Add(Me.MinSizeTextBox)
+        Me.TTSizeGroupPanel.Enabled = False
+        Me.TTSizeGroupPanel.Location = New System.Drawing.Point(65, 100)
+        Me.TTSizeGroupPanel.Name = "TTSizeGroupPanel"
+        Me.TTSizeGroupPanel.Size = New System.Drawing.Size(366, 70)
+        Me.TTSizeGroupPanel.TabIndex = 3
+        '
+        'MaxSizeTextBox
+        '
+        Me.MaxSizeTextBox.Location = New System.Drawing.Point(113, 42)
+        Me.MaxSizeTextBox.Name = "MaxSizeTextBox"
+        Me.MaxSizeTextBox.Size = New System.Drawing.Size(100, 22)
+        Me.MaxSizeTextBox.TabIndex = 3
+        '
+        'MaxSizeLabel
+        '
+        Me.MaxSizeLabel.AutoSize = True
+        Me.MaxSizeLabel.Location = New System.Drawing.Point(8, 45)
+        Me.MaxSizeLabel.Name = "MaxSizeLabel"
+        Me.MaxSizeLabel.Size = New System.Drawing.Size(99, 15)
+        Me.MaxSizeLabel.TabIndex = 2
+        Me.MaxSizeLabel.Text = "최대 크기(MB) : "
+        '
+        'MinSizeLabel
+        '
+        Me.MinSizeLabel.AutoSize = True
+        Me.MinSizeLabel.Location = New System.Drawing.Point(8, 14)
+        Me.MinSizeLabel.Name = "MinSizeLabel"
+        Me.MinSizeLabel.Size = New System.Drawing.Size(99, 15)
+        Me.MinSizeLabel.TabIndex = 1
+        Me.MinSizeLabel.Text = "최소 크기(MB) : "
+        '
+        'MinSizeTextBox
+        '
+        Me.MinSizeTextBox.Location = New System.Drawing.Point(113, 10)
+        Me.MinSizeTextBox.Name = "MinSizeTextBox"
+        Me.MinSizeTextBox.Size = New System.Drawing.Size(100, 22)
+        Me.MinSizeTextBox.TabIndex = 0
+        '
+        'TTSizeCheckBox
+        '
+        Me.TTSizeCheckBox.AutoSize = True
+        Me.TTSizeCheckBox.Location = New System.Drawing.Point(37, 69)
+        Me.TTSizeCheckBox.Name = "TTSizeCheckBox"
+        Me.TTSizeCheckBox.Size = New System.Drawing.Size(207, 19)
+        Me.TTSizeCheckBox.TabIndex = 2
+        Me.TTSizeCheckBox.Text = "파일 사이즈 필터링을 사용합니다."
+        Me.TTSizeCheckBox.UseVisualStyleBackColor = True
+        '
+        'TTCatComboBox
+        '
+        Me.TTCatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.TTCatComboBox.FormattingEnabled = True
+        Me.TTCatComboBox.Items.AddRange(New Object() {"All", "Anime", "Non-English", "Music", "Raws"})
+        Me.TTCatComboBox.Location = New System.Drawing.Point(159, 19)
+        Me.TTCatComboBox.Name = "TTCatComboBox"
+        Me.TTCatComboBox.Size = New System.Drawing.Size(121, 23)
+        Me.TTCatComboBox.TabIndex = 1
+        '
+        'TTCatLabel
+        '
+        Me.TTCatLabel.AutoSize = True
+        Me.TTCatLabel.Location = New System.Drawing.Point(34, 22)
+        Me.TTCatLabel.Name = "TTCatLabel"
+        Me.TTCatLabel.Size = New System.Drawing.Size(119, 15)
+        Me.TTCatLabel.TabIndex = 0
+        Me.TTCatLabel.Text = "검색 카테고리 설정 : "
+        '
+        'NTSetPanel
+        '
+        Me.NTSetPanel.Controls.Add(Me.SearchCatLabel)
+        Me.NTSetPanel.Controls.Add(Me.SearchCatComboBox)
+        Me.NTSetPanel.Controls.Add(Me.SearchFilterLabel)
+        Me.NTSetPanel.Controls.Add(Me.SearchFilterComboBox)
+        Me.NTSetPanel.Location = New System.Drawing.Point(6, 22)
+        Me.NTSetPanel.Name = "NTSetPanel"
+        Me.NTSetPanel.Size = New System.Drawing.Size(446, 362)
+        Me.NTSetPanel.TabIndex = 7
+        '
+        'SearchCatLabel
+        '
+        Me.SearchCatLabel.AutoSize = True
+        Me.SearchCatLabel.Location = New System.Drawing.Point(62, 25)
+        Me.SearchCatLabel.Name = "SearchCatLabel"
+        Me.SearchCatLabel.Size = New System.Drawing.Size(119, 15)
+        Me.SearchCatLabel.TabIndex = 4
+        Me.SearchCatLabel.Text = "검색 카테고리 설정 : "
+        '
+        'SearchCatComboBox
+        '
+        Me.SearchCatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.SearchCatComboBox.FormattingEnabled = True
+        Me.SearchCatComboBox.Items.AddRange(New Object() {"Raw-Animation", "모든 카테고리", "애니메이션 전체", "Audio 전체", "Lossless Audio", "Lossy Audio"})
+        Me.SearchCatComboBox.Location = New System.Drawing.Point(204, 22)
+        Me.SearchCatComboBox.Name = "SearchCatComboBox"
+        Me.SearchCatComboBox.Size = New System.Drawing.Size(140, 23)
+        Me.SearchCatComboBox.TabIndex = 5
+        '
+        'SearchFilterLabel
+        '
+        Me.SearchFilterLabel.AutoSize = True
+        Me.SearchFilterLabel.Location = New System.Drawing.Point(74, 61)
+        Me.SearchFilterLabel.Name = "SearchFilterLabel"
+        Me.SearchFilterLabel.Size = New System.Drawing.Size(107, 15)
+        Me.SearchFilterLabel.TabIndex = 6
+        Me.SearchFilterLabel.Text = "검색 필터링 설정 : "
+        '
+        'SearchFilterComboBox
+        '
+        Me.SearchFilterComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.SearchFilterComboBox.FormattingEnabled = True
+        Me.SearchFilterComboBox.Items.AddRange(New Object() {"모두", "A+ 이상", "신뢰된것 모두"})
+        Me.SearchFilterComboBox.Location = New System.Drawing.Point(204, 58)
+        Me.SearchFilterComboBox.Name = "SearchFilterComboBox"
+        Me.SearchFilterComboBox.Size = New System.Drawing.Size(140, 23)
+        Me.SearchFilterComboBox.TabIndex = 7
+        '
         'OptionSaveButton
         '
         Me.OptionSaveButton.Location = New System.Drawing.Point(679, 398)
@@ -702,72 +736,9 @@ Partial Class ProgramOption
         Me.FormCloseButton.Text = "닫기"
         Me.FormCloseButton.UseVisualStyleBackColor = True
         '
-        'WebReachTestPanel
+        'Timer1
         '
-        Me.WebReachTestPanel.Controls.Add(Me.GTRLabel)
-        Me.WebReachTestPanel.Controls.Add(Me.TTSRLabel)
-        Me.WebReachTestPanel.Controls.Add(Me.NTSRLabel)
-        Me.WebReachTestPanel.Controls.Add(Me.GTLabel)
-        Me.WebReachTestPanel.Controls.Add(Me.TTSTLabel)
-        Me.WebReachTestPanel.Controls.Add(Me.NTSTLabel)
-        Me.WebReachTestPanel.Location = New System.Drawing.Point(6, 22)
-        Me.WebReachTestPanel.Name = "WebReachTestPanel"
-        Me.WebReachTestPanel.Size = New System.Drawing.Size(446, 362)
-        Me.WebReachTestPanel.TabIndex = 15
-        '
-        'NTSTLabel
-        '
-        Me.NTSTLabel.AutoSize = True
-        Me.NTSTLabel.Location = New System.Drawing.Point(107, 40)
-        Me.NTSTLabel.Name = "NTSTLabel"
-        Me.NTSTLabel.Size = New System.Drawing.Size(76, 15)
-        Me.NTSTLabel.TabIndex = 0
-        Me.NTSTLabel.Text = "NT Status : "
-        '
-        'TTSTLabel
-        '
-        Me.TTSTLabel.AutoSize = True
-        Me.TTSTLabel.Location = New System.Drawing.Point(50, 80)
-        Me.TTSTLabel.Name = "TTSTLabel"
-        Me.TTSTLabel.Size = New System.Drawing.Size(133, 15)
-        Me.TTSTLabel.TabIndex = 1
-        Me.TTSTLabel.Text = "TokyoTosho Status : "
-        '
-        'GTLabel
-        '
-        Me.GTLabel.AutoSize = True
-        Me.GTLabel.Location = New System.Drawing.Point(81, 120)
-        Me.GTLabel.Name = "GTLabel"
-        Me.GTLabel.Size = New System.Drawing.Size(102, 15)
-        Me.GTLabel.TabIndex = 2
-        Me.GTLabel.Text = "Google Stauts : "
-        '
-        'NTSRLabel
-        '
-        Me.NTSRLabel.AutoSize = True
-        Me.NTSRLabel.Location = New System.Drawing.Point(189, 40)
-        Me.NTSRLabel.Name = "NTSRLabel"
-        Me.NTSRLabel.Size = New System.Drawing.Size(61, 15)
-        Me.NTSRLabel.TabIndex = 3
-        Me.NTSRLabel.Text = "LOADING"
-        '
-        'TTSRLabel
-        '
-        Me.TTSRLabel.AutoSize = True
-        Me.TTSRLabel.Location = New System.Drawing.Point(189, 80)
-        Me.TTSRLabel.Name = "TTSRLabel"
-        Me.TTSRLabel.Size = New System.Drawing.Size(61, 15)
-        Me.TTSRLabel.TabIndex = 4
-        Me.TTSRLabel.Text = "LOADING"
-        '
-        'GTRLabel
-        '
-        Me.GTRLabel.AutoSize = True
-        Me.GTRLabel.Location = New System.Drawing.Point(189, 120)
-        Me.GTRLabel.Name = "GTRLabel"
-        Me.GTRLabel.Size = New System.Drawing.Size(61, 15)
-        Me.GTRLabel.TabIndex = 5
-        Me.GTRLabel.Text = "LOADING"
+        Me.Timer1.Interval = 10
         '
         'ProgramOption
         '
@@ -790,26 +761,24 @@ Partial Class ProgramOption
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "프로그램 옵션"
         Me.OptionTab.ResumeLayout(False)
-        Me.TTSetPanel.ResumeLayout(False)
-        Me.TTSetPanel.PerformLayout()
-        Me.TTSizeGroupPanel.ResumeLayout(False)
-        Me.TTSizeGroupPanel.PerformLayout()
-        Me.NTSetPanel.ResumeLayout(False)
-        Me.NTSetPanel.PerformLayout()
         Me.ProgramConfigPanel.ResumeLayout(False)
         Me.ProgramConfigPanel.PerformLayout()
         Me.ListInfoPanel.ResumeLayout(False)
         Me.ListInfoPanel.PerformLayout()
         Me.ListSettingPanel.ResumeLayout(False)
         Me.ListSettingPanel.PerformLayout()
-        Me.BrowserSetPanel.ResumeLayout(False)
-        Me.BrowserSetPanel.PerformLayout()
         Me.AvailiableListPanel.ResumeLayout(False)
         Me.AvailiableListPanel.PerformLayout()
         Me.ExpandModePanel.ResumeLayout(False)
         Me.ActionSettingGroupBox.ResumeLayout(False)
         Me.WebReachTestPanel.ResumeLayout(False)
         Me.WebReachTestPanel.PerformLayout()
+        Me.TTSetPanel.ResumeLayout(False)
+        Me.TTSetPanel.PerformLayout()
+        Me.TTSizeGroupPanel.ResumeLayout(False)
+        Me.TTSizeGroupPanel.PerformLayout()
+        Me.NTSetPanel.ResumeLayout(False)
+        Me.NTSetPanel.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -818,8 +787,6 @@ Partial Class ProgramOption
     Friend WithEvents ResetButton As System.Windows.Forms.Button
     Friend WithEvents SaveSettingButton As System.Windows.Forms.Button
     Friend WithEvents OptionTab As System.Windows.Forms.GroupBox
-    Friend WithEvents BrowserSetPanel As System.Windows.Forms.Panel
-    Friend WithEvents BrowserLocationTextBox As System.Windows.Forms.TextBox
     Friend WithEvents ProgramConfigPanel As System.Windows.Forms.Panel
     Friend WithEvents SystemTrayComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents SystemTrayLabel As System.Windows.Forms.Label
@@ -827,7 +794,6 @@ Partial Class ProgramOption
     Friend WithEvents FormCloseButton As System.Windows.Forms.Button
     Friend WithEvents CloseAlertComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents CloseAlertLabel As System.Windows.Forms.Label
-    Friend WithEvents BrowserLocationSetButton As System.Windows.Forms.Button
     Friend WithEvents AnimationFolderSetButton As System.Windows.Forms.Button
     Friend WithEvents AnimationFolderTextBox As System.Windows.Forms.TextBox
     Friend WithEvents AnimationFolderSetCheckBox As System.Windows.Forms.CheckBox
@@ -836,7 +802,6 @@ Partial Class ProgramOption
     Friend WithEvents SearchFilterLabel As System.Windows.Forms.Label
     Friend WithEvents SearchCatComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents SearchCatLabel As System.Windows.Forms.Label
-    Friend WithEvents BrowserSetCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents ListSettingPanel As System.Windows.Forms.Panel
     Friend WithEvents OldListComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents CheckOldListLabel As System.Windows.Forms.Label
@@ -878,4 +843,6 @@ Partial Class ProgramOption
     Friend WithEvents GTLabel As System.Windows.Forms.Label
     Friend WithEvents TTSTLabel As System.Windows.Forms.Label
     Friend WithEvents NTSTLabel As System.Windows.Forms.Label
+    Friend WithEvents Timer1 As System.Windows.Forms.Timer
+    Friend WithEvents ReTestButton As System.Windows.Forms.Button
 End Class

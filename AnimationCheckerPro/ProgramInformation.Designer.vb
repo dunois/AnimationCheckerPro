@@ -57,7 +57,7 @@ Partial Class ProgramInformation
         Me.MainTabControl.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.MainTabControl.Name = "MainTabControl"
         Me.MainTabControl.SelectedIndex = 0
-        Me.MainTabControl.Size = New System.Drawing.Size(490, 401)
+        Me.MainTabControl.Size = New System.Drawing.Size(506, 401)
         Me.MainTabControl.TabIndex = 1
         '
         'ProgramInfoTabPage
@@ -70,7 +70,7 @@ Partial Class ProgramInformation
         Me.ProgramInfoTabPage.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.ProgramInfoTabPage.Name = "ProgramInfoTabPage"
         Me.ProgramInfoTabPage.Padding = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.ProgramInfoTabPage.Size = New System.Drawing.Size(482, 373)
+        Me.ProgramInfoTabPage.Size = New System.Drawing.Size(498, 373)
         Me.ProgramInfoTabPage.TabIndex = 0
         Me.ProgramInfoTabPage.Text = "프로그램 정보"
         Me.ProgramInfoTabPage.UseVisualStyleBackColor = True
@@ -111,7 +111,7 @@ Partial Class ProgramInformation
         Me.UpdateInfoTabPage.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.UpdateInfoTabPage.Name = "UpdateInfoTabPage"
         Me.UpdateInfoTabPage.Padding = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.UpdateInfoTabPage.Size = New System.Drawing.Size(482, 373)
+        Me.UpdateInfoTabPage.Size = New System.Drawing.Size(498, 373)
         Me.UpdateInfoTabPage.TabIndex = 1
         Me.UpdateInfoTabPage.Text = "업데이트 정보"
         '
@@ -125,7 +125,7 @@ Partial Class ProgramInformation
         Me.ChangeLogRichTextBox.Location = New System.Drawing.Point(3, 4)
         Me.ChangeLogRichTextBox.Name = "ChangeLogRichTextBox"
         Me.ChangeLogRichTextBox.ReadOnly = True
-        Me.ChangeLogRichTextBox.Size = New System.Drawing.Size(476, 365)
+        Me.ChangeLogRichTextBox.Size = New System.Drawing.Size(492, 365)
         Me.ChangeLogRichTextBox.TabIndex = 0
         Me.ChangeLogRichTextBox.Text = resources.GetString("ChangeLogRichTextBox.Text")
         '
@@ -133,7 +133,7 @@ Partial Class ProgramInformation
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(490, 401)
+        Me.ClientSize = New System.Drawing.Size(506, 401)
         Me.Controls.Add(Me.MainTabControl)
         Me.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle

@@ -68,6 +68,7 @@ Partial Class MainForm
         Me.Separator = New System.Windows.Forms.ToolStripSeparator()
         Me.CloseContextMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.NoticeTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.PingBackgroundWorker = New System.ComponentModel.BackgroundWorker()
         Me.MainPanel.SuspendLayout()
         Me.ProgramStatus.SuspendLayout()
         Me.SkinPanel.SuspendLayout()
@@ -367,6 +368,7 @@ Partial Class MainForm
         'SubListBox
         '
         Me.SubListBox.FormattingEnabled = True
+        Me.SubListBox.HorizontalScrollbar = True
         Me.SubListBox.ItemHeight = 15
         Me.SubListBox.Items.AddRange(New Object() {"애니메이션을 선택하세요"})
         Me.SubListBox.Location = New System.Drawing.Point(9, 477)
@@ -378,6 +380,7 @@ Partial Class MainForm
         'SearchListBox
         '
         Me.SearchListBox.FormattingEnabled = True
+        Me.SearchListBox.HorizontalScrollbar = True
         Me.SearchListBox.ItemHeight = 15
         Me.SearchListBox.Items.AddRange(New Object() {"애니메이션을 선택하세요"})
         Me.SearchListBox.Location = New System.Drawing.Point(9, 300)
@@ -450,6 +453,9 @@ Partial Class MainForm
         Me.CloseContextMenu.Text = "종료 (&E)"
         '
         'NoticeTimer
+        '
+        '
+        'PingBackgroundWorker
         '
         '
         'MainForm
@@ -533,4 +539,5 @@ Partial Class MainForm
     Friend WithEvents OnAirTitleLabel As System.Windows.Forms.Label
     Friend WithEvents NoticeTimer As System.Windows.Forms.Timer
     Friend WithEvents AnimationSaveFolderOpenMenu As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PingBackgroundWorker As System.ComponentModel.BackgroundWorker
 End Class

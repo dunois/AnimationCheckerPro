@@ -73,21 +73,21 @@ Partial Class SkinDownloadForm
         '
         'InstalledSkinCheckButton
         '
-        Me.InstalledSkinCheckButton.Location = New System.Drawing.Point(996, 12)
+        Me.InstalledSkinCheckButton.Location = New System.Drawing.Point(959, 12)
         Me.InstalledSkinCheckButton.Name = "InstalledSkinCheckButton"
-        Me.InstalledSkinCheckButton.Size = New System.Drawing.Size(109, 23)
+        Me.InstalledSkinCheckButton.Size = New System.Drawing.Size(146, 23)
         Me.InstalledSkinCheckButton.TabIndex = 4
-        Me.InstalledSkinCheckButton.Text = "설치된 스킨확인"
+        Me.InstalledSkinCheckButton.Text = "설치된 배경하면 확인"
         Me.InstalledSkinCheckButton.UseVisualStyleBackColor = True
         '
         'SkinApplyButton
         '
         Me.SkinApplyButton.Enabled = False
-        Me.SkinApplyButton.Location = New System.Drawing.Point(915, 12)
+        Me.SkinApplyButton.Location = New System.Drawing.Point(878, 12)
         Me.SkinApplyButton.Name = "SkinApplyButton"
         Me.SkinApplyButton.Size = New System.Drawing.Size(75, 23)
         Me.SkinApplyButton.TabIndex = 5
-        Me.SkinApplyButton.Text = "스킨 적용"
+        Me.SkinApplyButton.Text = "화면 적용"
         Me.SkinApplyButton.UseVisualStyleBackColor = True
         '
         'FormCloseButton
