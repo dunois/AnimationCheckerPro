@@ -210,7 +210,7 @@ Partial Class ProgramOption
         Me.ImageModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ImageModeComboBox.FormattingEnabled = True
         Me.ImageModeComboBox.Items.AddRange(New Object() {"원본", "오토 사이즈"})
-        Me.ImageModeComboBox.Location = New System.Drawing.Point(231, 196)
+        Me.ImageModeComboBox.Location = New System.Drawing.Point(231, 202)
         Me.ImageModeComboBox.Name = "ImageModeComboBox"
         Me.ImageModeComboBox.Size = New System.Drawing.Size(140, 23)
         Me.ImageModeComboBox.TabIndex = 17
@@ -218,7 +218,7 @@ Partial Class ProgramOption
         'ImageModeLabel
         '
         Me.ImageModeLabel.AutoSize = True
-        Me.ImageModeLabel.Location = New System.Drawing.Point(129, 199)
+        Me.ImageModeLabel.Location = New System.Drawing.Point(129, 205)
         Me.ImageModeLabel.Name = "ImageModeLabel"
         Me.ImageModeLabel.Size = New System.Drawing.Size(80, 15)
         Me.ImageModeLabel.TabIndex = 16
@@ -229,7 +229,7 @@ Partial Class ProgramOption
         Me.NoticeRecvComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.NoticeRecvComboBox.FormattingEnabled = True
         Me.NoticeRecvComboBox.Items.AddRange(New Object() {"수신함", "수신하지 않음"})
-        Me.NoticeRecvComboBox.Location = New System.Drawing.Point(231, 152)
+        Me.NoticeRecvComboBox.Location = New System.Drawing.Point(231, 157)
         Me.NoticeRecvComboBox.Name = "NoticeRecvComboBox"
         Me.NoticeRecvComboBox.Size = New System.Drawing.Size(140, 23)
         Me.NoticeRecvComboBox.TabIndex = 15
@@ -237,7 +237,7 @@ Partial Class ProgramOption
         'NoticeRecvLabel
         '
         Me.NoticeRecvLabel.AutoSize = True
-        Me.NoticeRecvLabel.Location = New System.Drawing.Point(120, 155)
+        Me.NoticeRecvLabel.Location = New System.Drawing.Point(120, 160)
         Me.NoticeRecvLabel.Name = "NoticeRecvLabel"
         Me.NoticeRecvLabel.Size = New System.Drawing.Size(92, 15)
         Me.NoticeRecvLabel.TabIndex = 14
@@ -248,7 +248,7 @@ Partial Class ProgramOption
         Me.ProgramModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ProgramModeComboBox.FormattingEnabled = True
         Me.ProgramModeComboBox.Items.AddRange(New Object() {"미니 모드", "확장 모드"})
-        Me.ProgramModeComboBox.Location = New System.Drawing.Point(231, 103)
+        Me.ProgramModeComboBox.Location = New System.Drawing.Point(231, 111)
         Me.ProgramModeComboBox.Name = "ProgramModeComboBox"
         Me.ProgramModeComboBox.Size = New System.Drawing.Size(140, 23)
         Me.ProgramModeComboBox.TabIndex = 13
@@ -256,7 +256,7 @@ Partial Class ProgramOption
         'ProgramModeLabel
         '
         Me.ProgramModeLabel.AutoSize = True
-        Me.ProgramModeLabel.Location = New System.Drawing.Point(120, 109)
+        Me.ProgramModeLabel.Location = New System.Drawing.Point(120, 115)
         Me.ProgramModeLabel.Name = "ProgramModeLabel"
         Me.ProgramModeLabel.Size = New System.Drawing.Size(92, 15)
         Me.ProgramModeLabel.TabIndex = 12
@@ -304,7 +304,7 @@ Partial Class ProgramOption
         Me.CloseAlertComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CloseAlertComboBox.FormattingEnabled = True
         Me.CloseAlertComboBox.Items.AddRange(New Object() {"항상 표시", "표시하지 않음"})
-        Me.CloseAlertComboBox.Location = New System.Drawing.Point(231, 58)
+        Me.CloseAlertComboBox.Location = New System.Drawing.Point(231, 67)
         Me.CloseAlertComboBox.Name = "CloseAlertComboBox"
         Me.CloseAlertComboBox.Size = New System.Drawing.Size(140, 23)
         Me.CloseAlertComboBox.TabIndex = 3
@@ -312,7 +312,7 @@ Partial Class ProgramOption
         'CloseAlertLabel
         '
         Me.CloseAlertLabel.AutoSize = True
-        Me.CloseAlertLabel.Location = New System.Drawing.Point(42, 66)
+        Me.CloseAlertLabel.Location = New System.Drawing.Point(39, 70)
         Me.CloseAlertLabel.Name = "CloseAlertLabel"
         Me.CloseAlertLabel.Size = New System.Drawing.Size(170, 15)
         Me.CloseAlertLabel.TabIndex = 2

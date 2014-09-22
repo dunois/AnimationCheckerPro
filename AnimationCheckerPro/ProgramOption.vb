@@ -55,9 +55,9 @@ Public Class ProgramOption
         ProgramModeComboBox.SelectedIndex = getMode
         ButtonActionComboBox.SelectedIndex = ActionSet
         ImageModeComboBox.SelectedIndex = ImageMode
-        NTSRLabel.Text = MainForm.NTStatus
-        TTSRLabel.Text = MainForm.TTStatus
-        GTRLabel.Text = MainForm.GStatus
+        NTSRLabel.Text = MainForm.NTStatus & " / " & MainForm.NTTime & "초"
+        TTSRLabel.Text = MainForm.TTStatus & " / " & MainForm.TTTime & "초"
+        GTRLabel.Text = MainForm.GStatus & " / " & MainForm.GTime & "초"
         If TTCats = 0 Then
             TTCatComboBox.SelectedIndex = 0
         ElseIf TTCats = 1 Then
@@ -125,14 +125,11 @@ Public Class ProgramOption
             TTSetPanel.BringToFront()
         ElseIf OptionTreeView.SelectedNode.Name = "SiteStatusNode" Then
             WebReachTestPanel.BringToFront()
-            If MainForm.PingTestStatus = 1 Then
-                ReTestButton.Enabled = True
-                NTSRLabel.Text = MainForm.NTStatus
-                TTSRLabel.Text = MainForm.TTStatus
-                GTRLabel.Text = MainForm.GStatus
-            Else
-                ReTestButton.Enabled = False
-            End If
+            ReTestButton.Enabled = True
+            ReTestButton.Text = "다시 테스트"
+            NTSRLabel.Text = MainForm.NTStatus & " / " & MainForm.NTTime & "초"
+            TTSRLabel.Text = MainForm.TTStatus & " / " & MainForm.TTTime & "초"
+            GTRLabel.Text = MainForm.GStatus & " / " & MainForm.GTime & "초"
         End If
     End Sub
 
@@ -195,8 +192,16 @@ Public Class ProgramOption
         End If
         Pregkey.SetValue("OldListCheck", OldListComboBox.SelectedIndex, RegistryValueKind.String)
         Pregkey.SetValue("ModeType", ProgramModeComboBox.SelectedIndex, RegistryValueKind.String)
+        MainForm.ProgramMode = ProgramModeComboBox.SelectedIndex
         Pregkey.SetValue("NoticeReceive", NoticeRecvComboBox.SelectedIndex, RegistryValueKind.String)
         Pregkey.SetValue("ButtonActSet", ButtonActionComboBox.SelectedIndex, RegistryValueKind.String)
+        If ButtonActionComboBox.SelectedIndex = 0 Then
+            MainForm.SearchButton.Visible = True
+            MainForm.SubLinkButton.Visible = True
+        ElseIf ButtonActionComboBox.SelectedIndex = 1 Then
+            MainForm.SearchButton.Visible = False
+            MainForm.SubLinkButton.Visible = False
+        End If
         Pregkey.SetValue("ImageMode", ImageModeComboBox.SelectedIndex, RegistryValueKind.String)
         If TTCatComboBox.SelectedIndex = 0 Then
             Pregkey.SetValue("TTSearchCat", 0, RegistryValueKind.String)

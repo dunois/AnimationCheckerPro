@@ -6,7 +6,7 @@ Public Class MainForm
 
     Public ACDataFolder As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData
     Dim ProjectLoadingFaild As Boolean = False
-    Public Version As Double = 1.31
+    Public Version As Double = 1.32
     Dim REG As RegistryKey = Registry.LocalMachine
     Public UserBrowser As String
     Dim RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
@@ -23,7 +23,7 @@ Public Class MainForm
     Dim getNoticeLinked As Integer
     Dim ScreenNotSupport As Boolean = False
     Dim SystemTrayed As Boolean = False
-    Dim ProgramMode As Integer = 0
+    Public ProgramMode As Integer = 0
     Dim ErrorStatuse As Boolean = False
     Public Declare Function GetPrivateProfileString Lib "kernel32" Alias "GetPrivateProfileStringA" (ByVal lpApplicationName As String, ByVal lpKeyName As String, ByVal lpDefault As String, ByVal lpReturnedString As String, ByVal nSize As Integer, ByVal lpFileName As String) As Integer
     Dim bCreated As Boolean
@@ -31,6 +31,9 @@ Public Class MainForm
     Public NTStatus As String = "LOADING"
     Public TTStatus As String = "LOADING"
     Public GStatus As String = "LOAIDNG"
+    Public NTTime As Double
+    Public TTTime As Double
+    Public GTime As Double
     Public PingTestStatus = 0
     Public SearchLink As String = ""
     Public SubLink As String = ""
@@ -197,24 +200,6 @@ Public Class MainForm
         Dim ImageMode As Integer = regkey.GetValue("ImageMode", 0)
         Dim ScreenWidth As String = Screen.PrimaryScreen.WorkingArea.Size.Width
         Dim ScreenHeight As String = Screen.PrimaryScreen.WorkingArea.Size.Height + 20
-        Dim CostomBrowser As Integer = regkey.GetValue("UserBrowserUse", 0)
-        '브라우져 설정 적용 시작
-        If CostomBrowser = 1 Then
-            getUserBrowser = regkey.GetValue("Browser", "IE") 'UserBrowserGet
-            If getUserBrowser = "IE" Then
-                getUserBrowser = My.Computer.FileSystem.SpecialDirectories.ProgramFiles & "\Internet Explorer\iexplore.exe"
-            Else
-                If My.Computer.FileSystem.FileExists(getUserBrowser) Then
-
-                Else
-                    MsgBox("오류 : 기본으로 설정한 브라우저가 존재하지 않습니다. IE를 기본 브라우저로 선택합니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
-                    getUserBrowser = My.Computer.FileSystem.SpecialDirectories.ProgramFiles & "\Internet Explorer\iexplore.exe"
-                End If
-            End If
-        Else
-            getUserBrowser = "explorer"
-        End If
-        '브라우져 설정 종료
         MainPanel.Visible = True
         '스킨 적용 시작
         If SkinUseCheck = 1 Then
@@ -382,7 +367,7 @@ Public Class MainForm
                 PingBackgroundWorker.RunWorkerAsync()
             End If
         Else
-            MsgBox("에러코드 : 6" & Chr(10) & "문제가 계속되면 tarry403@gmail.com 으로 연락주시기 바랍니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+            MsgBox("에러코드 : " & Stage & Chr(10) & "문제가 계속되면 tarry403@gmail.com 으로 연락주시기 바랍니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
             End
         End If
     End Sub
@@ -535,7 +520,6 @@ Public Class MainForm
 
         Else
             Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
-            Dim getMode As Integer = regkey.GetValue("ModeType", "1")
             Dim getButtonAct As Integer = regkey.GetValue("ButtonActSet", 0)
             If ProgramMode = 0 Or getButtonAct = 1 Then
                 Process.Start(SubLink)
@@ -763,48 +747,50 @@ Public Class MainForm
 
     End Sub
     Private Sub PingBackgroundWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles PingBackgroundWorker.DoWork
-        Dim Stage As Integer = 0
-        Try
-            Stage = Stage + 1
-            If My.Computer.Network.Ping("tokyotosho.info", 10000) = True Then
-                TTStatus = "접속됨"
-            Else
-                TTStatus = "접속실패"
+        Application.DoEvents()
+        For i As Integer = 1 To 3
+            Dim WebString As String = ""
+            If i = 1 Then
+                WebString = "http://www.nyaa.se"
+            ElseIf i = 2 Then
+                WebString = "http://www.tokyotosho.info"
+            ElseIf i = 3 Then
+                WebString = "http://www.google.com"
             End If
-        Catch ex As Exception
-            If Stage = 1 Then
-                TTStatus = "오류"
-            End If
-        End Try
-        ProgramOption.TTSRLabel.Text = TTStatus
-        Try
-            Stage = Stage + 1
-            If My.Computer.Network.Ping("google.com", 10000) = True Then
-                GStatus = "접속됨"
-            Else
-                GStatus = "접속실패"
-            End If
-        Catch ex As Exception
-            If Stage = 2 Then
-                GStatus = "오류"
-            End If
-        End Try
-        ProgramOption.GTRLabel.Text = GStatus
-        Try
-            Stage = Stage + 1
-            If My.Computer.Network.Ping("nyaa.se", 10000) = True Then
-                NTStatus = "접속됨"
-            Else
-                NTStatus = "접속실패"
-            End If
-        Catch ex As Exception
-            If Stage = 3 Then
-                NTStatus = "오류"
-            End If
-        End Try
-        ProgramOption.NTSRLabel.Text = NTStatus
-        ProgramOption.ReTestButton.Text = "다시 테스트"
+
+            Try
+                Dim rq = Net.WebRequest.Create(WebString)
+                Dim Timewatch As New Stopwatch
+                Timewatch.Start()
+                rq.Timeout = 5000 '//5초이내 응답이없으면 실패로 간주 
+                rq.GetResponse()
+                If i = 1 Then
+                    NTStatus = "접속성공"
+                    NTTime = Timewatch.ElapsedMilliseconds / 1000
+                ElseIf i = 2 Then
+                    TTStatus = "접속성공"
+                    TTTime = Timewatch.ElapsedMilliseconds / 1000
+                ElseIf i = 3 Then
+                    GStatus = "접속성공"
+                    GTime = Timewatch.ElapsedMilliseconds / 1000
+                End If
+                Timewatch.Stop()
+                Timewatch.Reset()
+            Catch ex As Exception
+                If i = 1 Then
+                    NTStatus = ex.Message
+                ElseIf i = 2 Then
+                    TTStatus = ex.Message
+                ElseIf i = 3 Then
+                    GStatus = ex.Message
+                End If
+            End Try
+        Next
         ProgramOption.ReTestButton.Enabled = True
-        PingTestStatus = 1
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        TestForm.ShowDialog()
+
     End Sub
 End Class
