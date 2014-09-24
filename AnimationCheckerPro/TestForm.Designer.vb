@@ -25,20 +25,12 @@ Partial Class TestForm
         Me.components = New System.ComponentModel.Container()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.AnissiaAniListBox = New System.Windows.Forms.ListBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.AnissiaAPIWeekComboBox = New System.Windows.Forms.ComboBox()
         Me.WebRQTLabel = New System.Windows.Forms.Label()
-        Me.AnissiaSubListBox = New System.Windows.Forms.ListBox()
-        Me.AnissiaTitleLabel = New System.Windows.Forms.Label()
-        Me.AnissiaStatusLabel = New System.Windows.Forms.Label()
-        Me.AnissiaTitleStatusLabel = New System.Windows.Forms.Label()
-        Me.AnissiaSTDateLabel = New System.Windows.Forms.Label()
-        Me.AnissiaEndDateLabel = New System.Windows.Forms.Label()
-        Me.AnissiaGLabel = New System.Windows.Forms.Label()
-        Me.AnissiaTimeLabel = New System.Windows.Forms.Label()
-        Me.AnissiaSiteLabel = New System.Windows.Forms.Label()
+        Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Button1
@@ -55,28 +47,10 @@ Partial Class TestForm
         '
         Me.Timer1.Interval = 1
         '
-        'AnissiaAniListBox
-        '
-        Me.AnissiaAniListBox.FormattingEnabled = True
-        Me.AnissiaAniListBox.ItemHeight = 14
-        Me.AnissiaAniListBox.Location = New System.Drawing.Point(23, 73)
-        Me.AnissiaAniListBox.Name = "AnissiaAniListBox"
-        Me.AnissiaAniListBox.Size = New System.Drawing.Size(260, 396)
-        Me.AnissiaAniListBox.TabIndex = 1
-        '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.AnissiaSiteLabel)
-        Me.GroupBox1.Controls.Add(Me.AnissiaTimeLabel)
-        Me.GroupBox1.Controls.Add(Me.AnissiaGLabel)
-        Me.GroupBox1.Controls.Add(Me.AnissiaEndDateLabel)
-        Me.GroupBox1.Controls.Add(Me.AnissiaSTDateLabel)
-        Me.GroupBox1.Controls.Add(Me.AnissiaTitleStatusLabel)
-        Me.GroupBox1.Controls.Add(Me.AnissiaStatusLabel)
-        Me.GroupBox1.Controls.Add(Me.AnissiaTitleLabel)
-        Me.GroupBox1.Controls.Add(Me.AnissiaSubListBox)
+        Me.GroupBox1.Controls.Add(Me.DataGridView1)
         Me.GroupBox1.Controls.Add(Me.AnissiaAPIWeekComboBox)
-        Me.GroupBox1.Controls.Add(Me.AnissiaAniListBox)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 62)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(742, 486)
@@ -86,11 +60,12 @@ Partial Class TestForm
         '
         'AnissiaAPIWeekComboBox
         '
+        Me.AnissiaAPIWeekComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.AnissiaAPIWeekComboBox.FormattingEnabled = True
         Me.AnissiaAPIWeekComboBox.Items.AddRange(New Object() {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"})
         Me.AnissiaAPIWeekComboBox.Location = New System.Drawing.Point(23, 34)
         Me.AnissiaAPIWeekComboBox.Name = "AnissiaAPIWeekComboBox"
-        Me.AnissiaAPIWeekComboBox.Size = New System.Drawing.Size(260, 22)
+        Me.AnissiaAPIWeekComboBox.Size = New System.Drawing.Size(695, 22)
         Me.AnissiaAPIWeekComboBox.TabIndex = 2
         '
         'WebRQTLabel
@@ -102,86 +77,19 @@ Partial Class TestForm
         Me.WebRQTLabel.TabIndex = 3
         Me.WebRQTLabel.Text = "Web Req Test : "
         '
-        'AnissiaSubListBox
+        'DataGridView1
         '
-        Me.AnissiaSubListBox.FormattingEnabled = True
-        Me.AnissiaSubListBox.ItemHeight = 14
-        Me.AnissiaSubListBox.Location = New System.Drawing.Point(307, 241)
-        Me.AnissiaSubListBox.Name = "AnissiaSubListBox"
-        Me.AnissiaSubListBox.Size = New System.Drawing.Size(260, 228)
-        Me.AnissiaSubListBox.TabIndex = 3
-        '
-        'AnissiaTitleLabel
-        '
-        Me.AnissiaTitleLabel.AutoSize = True
-        Me.AnissiaTitleLabel.Location = New System.Drawing.Point(304, 73)
-        Me.AnissiaTitleLabel.Name = "AnissiaTitleLabel"
-        Me.AnissiaTitleLabel.Size = New System.Drawing.Size(50, 14)
-        Me.AnissiaTitleLabel.TabIndex = 4
-        Me.AnissiaTitleLabel.Text = "AniTitle"
-        '
-        'AnissiaStatusLabel
-        '
-        Me.AnissiaStatusLabel.AutoSize = True
-        Me.AnissiaStatusLabel.Location = New System.Drawing.Point(304, 100)
-        Me.AnissiaStatusLabel.Name = "AnissiaStatusLabel"
-        Me.AnissiaStatusLabel.Size = New System.Drawing.Size(60, 14)
-        Me.AnissiaStatusLabel.TabIndex = 5
-        Me.AnissiaStatusLabel.Text = "AniStatus"
-        '
-        'AnissiaTitleStatusLabel
-        '
-        Me.AnissiaTitleStatusLabel.AutoSize = True
-        Me.AnissiaTitleStatusLabel.Location = New System.Drawing.Point(510, 73)
-        Me.AnissiaTitleStatusLabel.Name = "AnissiaTitleStatusLabel"
-        Me.AnissiaTitleStatusLabel.Size = New System.Drawing.Size(110, 14)
-        Me.AnissiaTitleStatusLabel.TabIndex = 6
-        Me.AnissiaTitleStatusLabel.Text = "AniTitleWithStatus"
-        '
-        'AnissiaSTDateLabel
-        '
-        Me.AnissiaSTDateLabel.AutoSize = True
-        Me.AnissiaSTDateLabel.Location = New System.Drawing.Point(304, 129)
-        Me.AnissiaSTDateLabel.Name = "AnissiaSTDateLabel"
-        Me.AnissiaSTDateLabel.Size = New System.Drawing.Size(96, 14)
-        Me.AnissiaSTDateLabel.TabIndex = 7
-        Me.AnissiaSTDateLabel.Text = "AniStartingDate"
-        '
-        'AnissiaEndDateLabel
-        '
-        Me.AnissiaEndDateLabel.AutoSize = True
-        Me.AnissiaEndDateLabel.Location = New System.Drawing.Point(510, 129)
-        Me.AnissiaEndDateLabel.Name = "AnissiaEndDateLabel"
-        Me.AnissiaEndDateLabel.Size = New System.Drawing.Size(74, 14)
-        Me.AnissiaEndDateLabel.TabIndex = 8
-        Me.AnissiaEndDateLabel.Text = "AniEndDate"
-        '
-        'AnissiaGLabel
-        '
-        Me.AnissiaGLabel.AutoSize = True
-        Me.AnissiaGLabel.Location = New System.Drawing.Point(304, 157)
-        Me.AnissiaGLabel.Name = "AnissiaGLabel"
-        Me.AnissiaGLabel.Size = New System.Drawing.Size(61, 14)
-        Me.AnissiaGLabel.TabIndex = 9
-        Me.AnissiaGLabel.Text = "AniGenre"
-        '
-        'AnissiaTimeLabel
-        '
-        Me.AnissiaTimeLabel.AutoSize = True
-        Me.AnissiaTimeLabel.Location = New System.Drawing.Point(307, 187)
-        Me.AnissiaTimeLabel.Name = "AnissiaTimeLabel"
-        Me.AnissiaTimeLabel.Size = New System.Drawing.Size(54, 14)
-        Me.AnissiaTimeLabel.TabIndex = 10
-        Me.AnissiaTimeLabel.Text = "AniTime"
-        '
-        'AnissiaSiteLabel
-        '
-        Me.AnissiaSiteLabel.AutoSize = True
-        Me.AnissiaSiteLabel.Location = New System.Drawing.Point(307, 215)
-        Me.AnissiaSiteLabel.Name = "AnissiaSiteLabel"
-        Me.AnissiaSiteLabel.Size = New System.Drawing.Size(47, 14)
-        Me.AnissiaSiteLabel.TabIndex = 11
-        Me.AnissiaSiteLabel.Text = "AniSite"
+        Me.DataGridView1.AllowUserToResizeRows = False
+        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView1.Location = New System.Drawing.Point(23, 73)
+        Me.DataGridView1.MultiSelect = False
+        Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.ReadOnly = True
+        Me.DataGridView1.RowHeadersVisible = False
+        Me.DataGridView1.RowTemplate.Height = 23
+        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.DataGridView1.Size = New System.Drawing.Size(695, 150)
+        Me.DataGridView1.TabIndex = 1
         '
         'TestForm
         '
@@ -198,24 +106,15 @@ Partial Class TestForm
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "TestForm"
         Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents Timer1 As System.Windows.Forms.Timer
-    Friend WithEvents AnissiaAniListBox As System.Windows.Forms.ListBox
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents AnissiaSiteLabel As System.Windows.Forms.Label
-    Friend WithEvents AnissiaTimeLabel As System.Windows.Forms.Label
-    Friend WithEvents AnissiaGLabel As System.Windows.Forms.Label
-    Friend WithEvents AnissiaEndDateLabel As System.Windows.Forms.Label
-    Friend WithEvents AnissiaSTDateLabel As System.Windows.Forms.Label
-    Friend WithEvents AnissiaTitleStatusLabel As System.Windows.Forms.Label
-    Friend WithEvents AnissiaStatusLabel As System.Windows.Forms.Label
-    Friend WithEvents AnissiaTitleLabel As System.Windows.Forms.Label
-    Friend WithEvents AnissiaSubListBox As System.Windows.Forms.ListBox
     Friend WithEvents AnissiaAPIWeekComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents WebRQTLabel As System.Windows.Forms.Label
+    Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
 End Class
