@@ -29,14 +29,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AnimationCheckerPro.exe" size="3187200">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AnimationCheckerPro.exe" size="3188224">
       <assemblyIdentity name="AnimationCheckerPro" version="1.3.0.12450" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>6F/Y0gnRq3Jjj5ioqqdwLLTEI2RApAw/WKQSAS9Btfo=</dsig:DigestValue>
+        <dsig:DigestValue>YzkReXOjOes358p7jxh5q+NfQT6wAd6r/Ak/vgo1BHU=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="System.Net.Json.dll" size="15872">
+      <assemblyIdentity name="System.Net.Json" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>wjiZnqPK88SQcXrvIBhrtJwRWixTBXvbIC2sXm6hE8E=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

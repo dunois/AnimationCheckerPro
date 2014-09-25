@@ -2,9 +2,12 @@
 Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports Newtonsoft.Json
+
 Public Class TestForm
     Public testtime As Integer
     Dim TodayDate = Weekday(My.Computer.Clock.LocalTime)
+    Public Title As String
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Application.DoEvents()
         For i As Integer = 1 To 3
@@ -47,6 +50,7 @@ Public Class TestForm
         '//'http://www.anissia.net/?m=1&b=4' 에서 응답코드 설명을 참조하여 보기쉽게 정리한뒤
         '//그리드로 보기위해 DataGridView1 의 DataSource 속성에 입력
         DataGridView1.Columns(2).DefaultCellStyle.Format = "HH:mm"
+
     End Sub
     Structure AniList
         Dim Source As Dictionary(Of String, String)
@@ -84,10 +88,15 @@ Public Class TestForm
                 End With
             End Get
         End Property
-        ReadOnly Property 종료일 As Date
+        ReadOnly Property 종료일 As String
             Get
                 With Source("ed")
-                    Return DateAndTime.DateSerial(.Substring(0, 4), .Substring(4, 2), .Substring(6, 2))
+                    If Source("ed") = "99999999" Then
+                        Return "미정"
+                    Else
+                        Return DateAndTime.DateSerial(.Substring(0, 4), .Substring(4, 2), .Substring(6, 2))
+                    End If
+
                 End With
             End Get
         End Property
@@ -105,8 +114,9 @@ Public Class JSON
     Inherits List(Of Dictionary(Of String, String))
     Sub New(s As String)
         On Error Resume Next
-        AddRange(Regex.Matches(s.Replace("""", ""), "{.*?}").OfType(Of Match).Select( _
-                 Function(x) Regex.Matches(x.Value, "[^{},]+").OfType(Of Match)().ToDictionary( _
-                     Function(xx) xx.Value.Split(":")(0), Function(xx) xx.Value.Split(":")(1))).ToArray)
+        AddRange(Regex.Matches(s, "{.*?}").OfType(Of Match).Select( _
+        Function(x) Regex.Matches(x.Value, "((""[^""]+"")|[^,{}]+):((""[^""]+"")|[^,{}]+)").OfType(Of Match).Select( _
+        Function(xx) xx.Value.Replace("""", "")).ToDictionary( _
+        Function(xx) xx.Split(":")(0), Function(xx) xx.Split(":")(1))).ToArray)
     End Sub
 End Class
