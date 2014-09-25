@@ -52,6 +52,19 @@ Public Class TestForm
         DataGridView1.Columns(2).DefaultCellStyle.Format = "HH:mm"
 
     End Sub
+    Private Sub DataGridView1_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView1.SelectionChanged
+        '//그리드의 선택영역 변경시 자막리스트를 불러옴 상세한부분은 위와 동일 
+        Dim Source As String
+        Try
+            With DataGridView1.SelectedRows(0).DataBoundItem
+                Using Web As New Net.WebClient
+                    Source = Encoding.UTF8.GetString(Web.DownloadData("http://www.anissia.net/anitime/cap?i=" & .고유번호))
+                End Using
+                Dim J = New JSON(Source)
+                DataGridView2.DataSource = J.Select(Function(x) New SubtList(x)).ToArray()
+            End With
+        Catch : End Try
+    End Sub
     Structure AniList
         Dim Source As Dictionary(Of String, String)
         ReadOnly Property 고유번호 As Integer
@@ -98,6 +111,39 @@ Public Class TestForm
                     End If
 
                 End With
+            End Get
+        End Property
+        Sub New(s As Dictionary(Of String, String))
+            Source = s
+        End Sub
+    End Structure
+    Structure SubtList
+        Dim Source As Dictionary(Of String, String)
+        ReadOnly Property 화수 As Object
+            Get
+                If IsNumeric(Source("s")) Then
+                    Return Source("s") / 10
+                Else
+                    Return Source("s")
+                End If
+            End Get
+        End Property
+        ReadOnly Property 갱신일 As Date
+            Get
+                With Source("d")
+                    Return DateAndTime.DateSerial(.Substring(0, 4), .Substring(4, 2), .Substring(6, 2)) + _
+                    DateAndTime.TimeSerial(.Substring(8, 2), .Substring(10, 2), .Substring(12, 2))
+                End With
+            End Get
+        End Property
+        ReadOnly Property 주소 As String
+            Get
+                Return "http://" & Source("a")
+            End Get
+        End Property
+        ReadOnly Property 제작자 As String
+            Get
+                Return Source("n")
             End Get
         End Property
         Sub New(s As Dictionary(Of String, String))

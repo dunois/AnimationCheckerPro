@@ -29,9 +29,10 @@ Partial Class TestForm
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.AnissiaAPIWeekComboBox = New System.Windows.Forms.ComboBox()
         Me.WebRQTLabel = New System.Windows.Forms.Label()
-        Me.ListBox1 = New System.Windows.Forms.ListBox()
+        Me.DataGridView2 = New System.Windows.Forms.DataGridView()
         Me.GroupBox1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Button1
@@ -50,7 +51,7 @@ Partial Class TestForm
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.ListBox1)
+        Me.GroupBox1.Controls.Add(Me.DataGridView2)
         Me.GroupBox1.Controls.Add(Me.DataGridView1)
         Me.GroupBox1.Controls.Add(Me.AnissiaAPIWeekComboBox)
         Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Bottom
@@ -66,7 +67,7 @@ Partial Class TestForm
         Me.DataGridView1.AllowUserToResizeRows = False
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Top
-        Me.DataGridView1.Location = New System.Drawing.Point(3, 39)
+        Me.DataGridView1.Location = New System.Drawing.Point(3, 40)
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
@@ -84,7 +85,7 @@ Partial Class TestForm
         Me.AnissiaAPIWeekComboBox.Items.AddRange(New Object() {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"})
         Me.AnissiaAPIWeekComboBox.Location = New System.Drawing.Point(3, 17)
         Me.AnissiaAPIWeekComboBox.Name = "AnissiaAPIWeekComboBox"
-        Me.AnissiaAPIWeekComboBox.Size = New System.Drawing.Size(772, 22)
+        Me.AnissiaAPIWeekComboBox.Size = New System.Drawing.Size(772, 23)
         Me.AnissiaAPIWeekComboBox.TabIndex = 2
         '
         'WebRQTLabel
@@ -92,35 +93,36 @@ Partial Class TestForm
         Me.WebRQTLabel.AutoSize = True
         Me.WebRQTLabel.Location = New System.Drawing.Point(12, 9)
         Me.WebRQTLabel.Name = "WebRQTLabel"
-        Me.WebRQTLabel.Size = New System.Drawing.Size(93, 14)
+        Me.WebRQTLabel.Size = New System.Drawing.Size(93, 15)
         Me.WebRQTLabel.TabIndex = 3
         Me.WebRQTLabel.Text = "Web Req Test : "
         '
-        'ListBox1
+        'DataGridView2
         '
-        Me.ListBox1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ListBox1.FormattingEnabled = True
-        Me.ListBox1.ItemHeight = 14
-        Me.ListBox1.Location = New System.Drawing.Point(3, 268)
-        Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.Size = New System.Drawing.Size(772, 242)
-        Me.ListBox1.TabIndex = 3
+        Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView2.Location = New System.Drawing.Point(3, 260)
+        Me.DataGridView2.Name = "DataGridView2"
+        Me.DataGridView2.RowTemplate.Height = 23
+        Me.DataGridView2.Size = New System.Drawing.Size(772, 250)
+        Me.DataGridView2.TabIndex = 3
         '
         'TestForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 14.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(778, 560)
         Me.Controls.Add(Me.WebRQTLabel)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Button1)
-        Me.Font = New System.Drawing.Font("나눔고딕", 9.0!)
+        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Name = "TestForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "TestForm"
         Me.GroupBox1.ResumeLayout(False)
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -131,5 +133,5 @@ Partial Class TestForm
     Friend WithEvents AnissiaAPIWeekComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents WebRQTLabel As System.Windows.Forms.Label
     Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
-    Friend WithEvents ListBox1 As System.Windows.Forms.ListBox
+    Friend WithEvents DataGridView2 As System.Windows.Forms.DataGridView
 End Class
