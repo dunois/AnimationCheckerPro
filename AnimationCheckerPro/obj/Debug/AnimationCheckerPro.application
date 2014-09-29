@@ -7,14 +7,14 @@
     <framework targetVersion="4.5" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="AnimationCheckerPro.exe.manifest" size="5625">
+    <dependentAssembly dependencyType="install" codebase="AnimationCheckerPro.exe.manifest" size="4942">
       <assemblyIdentity name="AnimationCheckerPro.exe" version="1.0.0.0" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>XQv+YKWTsrHsxusLet76+TGr0noJUnGkLiu6nsRhlzg=</dsig:DigestValue>
+        <dsig:DigestValue>G408LRg4W56VuOQx7bB1Hh0d4oueOW57ttUgNcoGhwk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
