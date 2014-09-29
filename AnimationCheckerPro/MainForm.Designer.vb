@@ -69,7 +69,7 @@ Partial Class MainForm
         Me.CloseContextMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.NoticeTimer = New System.Windows.Forms.Timer(Me.components)
         Me.PingBackgroundWorker = New System.ComponentModel.BackgroundWorker()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.TestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MainPanel.SuspendLayout()
         Me.ProgramStatus.SuspendLayout()
         Me.SkinPanel.SuspendLayout()
@@ -156,7 +156,6 @@ Partial Class MainForm
         'SkinPanel
         '
         Me.SkinPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.SkinPanel.Controls.Add(Me.Button1)
         Me.SkinPanel.Controls.Add(Me.ImagePanel)
         Me.SkinPanel.Controls.Add(Me.ShowLargeImageButton)
         Me.SkinPanel.Controls.Add(Me.SubLinkButton)
@@ -310,20 +309,20 @@ Partial Class MainForm
         'ProgramInformationButton
         '
         Me.ProgramInformationButton.Name = "ProgramInformationButton"
-        Me.ProgramInformationButton.Size = New System.Drawing.Size(152, 22)
+        Me.ProgramInformationButton.Size = New System.Drawing.Size(150, 22)
         Me.ProgramInformationButton.Text = "프로그램 정보"
         '
         'ProgramConfigButton
         '
         Me.ProgramConfigButton.Name = "ProgramConfigButton"
-        Me.ProgramConfigButton.Size = New System.Drawing.Size(152, 22)
+        Me.ProgramConfigButton.Size = New System.Drawing.Size(150, 22)
         Me.ProgramConfigButton.Text = "프로그램 설정"
         '
         'SkinRootButton
         '
         Me.SkinRootButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SkinSetButton, Me.SkinDownloadButton, Me.ManagementSkinButton})
         Me.SkinRootButton.Name = "SkinRootButton"
-        Me.SkinRootButton.Size = New System.Drawing.Size(152, 22)
+        Me.SkinRootButton.Size = New System.Drawing.Size(150, 22)
         Me.SkinRootButton.Text = "배경화면"
         '
         'SkinSetButton
@@ -347,7 +346,7 @@ Partial Class MainForm
         'ToolMenuButton
         '
         Me.ToolMenuButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolMenuButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SubFileNameChangerMenu, Me.AnimationSaveFolderOpenMenu})
+        Me.ToolMenuButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SubFileNameChangerMenu, Me.AnimationSaveFolderOpenMenu, Me.TestToolStripMenuItem})
         Me.ToolMenuButton.Enabled = False
         Me.ToolMenuButton.Image = CType(resources.GetObject("ToolMenuButton.Image"), System.Drawing.Image)
         Me.ToolMenuButton.ImageTransparentColor = System.Drawing.Color.Magenta
@@ -460,14 +459,12 @@ Partial Class MainForm
         'PingBackgroundWorker
         '
         '
-        'Button1
+        'TestToolStripMenuItem
         '
-        Me.Button1.Location = New System.Drawing.Point(13, 445)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(23, 136)
-        Me.Button1.TabIndex = 9
-        Me.Button1.Text = "Button1"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.TestToolStripMenuItem.Name = "TestToolStripMenuItem"
+        Me.TestToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
+        Me.TestToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
+        Me.TestToolStripMenuItem.Text = "Test"
         '
         'MainForm
         '
@@ -551,5 +548,5 @@ Partial Class MainForm
     Friend WithEvents NoticeTimer As System.Windows.Forms.Timer
     Friend WithEvents AnimationSaveFolderOpenMenu As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PingBackgroundWorker As System.ComponentModel.BackgroundWorker
-    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents TestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

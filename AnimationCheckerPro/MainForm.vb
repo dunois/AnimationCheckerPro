@@ -6,7 +6,7 @@ Public Class MainForm
 
     Public ACDataFolder As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData
     Dim ProjectLoadingFaild As Boolean = False
-    Public Version As Double = 1.32
+    Public Version As Double = 1.321
     Dim REG As RegistryKey = Registry.LocalMachine
     Public UserBrowser As String
     Dim RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
@@ -508,6 +508,7 @@ Public Class MainForm
             Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
             Dim getButtonAct As Integer = regkey.GetValue("ButtonActSet", 0)
             If ProgramMode = 0 Or getButtonAct = 1 Then
+                GetSearchLink()
                 Process.Start(SearchLink)
             Else
 
@@ -522,6 +523,7 @@ Public Class MainForm
             Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
             Dim getButtonAct As Integer = regkey.GetValue("ButtonActSet", 0)
             If ProgramMode = 0 Or getButtonAct = 1 Then
+                GetSubLink()
                 Process.Start(SubLink)
             Else
 
@@ -540,7 +542,6 @@ Public Class MainForm
     End Sub
 
     Private Sub SearchListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SearchListBox.SelectedIndexChanged
-        GetSearchLink()
         Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
         If ProgramMode = 1 Then
             If SearchListBox.SelectedIndex = -1 Or SearchListBox.SelectedItem = "항목이 없습니다." Or SearchListBox.SelectedItem = "애니메이션을 선택하세요" Then
@@ -554,7 +555,6 @@ Public Class MainForm
     End Sub
 
     Private Sub SubListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SubListBox.SelectedIndexChanged
-        GetSubLink()
         Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
         If ProgramMode = 1 Then
             If SubListBox.SelectedIndex = -1 Or SubListBox.SelectedItem = "등록된 자막 제작자가 없습니다." Or SubListBox.SelectedItem = "애니메이션을 선택하세요" Then
@@ -571,7 +571,7 @@ Public Class MainForm
         If SearchListBox.SelectedIndex = -1 Or SearchListBox.SelectedItem.ToString = "애니메이션을 선택하세요" Or SearchListBox.SelectedItem.ToString = "항목이 없습니다." Then
 
         Else
-
+            GetSearchLink()
             Process.Start(SearchLink)
         End If
     End Sub
@@ -580,7 +580,7 @@ Public Class MainForm
         If SubListBox.SelectedIndex = -1 Or SubListBox.SelectedItem.ToString = "애니메이션을 선택하세요" Or SubListBox.SelectedItem.ToString = "등록된 자막 제작자가 없습니다." Then
 
         Else
-
+            GetSubLink()
             Process.Start(SubLink)
         End If
     End Sub
@@ -789,7 +789,7 @@ Public Class MainForm
         ProgramOption.ReTestButton.Enabled = True
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub TestToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TestToolStripMenuItem.Click
         TestForm.ShowDialog()
 
     End Sub

@@ -128,7 +128,7 @@ Public Class TestForm
                 End If
             End Get
         End Property
-        ReadOnly Property 갱신일 As Date
+        ReadOnly Property 갱신일 As String
             Get
                 With Source("d")
                     Return DateAndTime.DateSerial(.Substring(0, 4), .Substring(4, 2), .Substring(6, 2)) + _
