@@ -2,7 +2,6 @@
 Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Newtonsoft.Json
 
 Public Class TestForm
     Public testtime As Integer
@@ -50,7 +49,6 @@ Public Class TestForm
         '//'http://www.anissia.net/?m=1&b=4' 에서 응답코드 설명을 참조하여 보기쉽게 정리한뒤
         '//그리드로 보기위해 DataGridView1 의 DataSource 속성에 입력
         DataGridView1.Columns(2).DefaultCellStyle.Format = "HH:mm"
-
     End Sub
     Private Sub DataGridView1_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView1.SelectionChanged
         '//그리드의 선택영역 변경시 자막리스트를 불러옴 상세한부분은 위와 동일 
@@ -131,7 +129,7 @@ Public Class TestForm
         ReadOnly Property 갱신일 As String
             Get
                 With Source("d")
-                    Return DateAndTime.DateSerial(.Substring(0, 4), .Substring(4, 2), .Substring(6, 2)) + _
+                    Return DateAndTime.DateSerial(.Substring(0, 4), .Substring(4, 2), .Substring(6, 2)) & " " & _
                     DateAndTime.TimeSerial(.Substring(8, 2), .Substring(10, 2), .Substring(12, 2))
                 End With
             End Get
@@ -153,6 +151,20 @@ Public Class TestForm
 
     Private Sub TestForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AnissiaAPIWeekComboBox.SelectedIndex = TodayDate - 1
+    End Sub
+
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub DataGridView2_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellContentClick
+        Dim msg As String = String.Format("Row: {0}, Column: {1}", _
+    DataGridView2.CurrentCell.RowIndex, _
+    DataGridView2.CurrentCell.ColumnIndex)
+        If DataGridView2.CurrentCell.ColumnIndex = 2 Then
+            Process.Start(DataGridView2.CurrentCell.Value)
+        End If
+        MessageBox.Show(msg & " / " & DataGridView2.CurrentCell.Value, "Current Cell")
     End Sub
 End Class
 
