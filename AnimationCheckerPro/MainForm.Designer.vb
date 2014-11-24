@@ -56,6 +56,7 @@ Partial Class MainForm
         Me.ToolMenuButton = New System.Windows.Forms.ToolStripDropDownButton()
         Me.SubFileNameChangerMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.AnimationSaveFolderOpenMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SubListBox = New System.Windows.Forms.ListBox()
         Me.SearchListBox = New System.Windows.Forms.ListBox()
         Me.AnimationListBox = New System.Windows.Forms.ListBox()
@@ -69,7 +70,6 @@ Partial Class MainForm
         Me.CloseContextMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.NoticeTimer = New System.Windows.Forms.Timer(Me.components)
         Me.PingBackgroundWorker = New System.ComponentModel.BackgroundWorker()
-        Me.TestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MainPanel.SuspendLayout()
         Me.ProgramStatus.SuspendLayout()
         Me.SkinPanel.SuspendLayout()
@@ -366,6 +366,13 @@ Partial Class MainForm
         Me.AnimationSaveFolderOpenMenu.Size = New System.Drawing.Size(218, 22)
         Me.AnimationSaveFolderOpenMenu.Text = "애니메이션 저장 폴더 열기"
         '
+        'TestToolStripMenuItem
+        '
+        Me.TestToolStripMenuItem.Name = "TestToolStripMenuItem"
+        Me.TestToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
+        Me.TestToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
+        Me.TestToolStripMenuItem.Text = "Test"
+        '
         'SubListBox
         '
         Me.SubListBox.FormattingEnabled = True
@@ -458,13 +465,6 @@ Partial Class MainForm
         '
         'PingBackgroundWorker
         '
-        '
-        'TestToolStripMenuItem
-        '
-        Me.TestToolStripMenuItem.Name = "TestToolStripMenuItem"
-        Me.TestToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
-        Me.TestToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
-        Me.TestToolStripMenuItem.Text = "Test"
         '
         'MainForm
         '

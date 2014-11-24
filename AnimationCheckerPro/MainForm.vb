@@ -6,7 +6,7 @@ Public Class MainForm
 
     Public ACDataFolder As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData
     Dim ProjectLoadingFaild As Boolean = False
-    Public Version As Double = 1.321
+    Public Version As Double = 1.33
     Dim REG As RegistryKey = Registry.LocalMachine
     Public UserBrowser As String
     Dim RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
@@ -311,11 +311,16 @@ Public Class MainForm
         End If
         Dim getWeekNumber As Integer = INIRead(WeekdayName, "Number", ACDataFolder & "\AnimationCheckerProList.ini")
         For i As Integer = 1 To getWeekNumber
-            Dim getCancelStatus As Integer = INIRead(WeekdayName, "Ani" & i & "CancelStatus", ACDataFolder & "\AnimationCheckerProList.ini")
-            If getCancelStatus = 1 Then
-                AnimationListBox.Items.Add("[결방] " & INIRead(WeekdayName, "Ani" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini"))
+            Dim getName As String = INIRead(WeekdayName, "Ani" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini")
+            If getName = "" Then
+                MsgBox("리스트를 불러오는 도중 오류가 발생하였습니다." & Chr(10) & "오류코드 : L.READ.LOAD_D" & getWeekdayName & "_N" & i & Chr(10) & "문제가 계속되면 tarry403@gmail.com 으로 오류코드를 전송해주시면 빠르게 해결하겠습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
             Else
-                AnimationListBox.Items.Add(INIRead(WeekdayName, "Ani" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini"))
+                Dim getCancelStatus As Integer = INIRead(WeekdayName, "Ani" & i & "CancelStatus", ACDataFolder & "\AnimationCheckerProList.ini")
+                If getCancelStatus = 1 Then
+                    AnimationListBox.Items.Add("[결방] " & getName)
+                Else
+                    AnimationListBox.Items.Add(getName)
+                End If
             End If
         Next
     End Sub
@@ -375,8 +380,25 @@ Public Class MainForm
         End
     End Sub
     Private Sub AnimationListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AnimationListBox.SelectedIndexChanged
+        Dim getDN As Integer = WeekComboBox.SelectedIndex + 1
         Dim getSelectedItem As Integer = AnimationListBox.SelectedIndex + 1
         Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
+        Dim getMode As Integer = regkey.GetValue("ModeType", "1")
+        If getMode = 1 And ScreenNotSupport = False Then '모드 처리
+            If Me.Width = 1370 Then
+
+            Else
+                ResizeMode = True
+                Me.Width = 1370
+                ResizeMode = False
+            End If
+        ElseIf getMode = 0 Or ScreenNotSupport = True Then
+            If Me.Width = 1370 Then
+                ResizeMode = True
+                Me.Width = 310
+                ResizeMode = False
+            End If
+        End If
         If AnimationListBox.SelectedIndex = -1 Then
             SearchListBox.Items.Clear()
             SubListBox.Items.Clear()
@@ -384,58 +406,52 @@ Public Class MainForm
             SubListBox.Items.Add("애니메이션을 선택하세요")
             NameLabel.Text = "애니메이션을 선택하세요"
         Else
-            Dim getMode As Integer = regkey.GetValue("ModeType", "1")
-            If getMode = 1 And ScreenNotSupport = False Then 'Full Mode
-                If Me.Width = 1370 Then
-
-                Else
-                    ResizeMode = True
-                    Me.Width = 1370
-                    ResizeMode = False
-                End If
-                Dim getTime As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "Time", ACDataFolder & "\AnimationCheckerProList.ini")
-                Dim getImageType As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "PictureType", ACDataFolder & "\AnimationCheckerProList.ini")
-                Dim getImageUrl As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "PictureUrl", ACDataFolder & "\AnimationCheckerProList.ini")
-                Dim FinalUrl As String = ""
-                If getImageType = 0 Then
-                    FinalUrl = "http://gkskvhtm403.cafe24.com/" & getImageUrl
-                End If
-                StillCutPictureBox.ImageLocation = FinalUrl
-                StillCutHideButton.Enabled = True
-                ShowLargeImageButton.Enabled = True
-                OnAirTimeLabel.Text = getTime
-                SearchButton.Enabled = False
-                SubLinkButton.Enabled = False
-                NameLabel.Text = AnimationListBox.SelectedItem
-            ElseIf getMode = 0 Or ScreenNotSupport = True Then
-                If Me.Width = 1370 Then
-                    ResizeMode = True
-                    Me.Width = 310
-                    ResizeMode = False
-                End If
-            End If
             SearchListBox.Items.Clear()
             SubListBox.Items.Clear()
+            Dim getTime As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "Time", ACDataFolder & "\AnimationCheckerProList.ini")
+            Dim getImageType As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "PictureType", ACDataFolder & "\AnimationCheckerProList.ini")
+            Dim getImageUrl As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "PictureUrl", ACDataFolder & "\AnimationCheckerProList.ini")
+            Dim FinalUrl As String = ""
+            If getImageType = 0 Then
+                FinalUrl = "http://gkskvhtm403.cafe24.com/" & getImageUrl
+            End If
+            StillCutPictureBox.ImageLocation = FinalUrl
+            StillCutHideButton.Enabled = True
+            ShowLargeImageButton.Enabled = True
+            OnAirTimeLabel.Text = getTime
+            SearchButton.Enabled = False
+            SubLinkButton.Enabled = False
+            NameLabel.Text = AnimationListBox.SelectedItem
             Dim getSubNumber As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "SubNumber", ACDataFolder & "\AnimationCheckerProList.ini")
             Dim getSearchNumber As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "SearchNumber", ACDataFolder & "\AnimationCheckerProList.ini")
             If getSubNumber = 0 Then
                 SubListBox.Items.Add("등록된 자막 제작자가 없습니다.")
             Else
                 For i As Integer = 1 To getSubNumber
-                    SubListBox.Items.Add(INIRead(WeekdayName, "Ani" & getSelectedItem & "Sub" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini"))
+                    Dim getSubName As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "Sub" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini")
+                    If getSubName = "" Then
+                        MsgBox("리스트를 불러오는 도중 오류가 발생하였습니다." & Chr(10) & "오류코드 : L.READ.LOAD_IN" & getSelectedItem & "_SN" & i & Chr(10) & "문제가 계속되면 tarry403@gmail.com 으로 오류코드를 전송해주시면 빠르게 해결하겠습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+                    Else
+                        SubListBox.Items.Add(getSubName)
+                    End If
                 Next
             End If
             If getSearchNumber = 0 Then
                 SearchListBox.Items.Add("항목이 없습니다.")
             Else
                 For i As Integer = 1 To getSearchNumber
-                    Dim getSearchType As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Type", ACDataFolder & "\AnimationCheckerProList.ini")
-                    If getSearchType = 0 Then
-                        SearchListBox.Items.Add(INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini") & " (접속상태 : " & NTStatus & ")")
-                    ElseIf getSearchType = 1 Then
-                        SearchListBox.Items.Add(INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini") & " (접속상태 : " & TTStatus & ")")
+                    Dim GetSearchName As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini")
+                    If GetSearchName = "" Then
+                        MsgBox("리스트를 불러오는 도중 오류가 발생하였습니다." & Chr(10) & "오류코드 : L.READ.LOAD_DN" & getDN & "_IN" & getSelectedItem & "_TN" & i & Chr(10) & "문제가 계속되면 tarry403@gmail.com 으로 오류코드를 전송해주시면 빠르게 해결하겠습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
                     Else
-                        SearchListBox.Items.Add(INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini"))
+                        Dim getSearchType As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Type", ACDataFolder & "\AnimationCheckerProList.ini")
+                        If getSearchType = 0 Then
+                            SearchListBox.Items.Add(GetSearchName & " (접속상태 : " & NTStatus & ")")
+                        ElseIf getSearchType = 1 Then
+                            SearchListBox.Items.Add(GetSearchName & " (접속상태 : " & TTStatus & ")")
+                        Else
+                            SearchListBox.Items.Add(GetSearchName)
+                        End If
                     End If
                 Next
             End If
