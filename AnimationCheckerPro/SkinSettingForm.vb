@@ -27,36 +27,28 @@ Public Class SkinSettingForm
     End Sub
 
     Private Sub SkinApplyButton_Click(sender As Object, e As EventArgs) Handles SkinApplyButton.Click
-        Dim regkey As Microsoft.Win32.RegistryKey = REG.OpenSubKey(RegStorage, True)
+        Dim SystemSet As Microsoft.Win32.RegistryKey = REG.OpenSubKey(RegStorage & "\\System", True)
+        Dim SkinSet As Microsoft.Win32.RegistryKey = REG.OpenSubKey(RegStorage & "\\Skin", True)
         MainForm.SkinPanel.BackgroundImage = Image.FromFile(FileName)
-        regkey.SetValue("SkinUse", "1", Microsoft.Win32.RegistryValueKind.String)
-        If REG.OpenSubKey(RegStorage & "\\Skin") Is Nothing Then
-            REG.CreateSubKey(RegStorage & "\\Skin")
-        End If
-        regkey = REG.OpenSubKey(RegStorage & "\\Skin", True)
-        regkey.SetValue("SkinLocation", FileName, Microsoft.Win32.RegistryValueKind.String)
-        regkey = REG.OpenSubKey(RegStorage, True)
-        regkey.SetValue("DownloadedSkinCheck", 0)
+        SystemSet.SetValue("SkinUse", "1", Microsoft.Win32.RegistryValueKind.String)
+        SkinSet.SetValue("SkinLocation", FileName, Microsoft.Win32.RegistryValueKind.String)
+        SkinSet.SetValue("DownloadedSkinUse", 0, Microsoft.Win32.RegistryValueKind.String)
         Me.Close()
     End Sub
 
     Private Sub SkinSettingForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim SystemSet As Microsoft.Win32.RegistryKey = REG.OpenSubKey(RegStorage & "\\System", True)
+        Dim SkinSet As Microsoft.Win32.RegistryKey = REG.OpenSubKey(RegStorage & "\\Skin", True)
         ImageModeComboBox.SelectedIndex = 0
-        If REG.OpenSubKey(RegStorage & "\\Skin") Is Nothing Then
-            REG.CreateSubKey(RegStorage & "\\Skin")
-        End If
-        Dim regkey As Microsoft.Win32.RegistryKey = REG.OpenSubKey(RegStorage, True)
-        Dim SkinUseCheck As Integer = regkey.GetValue("SkinUse", 0)
+        Dim SkinUseCheck As Integer = SystemSet.GetValue("SkinUse", 0)
         If SkinUseCheck = 1 Then
-            Dim SkinDownloadedCheck As Integer = regkey.GetValue("DownloadedSkinCheck", 0)
+            Dim SkinDownloadedCheck As Integer = SkinSet.GetValue("DownloadedSkinUse", 0)
             If SkinDownloadedCheck = 1 Then
-                regkey = REG.OpenSubKey(RegStorage & "\\Skin")
                 SkinFileLocationTextBox.Text = "다운로드한 스킨입니다."
-                Dim SkinLocate As String = regkey.GetValue("SkinLocation", "")
+                Dim SkinLocate As String = SkinSet.GetValue("SkinLocation", "")
                 SkinPictureBox.ImageLocation = SkinLocate
             Else
-                regkey = REG.OpenSubKey(RegStorage & "\\Skin")
-                Dim SkinLocate As String = regkey.GetValue("SkinLocation", "")
+                Dim SkinLocate As String = SkinSet.GetValue("SkinLocation", "")
                 SkinFileLocationTextBox.Text = SkinLocate
                 SkinPictureBox.ImageLocation = SkinLocate
             End If
@@ -92,15 +84,16 @@ Public Class SkinSettingForm
     End Sub
 
     Private Sub DeleteSkinButton_Click(sender As Object, e As EventArgs) Handles DeleteSkinButton.Click
-        Dim regkey As Microsoft.Win32.RegistryKey = REG.OpenSubKey(RegStorage, True)
+        Dim SystemSet As Microsoft.Win32.RegistryKey = REG.OpenSubKey(RegStorage & "\\System", True)
         If MsgBox("선택한 스킨이 지워집니다." & Chr(10) & "그래도 진행하시겠습니까?", MsgBoxStyle.Exclamation + MsgBoxStyle.YesNo, "확인") = System.Windows.Forms.DialogResult.Yes Then
-            regkey.SetValue("SkinUse", 0, Microsoft.Win32.RegistryValueKind.String)
+            SystemSet.SetValue("SkinUse", 0, Microsoft.Win32.RegistryValueKind.String)
             MsgBox("완료되었습니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "완료")
             MainForm.SkinPanel.BackgroundImage = Nothing
             SkinFileLocationTextBox.Text = ""
             ShowLargeImageButton.Enabled = False
             DeleteSkinButton.Enabled = False
             SkinApplyButton.Enabled = False
+            SkinPictureBox.Image = Nothing
             Me.Close()
         End If
     End Sub

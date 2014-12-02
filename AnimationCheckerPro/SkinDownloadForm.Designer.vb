@@ -104,9 +104,9 @@ Partial Class SkinDownloadForm
         Me.ImageLabel.AutoSize = True
         Me.ImageLabel.Location = New System.Drawing.Point(263, 12)
         Me.ImageLabel.Name = "ImageLabel"
-        Me.ImageLabel.Size = New System.Drawing.Size(80, 15)
+        Me.ImageLabel.Size = New System.Drawing.Size(68, 15)
         Me.ImageLabel.TabIndex = 7
-        Me.ImageLabel.Text = "이미지 모드 : "
+        Me.ImageLabel.Text = "보기 모드 : "
         '
         'ImageModeComboBox
         '

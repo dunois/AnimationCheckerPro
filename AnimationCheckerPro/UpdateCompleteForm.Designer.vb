@@ -51,7 +51,7 @@ Partial Class UpdateCompleteForm
         '
         'FormCloseButton
         '
-        Me.FormCloseButton.Location = New System.Drawing.Point(344, 54)
+        Me.FormCloseButton.Location = New System.Drawing.Point(358, 287)
         Me.FormCloseButton.Name = "FormCloseButton"
         Me.FormCloseButton.Size = New System.Drawing.Size(75, 23)
         Me.FormCloseButton.TabIndex = 3
@@ -62,7 +62,8 @@ Partial Class UpdateCompleteForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(445, 304)
+        Me.ClientSize = New System.Drawing.Size(445, 319)
+        Me.ControlBox = False
         Me.Controls.Add(Me.FormCloseButton)
         Me.Controls.Add(Me.ChangeLog)
         Me.Controls.Add(Me.TitleLabel)

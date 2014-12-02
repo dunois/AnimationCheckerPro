@@ -127,11 +127,11 @@ Partial Class SkinSettingForm
         'ImageModeLabel
         '
         Me.ImageModeLabel.AutoSize = True
-        Me.ImageModeLabel.Location = New System.Drawing.Point(206, 16)
+        Me.ImageModeLabel.Location = New System.Drawing.Point(218, 16)
         Me.ImageModeLabel.Name = "ImageModeLabel"
-        Me.ImageModeLabel.Size = New System.Drawing.Size(80, 15)
+        Me.ImageModeLabel.Size = New System.Drawing.Size(68, 15)
         Me.ImageModeLabel.TabIndex = 8
-        Me.ImageModeLabel.Text = "이미지 모드 : "
+        Me.ImageModeLabel.Text = "보기 모드 : "
         '
         'SkinSettingForm
         '

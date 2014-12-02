@@ -11,4 +11,5 @@
     Private Sub FormCloseButton_Click(sender As Object, e As EventArgs) Handles FormCloseButton.Click
         Me.Close()
     End Sub
+
 End Class

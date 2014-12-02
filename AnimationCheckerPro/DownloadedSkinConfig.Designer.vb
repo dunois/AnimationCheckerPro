@@ -46,7 +46,7 @@ Partial Class DownloadedSkinConfig
         Me.DownloadedSkinListBox.Location = New System.Drawing.Point(0, 0)
         Me.DownloadedSkinListBox.Margin = New System.Windows.Forms.Padding(0)
         Me.DownloadedSkinListBox.Name = "DownloadedSkinListBox"
-        Me.DownloadedSkinListBox.Size = New System.Drawing.Size(421, 214)
+        Me.DownloadedSkinListBox.Size = New System.Drawing.Size(546, 214)
         Me.DownloadedSkinListBox.TabIndex = 0
         '
         'SelectedSkinNameTitleLabel
@@ -126,9 +126,9 @@ Partial Class DownloadedSkinConfig
         'SelectedSkinShowButton
         '
         Me.SelectedSkinShowButton.Enabled = False
-        Me.SelectedSkinShowButton.Location = New System.Drawing.Point(15, 379)
+        Me.SelectedSkinShowButton.Location = New System.Drawing.Point(402, 321)
         Me.SelectedSkinShowButton.Name = "SelectedSkinShowButton"
-        Me.SelectedSkinShowButton.Size = New System.Drawing.Size(203, 23)
+        Me.SelectedSkinShowButton.Size = New System.Drawing.Size(135, 23)
         Me.SelectedSkinShowButton.TabIndex = 9
         Me.SelectedSkinShowButton.Text = "선택한 파일 보기"
         Me.SelectedSkinShowButton.UseVisualStyleBackColor = True
@@ -153,9 +153,9 @@ Partial Class DownloadedSkinConfig
         '
         'Button6
         '
-        Me.Button6.Location = New System.Drawing.Point(298, 409)
+        Me.Button6.Location = New System.Drawing.Point(402, 350)
         Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(75, 23)
+        Me.Button6.Size = New System.Drawing.Size(132, 23)
         Me.Button6.TabIndex = 12
         Me.Button6.Text = "닫기"
         Me.Button6.UseVisualStyleBackColor = True
@@ -164,7 +164,7 @@ Partial Class DownloadedSkinConfig
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(421, 445)
+        Me.ClientSize = New System.Drawing.Size(546, 387)
         Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.SkinListDeleteButton)
         Me.Controls.Add(Me.SkinFileSkinListDeleteButton)

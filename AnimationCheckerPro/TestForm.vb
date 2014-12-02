@@ -166,6 +166,17 @@ Public Class TestForm
         End If
         MessageBox.Show(msg & " / " & DataGridView2.CurrentCell.Value, "Current Cell")
     End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+
+        Try
+            Dim rq = Net.WebRequest.Create("http://dnsoft.me/ACPData/ACData1410/aiten.png")
+            rq.Timeout = 5000
+            rq.GetResponse()
+        Catch ex As Exception
+            MsgBox("ex code : " & ex.HResult & " / ex massage : " & ex.Message)
+        End Try
+    End Sub
 End Class
 
 Public Class JSON

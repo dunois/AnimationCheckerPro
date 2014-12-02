@@ -44,7 +44,7 @@ Partial Class ImportantNotice
         '
         Me.NoticeLabel.Location = New System.Drawing.Point(35, 50)
         Me.NoticeLabel.Name = "NoticeLabel"
-        Me.NoticeLabel.Size = New System.Drawing.Size(406, 249)
+        Me.NoticeLabel.Size = New System.Drawing.Size(430, 249)
         Me.NoticeLabel.TabIndex = 1
         Me.NoticeLabel.Text = "Loading"
         '

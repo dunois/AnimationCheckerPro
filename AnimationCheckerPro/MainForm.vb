@@ -6,7 +6,7 @@ Public Class MainForm
 
     Public ACDataFolder As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData
     Dim ProjectLoadingFaild As Boolean = False
-    Public Version As Double = 1.33
+    Public Version As Double = 1.341
     Dim REG As RegistryKey = Registry.LocalMachine
     Public UserBrowser As String
     Dim RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
@@ -37,6 +37,7 @@ Public Class MainForm
     Public PingTestStatus = 0
     Public SearchLink As String = ""
     Public SubLink As String = ""
+    Dim ImageUrl As String = ""
     '필요 구분 선언
     Public Function INIRead(ByVal Session As String, ByVal KeyValue As String, ByVal INIFILE As String) As String
         Dim s As New String("", 1024)
@@ -167,7 +168,7 @@ Public Class MainForm
         End If
     End Sub
     Public Sub ACListDownload()
-        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
+        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage & "\\List", True)
         Dim getDoubleListCheck As Integer = INIRead("System", "DoubleList", ACDataFolder & "\Config.ini")
         Dim getACPMonth As String = INIRead("System", "ProList", ACDataFolder & "\Config.ini")
         Dim getOlAMonth As String = INIRead("System", "OldList", ACDataFolder & "\Config.ini")
@@ -193,18 +194,18 @@ Public Class MainForm
         End If
     End Sub
     Public Sub SettingApply()
-        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
-        Dim getMode As Integer = regkey.GetValue("ModeType", 1)
-        Dim getButtonAct As Integer = regkey.GetValue("ButtonActSet", 0)
-        Dim SkinUseCheck As Integer = regkey.GetValue("SkinUse", 0)
-        Dim ImageMode As Integer = regkey.GetValue("ImageMode", 0)
+        Dim SystemSet As RegistryKey = REG.OpenSubKey(RegStorage & "\System", True)
+        Dim SkinSet As RegistryKey = REG.OpenSubKey(RegStorage & "\\Skin")
+        Dim getMode As Integer = SystemSet.GetValue("ModeType", 1)
+        Dim getButtonAct As Integer = SystemSet.GetValue("ButtonActSet", 0)
+        Dim SkinUseCheck As Integer = SystemSet.GetValue("SkinUse", 0)
+        Dim ImageMode As Integer = SystemSet.GetValue("ImageMode", 0)
         Dim ScreenWidth As String = Screen.PrimaryScreen.WorkingArea.Size.Width
         Dim ScreenHeight As String = Screen.PrimaryScreen.WorkingArea.Size.Height + 20
         MainPanel.Visible = True
         '스킨 적용 시작
         If SkinUseCheck = 1 Then
-            regkey = REG.OpenSubKey(RegStorage & "\\Skin")
-            Dim SkinLocation As String = regkey.GetValue("SkinLocation")
+            Dim SkinLocation As String = SkinSet.GetValue("SkinLocation")
             If My.Computer.FileSystem.FileExists(SkinLocation) Then
                 SkinPanel.BackgroundImage = Image.FromFile(SkinLocation)
             Else
@@ -247,7 +248,7 @@ Public Class MainForm
         End If
         '프로그램 모드 적용 종료
         '트레이 모드 적용 시작
-        Dim getTrayStatus As Integer = regkey.GetValue("SystemTrayType", 3)
+        Dim getTrayStatus As Integer = SystemSet.GetValue("SystemTrayType", 3)
         If getTrayStatus = 0 Then
             NotifyIcon.Visible = True
         End If
@@ -271,7 +272,8 @@ Public Class MainForm
         Else
 
         End If
-        Dim NoticeRecvCheck As Integer = regkey.GetValue("NoticeReceive", 0)
+        Dim SystemSet As RegistryKey = REG.OpenSubKey(RegStorage & "\\System", True)
+        Dim NoticeRecvCheck As Integer = SystemSet.GetValue("NoticeReceive", 0)
         If NoticeRecvCheck = 0 Then
             If My.Computer.FileSystem.FileExists(ACDataFolder & "\Notice.ini") Then
                 My.Computer.FileSystem.DeleteFile(ACDataFolder & "\Notice.ini")
@@ -332,8 +334,18 @@ Public Class MainForm
         Else
             If REG.OpenSubKey(RegStorage) Is Nothing Then
                 REG.CreateSubKey(RegStorage)
-            Else
-
+            End If
+            If REG.OpenSubKey(RegStorage & "\\System") Is Nothing Then
+                REG.CreateSubKey(RegStorage & "\\System")
+            End If
+            If REG.OpenSubKey(RegStorage & "\\List") Is Nothing Then
+                REG.CreateSubKey(RegStorage & "\\List")
+            End If
+            If REG.OpenSubKey(RegStorage & "\\Search") Is Nothing Then
+                REG.CreateSubKey(RegStorage & "\\Search")
+            End If
+            If REG.OpenSubKey(RegStorage & "\\Skin\\Download") Is Nothing Then
+                REG.CreateSubKey(RegStorage & "\\Skin\\Download")
             End If
             Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
             regkey.SetValue("CurrentProgramVersion", Version, RegistryValueKind.String)
@@ -379,51 +391,54 @@ Public Class MainForm
     Private Sub ErrorCloseButton_Click(sender As Object, e As EventArgs) Handles ErrorCloseButton.Click
         End
     End Sub
-    Private Sub AnimationListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AnimationListBox.SelectedIndexChanged
-        Dim getDN As Integer = WeekComboBox.SelectedIndex + 1
-        Dim getSelectedItem As Integer = AnimationListBox.SelectedIndex + 1
-        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
+    Public Sub ModeApply()
+        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage & "\\System")
         Dim getMode As Integer = regkey.GetValue("ModeType", "1")
-        If getMode = 1 And ScreenNotSupport = False Then '모드 처리
-            If Me.Width = 1370 Then
-
-            Else
+        If ScreenNotSupport = True Then
+            ResizeMode = True
+            Me.Width = 310
+            ResizeMode = False
+        Else
+            If getMode = 1 Then
                 ResizeMode = True
                 Me.Width = 1370
                 ResizeMode = False
-            End If
-        ElseIf getMode = 0 Or ScreenNotSupport = True Then
-            If Me.Width = 1370 Then
+            ElseIf getMode = 0 Then
                 ResizeMode = True
                 Me.Width = 310
                 ResizeMode = False
             End If
         End If
-        If AnimationListBox.SelectedIndex = -1 Then
-            SearchListBox.Items.Clear()
-            SubListBox.Items.Clear()
-            SearchListBox.Items.Add("애니메이션을 선택하세요")
-            SubListBox.Items.Add("애니메이션을 선택하세요")
-            NameLabel.Text = "애니메이션을 선택하세요"
-        Else
-            SearchListBox.Items.Clear()
-            SubListBox.Items.Clear()
+    End Sub
+    Public Sub AniListReading(ByVal Type As String)
+        Dim getSelectedItem As Integer = AnimationListBox.SelectedIndex + 1
+        Dim SystemSet As RegistryKey = REG.OpenSubKey(RegStorage & "\\System", True)
+        Dim getImgFilter As Integer = SystemSet.GetValue("ImageFiltering", 0)
+        If Type = "t,img" Then
+            StillCutPictureBox.Image = Nothing
+            StillCutPictureBox.Width = 910
+            StillCutPictureBox.Height = 420
+            ImageErrorLabel.Visible = False
             Dim getTime As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "Time", ACDataFolder & "\AnimationCheckerProList.ini")
             Dim getImageType As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "PictureType", ACDataFolder & "\AnimationCheckerProList.ini")
             Dim getImageUrl As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "PictureUrl", ACDataFolder & "\AnimationCheckerProList.ini")
-            Dim FinalUrl As String = ""
+            Dim getImageFilterRate As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "PictureRate", ACDataFolder & "\AnimationCheckerProList.ini")
             If getImageType = 0 Then
-                FinalUrl = "http://gkskvhtm403.cafe24.com/" & getImageUrl
+                ImageUrl = "http://gkskvhtm403.cafe24.com/" & getImageUrl
             End If
-            StillCutPictureBox.ImageLocation = FinalUrl
-            StillCutHideButton.Enabled = True
-            ShowLargeImageButton.Enabled = True
+            If getImgFilter = 1 Then
+                If getImageFilterRate = "1" Then
+                    ImageShowButton.Visible = True
+                Else
+                    ImageShowButton.Visible = False
+                    ImageGet()
+                End If
+            Else
+                ImageGet()
+            End If
             OnAirTimeLabel.Text = getTime
-            SearchButton.Enabled = False
-            SubLinkButton.Enabled = False
-            NameLabel.Text = AnimationListBox.SelectedItem
+        ElseIf Type = "sub" Then
             Dim getSubNumber As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "SubNumber", ACDataFolder & "\AnimationCheckerProList.ini")
-            Dim getSearchNumber As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "SearchNumber", ACDataFolder & "\AnimationCheckerProList.ini")
             If getSubNumber = 0 Then
                 SubListBox.Items.Add("등록된 자막 제작자가 없습니다.")
             Else
@@ -436,6 +451,9 @@ Public Class MainForm
                     End If
                 Next
             End If
+        ElseIf Type = "search" Then
+            Dim getDN As Integer = WeekComboBox.SelectedIndex + 1
+            Dim getSearchNumber As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "SearchNumber", ACDataFolder & "\AnimationCheckerProList.ini")
             If getSearchNumber = 0 Then
                 SearchListBox.Items.Add("항목이 없습니다.")
             Else
@@ -455,6 +473,41 @@ Public Class MainForm
                     End If
                 Next
             End If
+        End If
+    End Sub
+    Private Sub ImageGet()
+        Try
+            Dim rq = Net.WebRequest.Create(ImageUrl)
+            rq.Timeout = 5000
+            rq.GetResponse()
+            ImageErrorLabel.Visible = False
+            StillCutPictureBox.ImageLocation = ImageUrl
+            StillCutHideButton.Enabled = True
+            ShowLargeImageButton.Enabled = True
+            rq.Abort()
+        Catch ex As Exception
+            ImageErrorLabel.Visible = True
+            StillCutHideButton.Enabled = False
+            ShowLargeImageButton.Enabled = False
+        End Try
+    End Sub
+    Private Sub AnimationListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AnimationListBox.SelectedIndexChanged
+        If AnimationListBox.SelectedIndex = -1 Then
+            SearchListBox.Items.Clear()
+            SubListBox.Items.Clear()
+            SearchListBox.Items.Add("애니메이션을 선택하세요")
+            SubListBox.Items.Add("애니메이션을 선택하세요")
+            NameLabel.Text = "애니메이션을 선택하세요"
+        Else
+            SearchListBox.Items.Clear()
+            SubListBox.Items.Clear()
+            SearchButton.Enabled = False
+            SubLinkButton.Enabled = False
+            NameLabel.Text = AnimationListBox.SelectedItem
+            ModeApply()
+            AniListReading("t,img")
+            AniListReading("sub")
+            AniListReading("search")
         End If
     End Sub
     Private Sub WeekComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles WeekComboBox.SelectedIndexChanged
@@ -477,7 +530,7 @@ Public Class MainForm
         End If
     End Sub
     Public Sub GetSearchLink()
-        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
+        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage & "\\Search")
         If SearchListBox.SelectedIndex = -1 Or SearchListBox.SelectedItem.ToString = "애니메이션을 선택하세요" Or SearchListBox.SelectedItem.ToString = "항목이 없습니다." Then
 
         Else
@@ -497,7 +550,7 @@ Public Class MainForm
                 Dim getMinSize As String = regkey.GetValue("TTMinSize", "")
                 Dim getSubmitter As String = regkey.GetValue("TTSubmitter", "")
                 Dim SearchEngine As String = "http://tokyotosho.info/search.php?terms="
-                SearchLink = SearchEngine & getString & "&type=" & getSearchCat & "&size_min=" & getMinSize & "size_max=" & getMaxSize & "&username=" & getSubmitter
+                SearchLink = SearchEngine & getString & "&type=" & getSearchCat & "&size_min=" & getMinSize & "&size_max=" & getMaxSize & "&username=" & getSubmitter
             ElseIf getSearchEngineType = 2 Then 'Leopard
                 Dim getString As String = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Search" & getSelectedSearchItem & "String", ACDataFolder & "\AnimationCheckerProList.ini")
                 Dim SearchEngine As String = "http://leopard-raws.org/index.php?search="
@@ -521,7 +574,7 @@ Public Class MainForm
         If SearchListBox.SelectedIndex = -1 Or SearchListBox.SelectedItem = "애니메이션을 선택하세요" Or SearchListBox.SelectedItem = "항목이 없습니다." Then
 
         Else
-            Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
+            Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage & "\\System")
             Dim getButtonAct As Integer = regkey.GetValue("ButtonActSet", 0)
             If ProgramMode = 0 Or getButtonAct = 1 Then
                 GetSearchLink()
@@ -536,7 +589,7 @@ Public Class MainForm
         If SubListBox.SelectedIndex = -1 Or SubListBox.SelectedItem = "애니메이션을 선택하세요" Or SubListBox.SelectedItem = "등록된 자막 제작자가 없습니다." Then
 
         Else
-            Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
+            Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage & "\\System")
             Dim getButtonAct As Integer = regkey.GetValue("ButtonActSet", 0)
             If ProgramMode = 0 Or getButtonAct = 1 Then
                 GetSubLink()
@@ -558,7 +611,6 @@ Public Class MainForm
     End Sub
 
     Private Sub SearchListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SearchListBox.SelectedIndexChanged
-        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
         If ProgramMode = 1 Then
             If SearchListBox.SelectedIndex = -1 Or SearchListBox.SelectedItem = "항목이 없습니다." Or SearchListBox.SelectedItem = "애니메이션을 선택하세요" Then
                 SearchButton.Enabled = False
@@ -571,7 +623,6 @@ Public Class MainForm
     End Sub
 
     Private Sub SubListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SubListBox.SelectedIndexChanged
-        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
         If ProgramMode = 1 Then
             If SubListBox.SelectedIndex = -1 Or SubListBox.SelectedItem = "등록된 자막 제작자가 없습니다." Or SubListBox.SelectedItem = "애니메이션을 선택하세요" Then
                 SubLinkButton.Enabled = False
@@ -622,7 +673,7 @@ Public Class MainForm
     End Sub
 
     Private Sub MainForm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
+        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage & "\\System")
         Dim getCloseTray As Integer = regkey.GetValue("SystemTrayType", 3)
         Dim getCloseAlert As Integer = regkey.GetValue("CloseAlert", 0)
         If getCloseTray = 2 Then
@@ -669,12 +720,12 @@ Public Class MainForm
     End Sub
 
     Private Sub MainForm_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
-        If REG.OpenSubKey(RegStorage) Is Nothing Then
-            REG.CreateSubKey(RegStorage)
+        If REG.OpenSubKey(RegStorage & "\\System") Is Nothing Then
+            REG.CreateSubKey(RegStorage & "\\System")
         Else
 
         End If
-        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage)
+        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage & "\\System")
         Dim getMinimumTray As Integer = regkey.GetValue("SystemTrayType", 3)
         If getMinimumTray = 1 Then
             If SystemTrayed = False And ResizeMode = False And LoadResize = 0 Then
@@ -808,5 +859,10 @@ Public Class MainForm
     Private Sub TestToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TestToolStripMenuItem.Click
         TestForm.ShowDialog()
 
+    End Sub
+
+    Private Sub ImageShowButton_Click(sender As Object, e As EventArgs) Handles ImageShowButton.Click
+        ImageGet()
+        ImageShowButton.Visible = False
     End Sub
 End Class

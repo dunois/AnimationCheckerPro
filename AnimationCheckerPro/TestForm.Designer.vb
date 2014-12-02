@@ -32,6 +32,7 @@ Partial Class TestForm
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.ListBox2 = New System.Windows.Forms.ListBox()
         Me.ListBox1 = New System.Windows.Forms.ListBox()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -113,6 +114,7 @@ Partial Class TestForm
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.Button2)
         Me.GroupBox2.Controls.Add(Me.WebRQTLabel)
         Me.GroupBox2.Controls.Add(Me.Button1)
         Me.GroupBox2.Dock = System.Windows.Forms.DockStyle.Top
@@ -155,6 +157,15 @@ Partial Class TestForm
         Me.ListBox1.Size = New System.Drawing.Size(504, 214)
         Me.ListBox1.TabIndex = 0
         '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(203, 22)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 27)
+        Me.Button2.TabIndex = 4
+        Me.Button2.Text = "Img Test"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
         'TestForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -188,4 +199,5 @@ Partial Class TestForm
     Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
     Friend WithEvents ListBox2 As System.Windows.Forms.ListBox
     Friend WithEvents ListBox1 As System.Windows.Forms.ListBox
+    Friend WithEvents Button2 As System.Windows.Forms.Button
 End Class

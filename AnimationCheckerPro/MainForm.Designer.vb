@@ -34,6 +34,8 @@ Partial Class MainForm
         Me.NoticeLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.SkinPanel = New System.Windows.Forms.Panel()
         Me.ImagePanel = New System.Windows.Forms.Panel()
+        Me.ImageShowButton = New System.Windows.Forms.Button()
+        Me.ImageErrorLabel = New System.Windows.Forms.Label()
         Me.OnAirTimeLabel = New System.Windows.Forms.Label()
         Me.OnAirTitleLabel = New System.Windows.Forms.Label()
         Me.StillCutPictureBox = New System.Windows.Forms.PictureBox()
@@ -133,7 +135,7 @@ Partial Class MainForm
         Me.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.MainPanel.Location = New System.Drawing.Point(0, 0)
         Me.MainPanel.Name = "MainPanel"
-        Me.MainPanel.Size = New System.Drawing.Size(488, 682)
+        Me.MainPanel.Size = New System.Drawing.Size(472, 682)
         Me.MainPanel.TabIndex = 5
         Me.MainPanel.Visible = False
         '
@@ -142,7 +144,7 @@ Partial Class MainForm
         Me.ProgramStatus.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NoticeLabel})
         Me.ProgramStatus.Location = New System.Drawing.Point(0, 660)
         Me.ProgramStatus.Name = "ProgramStatus"
-        Me.ProgramStatus.Size = New System.Drawing.Size(488, 22)
+        Me.ProgramStatus.Size = New System.Drawing.Size(472, 22)
         Me.ProgramStatus.TabIndex = 6
         Me.ProgramStatus.Text = "StatusStrip1"
         '
@@ -174,6 +176,8 @@ Partial Class MainForm
         '
         Me.ImagePanel.AutoScroll = True
         Me.ImagePanel.BackColor = System.Drawing.Color.Transparent
+        Me.ImagePanel.Controls.Add(Me.ImageShowButton)
+        Me.ImagePanel.Controls.Add(Me.ImageErrorLabel)
         Me.ImagePanel.Controls.Add(Me.OnAirTimeLabel)
         Me.ImagePanel.Controls.Add(Me.OnAirTitleLabel)
         Me.ImagePanel.Controls.Add(Me.StillCutPictureBox)
@@ -181,6 +185,26 @@ Partial Class MainForm
         Me.ImagePanel.Name = "ImagePanel"
         Me.ImagePanel.Size = New System.Drawing.Size(944, 474)
         Me.ImagePanel.TabIndex = 8
+        '
+        'ImageShowButton
+        '
+        Me.ImageShowButton.Location = New System.Drawing.Point(438, 233)
+        Me.ImageShowButton.Name = "ImageShowButton"
+        Me.ImageShowButton.Size = New System.Drawing.Size(88, 23)
+        Me.ImageShowButton.TabIndex = 12
+        Me.ImageShowButton.Text = "이미지 보기"
+        Me.ImageShowButton.UseVisualStyleBackColor = True
+        Me.ImageShowButton.Visible = False
+        '
+        'ImageErrorLabel
+        '
+        Me.ImageErrorLabel.AutoSize = True
+        Me.ImageErrorLabel.Location = New System.Drawing.Point(370, 237)
+        Me.ImageErrorLabel.Name = "ImageErrorLabel"
+        Me.ImageErrorLabel.Size = New System.Drawing.Size(215, 15)
+        Me.ImageErrorLabel.TabIndex = 11
+        Me.ImageErrorLabel.Text = "서버에 사진이 저장되어있지 않습니다."
+        Me.ImageErrorLabel.Visible = False
         '
         'OnAirTimeLabel
         '
@@ -284,7 +308,7 @@ Partial Class MainForm
         Me.MainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WeekComboBox, Me.OptionButton, Me.ToolMenuButton})
         Me.MainMenu.Location = New System.Drawing.Point(0, 0)
         Me.MainMenu.Name = "MainMenu"
-        Me.MainMenu.Size = New System.Drawing.Size(488, 25)
+        Me.MainMenu.Size = New System.Drawing.Size(472, 25)
         Me.MainMenu.TabIndex = 4
         Me.MainMenu.Text = "ToolStrip1"
         '
@@ -401,6 +425,7 @@ Partial Class MainForm
         '
         Me.AnimationListBox.FormattingEnabled = True
         Me.AnimationListBox.ItemHeight = 15
+        Me.AnimationListBox.Items.AddRange(New Object() {"리스트를 로딩중입니다."})
         Me.AnimationListBox.Location = New System.Drawing.Point(9, 38)
         Me.AnimationListBox.Name = "AnimationListBox"
         Me.AnimationListBox.Size = New System.Drawing.Size(278, 244)
@@ -471,7 +496,7 @@ Partial Class MainForm
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(488, 682)
+        Me.ClientSize = New System.Drawing.Size(472, 682)
         Me.Controls.Add(Me.MainPanel)
         Me.Controls.Add(Me.ErrorCloseButton)
         Me.Controls.Add(Me.DownloadStatusLabel)
@@ -549,4 +574,6 @@ Partial Class MainForm
     Friend WithEvents AnimationSaveFolderOpenMenu As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PingBackgroundWorker As System.ComponentModel.BackgroundWorker
     Friend WithEvents TestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ImageErrorLabel As System.Windows.Forms.Label
+    Friend WithEvents ImageShowButton As System.Windows.Forms.Button
 End Class

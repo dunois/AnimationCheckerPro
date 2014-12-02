@@ -96,6 +96,8 @@ Partial Class ProgramOption
         Me.OptionSaveButton = New System.Windows.Forms.Button()
         Me.FormCloseButton = New System.Windows.Forms.Button()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.ImageFilteringLabel = New System.Windows.Forms.Label()
+        Me.ImageFilteringComboBox = New System.Windows.Forms.ComboBox()
         Me.OptionTab.SuspendLayout()
         Me.ProgramConfigPanel.SuspendLayout()
         Me.ListInfoPanel.SuspendLayout()
@@ -186,6 +188,8 @@ Partial Class ProgramOption
         '
         'ProgramConfigPanel
         '
+        Me.ProgramConfigPanel.Controls.Add(Me.ImageFilteringComboBox)
+        Me.ProgramConfigPanel.Controls.Add(Me.ImageFilteringLabel)
         Me.ProgramConfigPanel.Controls.Add(Me.ImageModeComboBox)
         Me.ProgramConfigPanel.Controls.Add(Me.ImageModeLabel)
         Me.ProgramConfigPanel.Controls.Add(Me.NoticeRecvComboBox)
@@ -210,7 +214,7 @@ Partial Class ProgramOption
         Me.ImageModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ImageModeComboBox.FormattingEnabled = True
         Me.ImageModeComboBox.Items.AddRange(New Object() {"원본", "오토 사이즈"})
-        Me.ImageModeComboBox.Location = New System.Drawing.Point(231, 202)
+        Me.ImageModeComboBox.Location = New System.Drawing.Point(231, 182)
         Me.ImageModeComboBox.Name = "ImageModeComboBox"
         Me.ImageModeComboBox.Size = New System.Drawing.Size(140, 23)
         Me.ImageModeComboBox.TabIndex = 17
@@ -218,7 +222,7 @@ Partial Class ProgramOption
         'ImageModeLabel
         '
         Me.ImageModeLabel.AutoSize = True
-        Me.ImageModeLabel.Location = New System.Drawing.Point(129, 205)
+        Me.ImageModeLabel.Location = New System.Drawing.Point(129, 185)
         Me.ImageModeLabel.Name = "ImageModeLabel"
         Me.ImageModeLabel.Size = New System.Drawing.Size(80, 15)
         Me.ImageModeLabel.TabIndex = 16
@@ -229,7 +233,7 @@ Partial Class ProgramOption
         Me.NoticeRecvComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.NoticeRecvComboBox.FormattingEnabled = True
         Me.NoticeRecvComboBox.Items.AddRange(New Object() {"수신함", "수신하지 않음"})
-        Me.NoticeRecvComboBox.Location = New System.Drawing.Point(231, 157)
+        Me.NoticeRecvComboBox.Location = New System.Drawing.Point(231, 142)
         Me.NoticeRecvComboBox.Name = "NoticeRecvComboBox"
         Me.NoticeRecvComboBox.Size = New System.Drawing.Size(140, 23)
         Me.NoticeRecvComboBox.TabIndex = 15
@@ -237,7 +241,7 @@ Partial Class ProgramOption
         'NoticeRecvLabel
         '
         Me.NoticeRecvLabel.AutoSize = True
-        Me.NoticeRecvLabel.Location = New System.Drawing.Point(120, 160)
+        Me.NoticeRecvLabel.Location = New System.Drawing.Point(120, 145)
         Me.NoticeRecvLabel.Name = "NoticeRecvLabel"
         Me.NoticeRecvLabel.Size = New System.Drawing.Size(92, 15)
         Me.NoticeRecvLabel.TabIndex = 14
@@ -248,7 +252,7 @@ Partial Class ProgramOption
         Me.ProgramModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ProgramModeComboBox.FormattingEnabled = True
         Me.ProgramModeComboBox.Items.AddRange(New Object() {"미니 모드", "확장 모드"})
-        Me.ProgramModeComboBox.Location = New System.Drawing.Point(231, 111)
+        Me.ProgramModeComboBox.Location = New System.Drawing.Point(231, 102)
         Me.ProgramModeComboBox.Name = "ProgramModeComboBox"
         Me.ProgramModeComboBox.Size = New System.Drawing.Size(140, 23)
         Me.ProgramModeComboBox.TabIndex = 13
@@ -256,7 +260,7 @@ Partial Class ProgramOption
         'ProgramModeLabel
         '
         Me.ProgramModeLabel.AutoSize = True
-        Me.ProgramModeLabel.Location = New System.Drawing.Point(120, 115)
+        Me.ProgramModeLabel.Location = New System.Drawing.Point(117, 105)
         Me.ProgramModeLabel.Name = "ProgramModeLabel"
         Me.ProgramModeLabel.Size = New System.Drawing.Size(92, 15)
         Me.ProgramModeLabel.TabIndex = 12
@@ -265,7 +269,7 @@ Partial Class ProgramOption
         'AnimationFolderSetButton
         '
         Me.AnimationFolderSetButton.Enabled = False
-        Me.AnimationFolderSetButton.Location = New System.Drawing.Point(345, 306)
+        Me.AnimationFolderSetButton.Location = New System.Drawing.Point(345, 319)
         Me.AnimationFolderSetButton.Name = "AnimationFolderSetButton"
         Me.AnimationFolderSetButton.Size = New System.Drawing.Size(75, 23)
         Me.AnimationFolderSetButton.TabIndex = 11
@@ -274,7 +278,7 @@ Partial Class ProgramOption
         '
         'AnimationFolderTextBox
         '
-        Me.AnimationFolderTextBox.Location = New System.Drawing.Point(65, 307)
+        Me.AnimationFolderTextBox.Location = New System.Drawing.Point(65, 320)
         Me.AnimationFolderTextBox.Name = "AnimationFolderTextBox"
         Me.AnimationFolderTextBox.ReadOnly = True
         Me.AnimationFolderTextBox.Size = New System.Drawing.Size(274, 22)
@@ -283,7 +287,7 @@ Partial Class ProgramOption
         'AnimationFolderSetCheckBox
         '
         Me.AnimationFolderSetCheckBox.AutoSize = True
-        Me.AnimationFolderSetCheckBox.Location = New System.Drawing.Point(37, 282)
+        Me.AnimationFolderSetCheckBox.Location = New System.Drawing.Point(37, 295)
         Me.AnimationFolderSetCheckBox.Name = "AnimationFolderSetCheckBox"
         Me.AnimationFolderSetCheckBox.Size = New System.Drawing.Size(255, 19)
         Me.AnimationFolderSetCheckBox.TabIndex = 9
@@ -293,7 +297,7 @@ Partial Class ProgramOption
         'SplitLabel
         '
         Me.SplitLabel.AutoSize = True
-        Me.SplitLabel.Location = New System.Drawing.Point(4, 244)
+        Me.SplitLabel.Location = New System.Drawing.Point(4, 259)
         Me.SplitLabel.Name = "SplitLabel"
         Me.SplitLabel.Size = New System.Drawing.Size(439, 15)
         Me.SplitLabel.TabIndex = 8
@@ -304,7 +308,7 @@ Partial Class ProgramOption
         Me.CloseAlertComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CloseAlertComboBox.FormattingEnabled = True
         Me.CloseAlertComboBox.Items.AddRange(New Object() {"항상 표시", "표시하지 않음"})
-        Me.CloseAlertComboBox.Location = New System.Drawing.Point(231, 67)
+        Me.CloseAlertComboBox.Location = New System.Drawing.Point(231, 62)
         Me.CloseAlertComboBox.Name = "CloseAlertComboBox"
         Me.CloseAlertComboBox.Size = New System.Drawing.Size(140, 23)
         Me.CloseAlertComboBox.TabIndex = 3
@@ -312,7 +316,7 @@ Partial Class ProgramOption
         'CloseAlertLabel
         '
         Me.CloseAlertLabel.AutoSize = True
-        Me.CloseAlertLabel.Location = New System.Drawing.Point(39, 70)
+        Me.CloseAlertLabel.Location = New System.Drawing.Point(39, 65)
         Me.CloseAlertLabel.Name = "CloseAlertLabel"
         Me.CloseAlertLabel.Size = New System.Drawing.Size(170, 15)
         Me.CloseAlertLabel.TabIndex = 2
@@ -323,7 +327,7 @@ Partial Class ProgramOption
         Me.SystemTrayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.SystemTrayComboBox.FormattingEnabled = True
         Me.SystemTrayComboBox.Items.AddRange(New Object() {"트레이 아이콘 항상 표시", "최소화시 표시", "닫기버튼 클릭시 표시", "표시하지 않음"})
-        Me.SystemTrayComboBox.Location = New System.Drawing.Point(231, 16)
+        Me.SystemTrayComboBox.Location = New System.Drawing.Point(231, 19)
         Me.SystemTrayComboBox.Name = "SystemTrayComboBox"
         Me.SystemTrayComboBox.Size = New System.Drawing.Size(140, 23)
         Me.SystemTrayComboBox.TabIndex = 1
@@ -740,6 +744,25 @@ Partial Class ProgramOption
         '
         Me.Timer1.Interval = 10
         '
+        'ImageFilteringLabel
+        '
+        Me.ImageFilteringLabel.AutoSize = True
+        Me.ImageFilteringLabel.Location = New System.Drawing.Point(117, 223)
+        Me.ImageFilteringLabel.Name = "ImageFilteringLabel"
+        Me.ImageFilteringLabel.Size = New System.Drawing.Size(92, 15)
+        Me.ImageFilteringLabel.TabIndex = 18
+        Me.ImageFilteringLabel.Text = "이미지 필터링 : "
+        '
+        'ImageFilteringComboBox
+        '
+        Me.ImageFilteringComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ImageFilteringComboBox.FormattingEnabled = True
+        Me.ImageFilteringComboBox.Items.AddRange(New Object() {"사용하지 않음", "사용함"})
+        Me.ImageFilteringComboBox.Location = New System.Drawing.Point(231, 220)
+        Me.ImageFilteringComboBox.Name = "ImageFilteringComboBox"
+        Me.ImageFilteringComboBox.Size = New System.Drawing.Size(140, 23)
+        Me.ImageFilteringComboBox.TabIndex = 19
+        '
         'ProgramOption
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
@@ -845,4 +868,6 @@ Partial Class ProgramOption
     Friend WithEvents NTSTLabel As System.Windows.Forms.Label
     Friend WithEvents Timer1 As System.Windows.Forms.Timer
     Friend WithEvents ReTestButton As System.Windows.Forms.Button
+    Friend WithEvents ImageFilteringComboBox As System.Windows.Forms.ComboBox
+    Friend WithEvents ImageFilteringLabel As System.Windows.Forms.Label
 End Class

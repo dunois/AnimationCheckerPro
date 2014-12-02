@@ -7,25 +7,31 @@ Public Class ProgramOption
     Dim REG As RegistryKey = Registry.LocalMachine
     Dim RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
     Dim TestInt As Integer = 0
+    Dim SystemSet As RegistryKey
+    Dim ListSet As RegistryKey
+    Dim SearchSet As RegistryKey
     Private Sub ProgramOption_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim Pregkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
-        Dim SystemTray As Integer = Pregkey.GetValue("SystemTrayType", 3)
-        Dim CloseAlert As Integer = Pregkey.GetValue("CloseAlert", 0)
-        Dim SearchCats As String = Pregkey.GetValue("SearchCat", "1_11")
-        Dim SearchFilter As Integer = Pregkey.GetValue("SearchFilter", 0)
-        Dim AnimationFolderUse As Integer = Pregkey.GetValue("AnimationFolderUse", 0)
-        Dim AnimationFolder As String = Pregkey.GetValue("AnimationFolder")
-        Dim OldListCheck As Integer = Pregkey.GetValue("OldListCheck", 0)
+        SystemSet = REG.OpenSubKey(RegStorage & "\\System", True)
+        ListSet = REG.OpenSubKey(RegStorage & "\\List", True)
+        SearchSet = REG.OpenSubKey(RegStorage & "\\Search", True)
+        Dim SystemTray As Integer = SystemSet.GetValue("SystemTrayType", 3)
+        Dim CloseAlert As Integer = SystemSet.GetValue("CloseAlert", 0)
+        Dim SearchCats As String = SearchSet.GetValue("SearchCat", "1_11")
+        Dim SearchFilter As Integer = SearchSet.GetValue("SearchFilter", 0)
+        Dim AnimationFolderUse As Integer = SystemSet.GetValue("AnimationFolderUse", 0)
+        Dim AnimationFolder As String = SystemSet.GetValue("AnimationFolder")
+        Dim OldListCheck As Integer = ListSet.GetValue("OldListCheck", 0)
         Dim ListDate As String = MainForm.INIRead("System", "ListDate", MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
         Dim ListProducer As String = MainForm.INIRead("System", "ListProducer", MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
-        Dim getMode As Integer = Pregkey.GetValue("ModeType", 1)
-        Dim NoticeRecive As Integer = Pregkey.GetValue("NoticeReceive", 0)
-        Dim ActionSet As Integer = Pregkey.GetValue("ButtonActSet", 0)
-        Dim ImageMode As Integer = Pregkey.GetValue("ImageMode", 0)
-        Dim TTCats As Integer = Pregkey.GetValue("TTSearchCat", 0)
-        Dim TTMin As String = Pregkey.GetValue("TTMinSize", "")
-        Dim TTMax As String = Pregkey.GetValue("TTMaxSize", "")
-        Dim TTSub As String = Pregkey.GetValue("TTSubmitter", "")
+        Dim getMode As Integer = SystemSet.GetValue("ModeType", 1)
+        Dim NoticeRecive As Integer = SystemSet.GetValue("NoticeReceive", 0)
+        Dim ActionSet As Integer = SystemSet.GetValue("ButtonActSet", 0)
+        Dim ImageMode As Integer = SystemSet.GetValue("ImageMode", 0)
+        Dim TTCats As Integer = SearchSet.GetValue("TTSearchCat", 0)
+        Dim TTMin As String = SearchSet.GetValue("TTMinSize", "")
+        Dim TTMax As String = SearchSet.GetValue("TTMaxSize", "")
+        Dim TTSub As String = SearchSet.GetValue("TTSubmitter", "")
+        Dim getImgFilter As Integer = SystemSet.GetValue("ImageFiltering", 0)
         OptionPresetChooseComboBox.SelectedIndex = 0
         SystemTrayComboBox.SelectedIndex = SystemTray
         CloseAlertComboBox.SelectedIndex = CloseAlert
@@ -82,6 +88,7 @@ Public Class ProgramOption
             SubmitterCheckBox.Checked = True
             SubmitterTextBox.Text = TTSub
         End If
+        ImageFilteringComboBox.SelectedIndex = getImgFilter
     End Sub
 
     Private Sub OptionTreeView_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles OptionTreeView.AfterSelect
@@ -142,8 +149,7 @@ Public Class ProgramOption
     End Sub
 
     Private Sub AnimationFolderSetButton_Click(sender As Object, e As EventArgs) Handles AnimationFolderSetButton.Click
-        Dim Pregkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
-        Dim AnimationFolder As Integer = Pregkey.GetValue("AnimationFolderUse", 0)
+        Dim AnimationFolder As Integer = SystemSet.GetValue("AnimationFolderUse", 0)
         If AnimationFolder = 0 Then
             Dim OpenFolderDialog As New FolderBrowserDialog
             If (OpenFolderDialog.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK) Then
@@ -165,36 +171,35 @@ Public Class ProgramOption
     End Sub
 
     Private Sub OptionSaveButton_Click(sender As Object, e As EventArgs) Handles OptionSaveButton.Click
-        Dim Pregkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
-        Pregkey.SetValue("SystemTrayType", SystemTrayComboBox.SelectedIndex, RegistryValueKind.String)
-        Pregkey.SetValue("CloseAlert", CloseAlertComboBox.SelectedIndex, RegistryValueKind.String)
+        SystemSet.SetValue("SystemTrayType", SystemTrayComboBox.SelectedIndex, RegistryValueKind.String)
+        SystemSet.SetValue("CloseAlert", CloseAlertComboBox.SelectedIndex, RegistryValueKind.String)
         If SearchCatComboBox.SelectedIndex = 0 Then
-            Pregkey.SetValue("SearchCat", "1_11", RegistryValueKind.String)
+            SearchSet.SetValue("SearchCat", "1_11", RegistryValueKind.String)
         ElseIf SearchCatComboBox.SelectedIndex = 1 Then
-            Pregkey.SetValue("SearchCat", "0_0", RegistryValueKind.String)
+            SearchSet.SetValue("SearchCat", "0_0", RegistryValueKind.String)
         ElseIf SearchCatComboBox.SelectedIndex = 2 Then
-            Pregkey.SetValue("SearchCat", "1_0", RegistryValueKind.String)
+            SearchSet.SetValue("SearchCat", "1_0", RegistryValueKind.String)
         ElseIf SearchCatComboBox.SelectedIndex = 3 Then
-            Pregkey.SetValue("SearchCat", "3_0", RegistryValueKind.String)
+            SearchSet.SetValue("SearchCat", "3_0", RegistryValueKind.String)
         ElseIf SearchCatComboBox.SelectedIndex = 4 Then
-            Pregkey.SetValue("SearchCat", "3_14", RegistryValueKind.String)
+            SearchSet.SetValue("SearchCat", "3_14", RegistryValueKind.String)
         ElseIf SearchCatComboBox.SelectedIndex = 5 Then
-            Pregkey.SetValue("SearchCat", "3_15", RegistryValueKind.String)
+            SearchSet.SetValue("SearchCat", "3_15", RegistryValueKind.String)
         End If
-        Pregkey.SetValue("SearchFilter", SearchFilterComboBox.SelectedIndex, RegistryValueKind.String)
+        SystemSet.SetValue("SearchFilter", SearchFilterComboBox.SelectedIndex, RegistryValueKind.String)
         If AnimationFolderSetCheckBox.Checked = True Then
             If AnimationFolderTextBox.Text = "" Then
 
             Else
-                Pregkey.SetValue("AnimationFolderUse", 1, RegistryValueKind.String)
-                Pregkey.SetValue("AnimationFolder", AnimationFolderTextBox.Text)
+                SystemSet.SetValue("AnimationFolderUse", 1, RegistryValueKind.String)
+                SystemSet.SetValue("AnimationFolder", AnimationFolderTextBox.Text)
             End If
         End If
-        Pregkey.SetValue("OldListCheck", OldListComboBox.SelectedIndex, RegistryValueKind.String)
-        Pregkey.SetValue("ModeType", ProgramModeComboBox.SelectedIndex, RegistryValueKind.String)
+        ListSet.SetValue("OldListCheck", OldListComboBox.SelectedIndex, RegistryValueKind.String)
+        SystemSet.SetValue("ModeType", ProgramModeComboBox.SelectedIndex, RegistryValueKind.String)
         MainForm.ProgramMode = ProgramModeComboBox.SelectedIndex
-        Pregkey.SetValue("NoticeReceive", NoticeRecvComboBox.SelectedIndex, RegistryValueKind.String)
-        Pregkey.SetValue("ButtonActSet", ButtonActionComboBox.SelectedIndex, RegistryValueKind.String)
+        SystemSet.SetValue("NoticeReceive", NoticeRecvComboBox.SelectedIndex, RegistryValueKind.String)
+        SystemSet.SetValue("ButtonActSet", ButtonActionComboBox.SelectedIndex, RegistryValueKind.String)
         If ButtonActionComboBox.SelectedIndex = 0 Then
             MainForm.SearchButton.Visible = True
             MainForm.SubLinkButton.Visible = True
@@ -202,30 +207,31 @@ Public Class ProgramOption
             MainForm.SearchButton.Visible = False
             MainForm.SubLinkButton.Visible = False
         End If
-        Pregkey.SetValue("ImageMode", ImageModeComboBox.SelectedIndex, RegistryValueKind.String)
+        SystemSet.SetValue("ImageMode", ImageModeComboBox.SelectedIndex, RegistryValueKind.String)
         If TTCatComboBox.SelectedIndex = 0 Then
-            Pregkey.SetValue("TTSearchCat", 0, RegistryValueKind.String)
+            SearchSet.SetValue("TTSearchCat", 0, RegistryValueKind.String)
         ElseIf TTCatComboBox.SelectedIndex = 1 Then
-            Pregkey.SetValue("TTSearchCat", 1, RegistryValueKind.String)
+            SearchSet.SetValue("TTSearchCat", 1, RegistryValueKind.String)
         ElseIf TTCatComboBox.SelectedIndex = 2 Then
-            Pregkey.SetValue("TTSearchCat", 2, RegistryValueKind.String)
+            SearchSet.SetValue("TTSearchCat", 2, RegistryValueKind.String)
         ElseIf TTCatComboBox.SelectedIndex = 3 Then
-            Pregkey.SetValue("TTSearchCat", 5, RegistryValueKind.String)
+            SearchSet.SetValue("TTSearchCat", 5, RegistryValueKind.String)
         ElseIf TTCatComboBox.SelectedIndex = 4 Then
-            Pregkey.SetValue("TTSearchCat", 7, RegistryValueKind.String)
+            SearchSet.SetValue("TTSearchCat", 7, RegistryValueKind.String)
         End If
         If TTSizeCheckBox.Checked = True Then
-            Pregkey.SetValue("TTMinSize", MinSizeTextBox.Text, RegistryValueKind.String)
-            Pregkey.SetValue("TTMaxSize", MaxSizeTextBox.Text, RegistryValueKind.String)
+            SearchSet.SetValue("TTMinSize", MinSizeTextBox.Text, RegistryValueKind.String)
+            SearchSet.SetValue("TTMaxSize", MaxSizeTextBox.Text, RegistryValueKind.String)
         Else
-            Pregkey.SetValue("TTMinSize", "", RegistryValueKind.String)
-            Pregkey.SetValue("TTMaxSize", "", RegistryValueKind.String)
+            SearchSet.SetValue("TTMinSize", "", RegistryValueKind.String)
+            SearchSet.SetValue("TTMaxSize", "", RegistryValueKind.String)
         End If
         If SubmitterCheckBox.Checked = True Then
-            Pregkey.SetValue("TTSubmitter", SubmitterTextBox.Text, RegistryValueKind.String)
+            SearchSet.SetValue("TTSubmitter", SubmitterTextBox.Text, RegistryValueKind.String)
         Else
-            Pregkey.SetValue("TTSubmitter", "", RegistryValueKind.String)
+            SearchSet.SetValue("TTSubmitter", "", RegistryValueKind.String)
         End If
+        SystemSet.SetValue("ImageFiltering", ImageFilteringComboBox.SelectedIndex, RegistryValueKind.String)
         MsgBox("저장되었습니다. 일부 옵션은 프로그램 재시작 후 적용됩니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "완료")
         Me.Close()
     End Sub
