@@ -6,7 +6,7 @@ Public Class MainForm
 
     Public ACDataFolder As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData
     Dim ProjectLoadingFaild As Boolean = False
-    Public Version As Double = 1.341
+    Public Version As Double = 1.342
     Dim REG As RegistryKey = Registry.LocalMachine
     Public UserBrowser As String
     Dim RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
@@ -351,6 +351,7 @@ Public Class MainForm
             regkey.SetValue("CurrentProgramVersion", Version, RegistryValueKind.String)
             regkey.SetValue("Location", My.Application.Info.DirectoryPath & "\")
             FormLoadCompleteTimer.Enabled = True
+            Me.StartPosition = FormStartPosition.CenterScreen
         End If
     End Sub
     Private Sub FormLoadCompleteTimer_Tick(sender As Object, e As EventArgs) Handles FormLoadCompleteTimer.Tick
@@ -829,7 +830,7 @@ Public Class MainForm
                 Dim rq = Net.WebRequest.Create(WebString)
                 Dim Timewatch As New Stopwatch
                 Timewatch.Start()
-                rq.Timeout = 5000 '//5초이내 응답이없으면 실패로 간주 
+                rq.Timeout = 10000 '//5초이내 응답이없으면 실패로 간주 
                 rq.GetResponse()
                 If i = 1 Then
                     NTStatus = "접속성공"
@@ -844,12 +845,16 @@ Public Class MainForm
                 Timewatch.Stop()
                 Timewatch.Reset()
             Catch ex As Exception
+                Dim ErrorMsg As String = ""
+                If ex.Message = "작업 시간이 초과되었습니다." Then
+                    ErrorMsg = "접속 실패"
+                End If
                 If i = 1 Then
-                    NTStatus = ex.Message
+                    NTStatus = ErrorMsg
                 ElseIf i = 2 Then
-                    TTStatus = ex.Message
+                    TTStatus = ErrorMsg
                 ElseIf i = 3 Then
-                    GStatus = ex.Message
+                    GStatus = ErrorMsg
                 End If
             End Try
         Next
