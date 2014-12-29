@@ -15,6 +15,7 @@ Public Class MainForm
     Dim getUserBrowser As String
     Public WeekdayName As String
     Dim TodayDate = Weekday(My.Computer.Clock.LocalTime)
+    Dim TimeInfo As Date = Date.Now
     Dim ResizeMode As Boolean = False
     Dim LoadResize As Integer = 0
     Public LoadedListStatus As Integer = 0
@@ -40,6 +41,7 @@ Public Class MainForm
     Dim ImageUrl As String = ""
     Dim GetQMonth As String = ""
     Public ListQuater As String = ""
+    Dim ListDownloadError As Boolean = False
     '필요 구분 선언
     Public Function INIRead(ByVal Session As String, ByVal KeyValue As String, ByVal INIFILE As String) As String
         Dim s As New String("", 1024)
@@ -168,10 +170,19 @@ Public Class MainForm
             My.Computer.FileSystem.DeleteFile(ACDataFolder & "\AnimationCheckerProList.ini")
         End If
         getListQuater()
-        GetFileFromUrl("http://dnsoft.me/ACPData/ACP" & ListQuater & ".rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
+        Try
+            Dim rq = Net.WebRequest.Create("http://dnsoft.me/ACPData/ACP" & ListQuater & ".rev.ini")
+            rq.Timeout = 5000
+            rq.GetResponse()
+            GetFileFromUrl("http://dnsoft.me/ACPData/ACP" & ListQuater & ".rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
+            ListDownloadError = False
+        Catch ex As Exception
+            MsgBox("서버에 지정된 리스트(" & TimeInfo.ToString("yy") & "년 " & GetQMonth & "월" & ")가 존재하지 않아 이전 리스트를 다운로드 합니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "리스트 존재하지 않음")
+            GetFileFromUrl("http://dnsoft.me/ACPData/AnimationCheckerProList.rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
+            ListDownloadError = True
+        End Try
     End Sub
     Public Sub getListQuater()
-        Dim TodayDate As Date = Date.Now
         If Today.ToString("MM") = "01" Or Today.ToString("MM") = "02" Or Today.ToString("MM") = "03" Then
             GetQMonth = "01"
         ElseIf Today.ToString("MM") = "04" Or Today.ToString("MM") = "05" Or Today.ToString("MM") = "06" Then
@@ -181,7 +192,7 @@ Public Class MainForm
         ElseIf Today.ToString("MM") = "10" Or Today.ToString("MM") = "11" Or Today.ToString("MM") = "12" Then
             GetQMonth = "10"
         End If
-        ListQuater = TodayDate.ToString("yy") & GetQMonth
+        ListQuater = TimeInfo.ToString("yy") & GetQMonth
     End Sub
     Public Sub SettingApply()
         Dim SystemSet As RegistryKey = REG.OpenSubKey(RegStorage & "\System", True)
@@ -283,6 +294,12 @@ Public Class MainForm
             NoticeLabel.Text = ""
         End If
         WeekComboBox.SelectedIndex = TodayDate - 1
+        If ListDownloadError = True Then
+            Dim DownloadListYear As String = INIRead("System", "ListTargetYear", ACDataFolder & "\AnimationCheckerProList.ini")
+            Dim DownloadListMonth As String = INIRead("System", "ListTargetMonth", ACDataFolder & "\AnimationCheckerProList.ini")
+            Dim DownloadListQuarter As String = INIRead("System", "ListTargetQuarter", ACDataFolder & "\AnimationCheckerProList.ini")
+            MsgBox(DownloadListYear & "년 " & DownloadListMonth & "월 " & DownloadListQuarter & "분기 리스트를 다운로드 했습니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "확인")
+        End If
     End Sub
     Public Sub Listloading()
         Dim getWeekdayName As Integer = WeekComboBox.SelectedIndex + 1
