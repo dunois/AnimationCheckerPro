@@ -29,10 +29,11 @@ Partial Class TestForm
         Me.AnissiaAPIWeekComboBox = New System.Windows.Forms.ComboBox()
         Me.WebRQTLabel = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.ListBox2 = New System.Windows.Forms.ListBox()
         Me.ListBox1 = New System.Windows.Forms.ListBox()
-        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -114,6 +115,7 @@ Partial Class TestForm
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.Button3)
         Me.GroupBox2.Controls.Add(Me.Button2)
         Me.GroupBox2.Controls.Add(Me.WebRQTLabel)
         Me.GroupBox2.Controls.Add(Me.Button1)
@@ -124,6 +126,15 @@ Partial Class TestForm
         Me.GroupBox2.TabIndex = 4
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "WEB Test"
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(203, 22)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 27)
+        Me.Button2.TabIndex = 4
+        Me.Button2.Text = "Img Test"
+        Me.Button2.UseVisualStyleBackColor = True
         '
         'GroupBox3
         '
@@ -157,14 +168,14 @@ Partial Class TestForm
         Me.ListBox1.Size = New System.Drawing.Size(504, 214)
         Me.ListBox1.TabIndex = 0
         '
-        'Button2
+        'Button3
         '
-        Me.Button2.Location = New System.Drawing.Point(203, 22)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(75, 27)
-        Me.Button2.TabIndex = 4
-        Me.Button2.Text = "Img Test"
-        Me.Button2.UseVisualStyleBackColor = True
+        Me.Button3.Location = New System.Drawing.Point(387, 24)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(111, 23)
+        Me.Button3.TabIndex = 5
+        Me.Button3.Text = "DateTimePicker"
+        Me.Button3.UseVisualStyleBackColor = True
         '
         'TestForm
         '
@@ -200,4 +211,5 @@ Partial Class TestForm
     Friend WithEvents ListBox2 As System.Windows.Forms.ListBox
     Friend WithEvents ListBox1 As System.Windows.Forms.ListBox
     Friend WithEvents Button2 As System.Windows.Forms.Button
+    Friend WithEvents Button3 As System.Windows.Forms.Button
 End Class

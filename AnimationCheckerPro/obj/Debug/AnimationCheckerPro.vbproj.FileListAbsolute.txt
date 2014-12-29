@@ -107,7 +107,6 @@ C:\Users\Administrator\Documents\GitHub\AnimationCheckerPro\AnimationCheckerPro\
 C:\Users\Administrator\Documents\GitHub\AnimationCheckerPro\AnimationCheckerPro\bin\Debug\AnimationCheckerPro.exe
 C:\Users\Administrator\Documents\GitHub\AnimationCheckerPro\AnimationCheckerPro\bin\Debug\AnimationCheckerPro.pdb
 C:\Users\Administrator\Documents\GitHub\AnimationCheckerPro\AnimationCheckerPro\bin\Debug\AnimationCheckerPro.xml
-C:\Users\Administrator\Documents\GitHub\AnimationCheckerPro\AnimationCheckerPro\obj\Debug\AnimationCheckerPro.vbprojResolveAssemblyReference.cache
 C:\Users\Administrator\Documents\GitHub\AnimationCheckerPro\AnimationCheckerPro\obj\Debug\AnimationCheckerPro.DownloadedSkinConfig.resources
 C:\Users\Administrator\Documents\GitHub\AnimationCheckerPro\AnimationCheckerPro\obj\Debug\AnimationCheckerPro.ImportantNotice.resources
 C:\Users\Administrator\Documents\GitHub\AnimationCheckerPro\AnimationCheckerPro\obj\Debug\AnimationCheckerPro.LargeImageForm.resources

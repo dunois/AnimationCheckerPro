@@ -6,7 +6,7 @@ Public Class MainForm
 
     Public ACDataFolder As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData
     Dim ProjectLoadingFaild As Boolean = False
-    Public Version As Double = 1.342
+    Public Version As Double = 1.343
     Dim REG As RegistryKey = Registry.LocalMachine
     Public UserBrowser As String
     Dim RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
@@ -38,6 +38,8 @@ Public Class MainForm
     Public SearchLink As String = ""
     Public SubLink As String = ""
     Dim ImageUrl As String = ""
+    Dim GetQMonth As String = ""
+    Public ListQuater As String = ""
     '필요 구분 선언
     Public Function INIRead(ByVal Session As String, ByVal KeyValue As String, ByVal INIFILE As String) As String
         Dim s As New String("", 1024)
@@ -160,38 +162,26 @@ Public Class MainForm
             My.Computer.FileSystem.CreateDirectory(ACDataFolder & "\Skin")
         End If
     End Sub
-    Public Sub ListDownload(ByVal ListType)
-        If ListType = "OldList" Then
-            GetFileFromUrl("http://dnsoft.me/ACPData/OLAnimationCheckerProList.rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
-        ElseIf ListType = "ProList" Then
-            GetFileFromUrl("http://dnsoft.me/ACPData/AnimationCheckerProList.rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
-        End If
-    End Sub
     Public Sub ACListDownload()
         Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage & "\\List", True)
-        Dim getDoubleListCheck As Integer = INIRead("System", "DoubleList", ACDataFolder & "\Config.ini")
-        Dim getACPMonth As String = INIRead("System", "ProList", ACDataFolder & "\Config.ini")
-        Dim getOlAMonth As String = INIRead("System", "OldList", ACDataFolder & "\Config.ini")
-        Dim getOldListCheck As Integer = regkey.GetValue("OldListCheck", 0)
         If My.Computer.FileSystem.FileExists(ACDataFolder & "\AnimationCheckerProList.ini") Then
             My.Computer.FileSystem.DeleteFile(ACDataFolder & "\AnimationCheckerProList.ini")
-        Else
-
         End If
-        If getOldListCheck = 1 Then '구작리스트 확인 안함
-            ListDownload("ProList")
-        Else
-            If getDoubleListCheck = 1 Then
-                Dim DoubleListCheck = MsgBox("서버에 " & getACPMonth & " 리스트와 " & getOlAMonth & " 리스트가 있습니다." & Chr(10) & getOlAMonth & " 이전 분기 리스트를 불러오시겠습니까?", MsgBoxStyle.YesNo + MsgBoxStyle.Information, "확인")
-                If DoubleListCheck = vbYes Then
-                    ListDownload("OldList")
-                Else
-                    ListDownload("ProList")
-                End If
-            Else
-                ListDownload("ProList")
-            End If
+        getListQuater()
+        GetFileFromUrl("http://dnsoft.me/ACPData/ACP" & ListQuater & ".rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
+    End Sub
+    Public Sub getListQuater()
+        Dim TodayDate As Date = Date.Now
+        If Today.ToString("MM") = "01" Or Today.ToString("MM") = "02" Or Today.ToString("MM") = "03" Then
+            GetQMonth = "01"
+        ElseIf Today.ToString("MM") = "04" Or Today.ToString("MM") = "05" Or Today.ToString("MM") = "06" Then
+            GetQMonth = "04"
+        ElseIf Today.ToString("MM") = "07" Or Today.ToString("MM") = "08" Or Today.ToString("MM") = "09" Then
+            GetQMonth = "07"
+        ElseIf Today.ToString("MM") = "10" Or Today.ToString("MM") = "11" Or Today.ToString("MM") = "12" Then
+            GetQMonth = "10"
         End If
+        ListQuater = TodayDate.ToString("yy") & GetQMonth
     End Sub
     Public Sub SettingApply()
         Dim SystemSet As RegistryKey = REG.OpenSubKey(RegStorage & "\System", True)
@@ -327,6 +317,7 @@ Public Class MainForm
         Next
     End Sub
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.StartPosition = FormStartPosition.CenterScreen
         If Not bCreated Then '뮤텍스가 정상적으로 생성되지 않았으면 같은 이름의 뮤텍스가 있는것으로 판단
             MsgBox("프로그램이 이미 실행중입니다!", MsgBoxStyle.Exclamation + MsgBoxStyle.OkOnly, "오류")
             Application.ExitThread()
@@ -351,7 +342,6 @@ Public Class MainForm
             regkey.SetValue("CurrentProgramVersion", Version, RegistryValueKind.String)
             regkey.SetValue("Location", My.Application.Info.DirectoryPath & "\")
             FormLoadCompleteTimer.Enabled = True
-            Me.StartPosition = FormStartPosition.CenterScreen
         End If
     End Sub
     Private Sub FormLoadCompleteTimer_Tick(sender As Object, e As EventArgs) Handles FormLoadCompleteTimer.Tick
@@ -359,9 +349,6 @@ Public Class MainForm
         For i As Integer = 1 To 8
             ProjectLoading(i)
         Next
-    End Sub
-    Public Sub WebReachTest(ByVal Website As String, ByVal Type As String)
-
     End Sub
     Public Sub ProjectLoading(ByVal Stage As Integer)
         Application.DoEvents()
@@ -415,6 +402,7 @@ Public Class MainForm
         Dim getSelectedItem As Integer = AnimationListBox.SelectedIndex + 1
         Dim SystemSet As RegistryKey = REG.OpenSubKey(RegStorage & "\\System", True)
         Dim getImgFilter As Integer = SystemSet.GetValue("ImageFiltering", 0)
+        Dim getDN As Integer = WeekComboBox.SelectedIndex + 1
         If Type = "t,img" Then
             StillCutPictureBox.Image = Nothing
             StillCutPictureBox.Width = 910
@@ -446,14 +434,13 @@ Public Class MainForm
                 For i As Integer = 1 To getSubNumber
                     Dim getSubName As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "Sub" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini")
                     If getSubName = "" Then
-                        MsgBox("리스트를 불러오는 도중 오류가 발생하였습니다." & Chr(10) & "오류코드 : L.READ.LOAD_IN" & getSelectedItem & "_SN" & i & Chr(10) & "문제가 계속되면 tarry403@gmail.com 으로 오류코드를 전송해주시면 빠르게 해결하겠습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+                        MsgBox("리스트를 불러오는 도중 오류가 발생하였습니다." & Chr(10) & "오류코드 : L.READ.LOAD_DATE" & getDN & "_ITEM" & getSelectedItem & "_SN" & i & Chr(10) & "문제가 계속되면 tarry403@gmail.com 으로 오류코드를 전송해주시면 빠르게 해결하겠습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
                     Else
                         SubListBox.Items.Add(getSubName)
                     End If
                 Next
             End If
         ElseIf Type = "search" Then
-            Dim getDN As Integer = WeekComboBox.SelectedIndex + 1
             Dim getSearchNumber As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "SearchNumber", ACDataFolder & "\AnimationCheckerProList.ini")
             If getSearchNumber = 0 Then
                 SearchListBox.Items.Add("항목이 없습니다.")
@@ -461,7 +448,7 @@ Public Class MainForm
                 For i As Integer = 1 To getSearchNumber
                     Dim GetSearchName As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini")
                     If GetSearchName = "" Then
-                        MsgBox("리스트를 불러오는 도중 오류가 발생하였습니다." & Chr(10) & "오류코드 : L.READ.LOAD_DN" & getDN & "_IN" & getSelectedItem & "_TN" & i & Chr(10) & "문제가 계속되면 tarry403@gmail.com 으로 오류코드를 전송해주시면 빠르게 해결하겠습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+                        MsgBox("리스트를 불러오는 도중 오류가 발생하였습니다." & Chr(10) & "오류코드 : L.READ.LOAD_DN" & getDN & "_ITEM" & getSelectedItem & "_TN" & i & Chr(10) & "문제가 계속되면 tarry403@gmail.com 으로 오류코드를 전송해주시면 빠르게 해결하겠습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
                     Else
                         Dim getSearchType As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Type", ACDataFolder & "\AnimationCheckerProList.ini")
                         If getSearchType = 0 Then
@@ -700,7 +687,7 @@ Public Class MainForm
         End If
     End Sub
 
-    Private Sub CloseContextMenu_Click(sender As Object, e As EventArgs) Handles CloseContextMenu.Click
+    Private Sub CloseContextMenu_Click(sender As Object, e As EventArgs)
         If HideCheck = True Then
             CloseCheck = True
             Me.Close()
@@ -743,33 +730,6 @@ Public Class MainForm
         End If
     End Sub
 
-    Private Sub OptionMenu_Click(sender As Object, e As EventArgs) Handles OptionMenu.Click
-        If HideCheck = True Then
-            Me.Show()
-            Me.WindowState = FormWindowState.Normal
-            ProgramOption.ShowDialog()
-            HideCheck = False
-            NotifyIcon.Visible = False
-        Else
-            ProgramOption.ShowDialog()
-        End If
-    End Sub
-
-    Private Sub ProgramInfoButton_Click(sender As Object, e As EventArgs) Handles ProgramInfoButton.Click
-        If HideCheck = True Then
-            Me.Show()
-            Me.WindowState = FormWindowState.Normal
-            ProgramInformation.ShowDialog()
-            HideCheck = False
-            NotifyIcon.Visible = False
-        Else
-            ProgramInformation.ShowDialog()
-        End If
-    End Sub
-
-    Private Sub OpenContextMenu_Click(sender As Object, e As EventArgs) Handles OpenContextMenu.Click
-        Me.Show()
-    End Sub
 
     Private Sub NoticeTimer_Tick(sender As Object, e As EventArgs) Handles NoticeTimer.Tick
         Dim getNoticeNumber As Integer = INIRead("Notice", "Number", ACDataFolder & "\Notice.ini")
@@ -869,5 +829,39 @@ Public Class MainForm
     Private Sub ImageShowButton_Click(sender As Object, e As EventArgs) Handles ImageShowButton.Click
         ImageGet()
         ImageShowButton.Visible = False
+    End Sub
+
+    Private Sub OpenQuickMenu_Click(sender As Object, e As EventArgs) Handles OpenQuickMenu.Click
+        Me.Show()
+        Me.WindowState = FormWindowState.Normal
+        HideCheck = False
+    End Sub
+
+    Private Sub InfoQuickMenu_Click(sender As Object, e As EventArgs) Handles InfoQuickMenu.Click
+        If HideCheck = True Then
+            Me.Show()
+            Me.WindowState = FormWindowState.Normal
+            ProgramInformation.ShowDialog()
+            HideCheck = False
+            NotifyIcon.Visible = False
+        Else
+            ProgramInformation.ShowDialog()
+        End If
+    End Sub
+
+    Private Sub OptionQuickMenu_Click(sender As Object, e As EventArgs) Handles OptionQuickMenu.Click
+        If HideCheck = True Then
+            Me.Show()
+            Me.WindowState = FormWindowState.Normal
+            ProgramOption.ShowDialog()
+            HideCheck = False
+            NotifyIcon.Visible = False
+        Else
+            ProgramOption.ShowDialog()
+        End If
+    End Sub
+
+    Private Sub CloseQuickMenu_Click(sender As Object, e As EventArgs) Handles CloseQuickMenu.Click
+        Close()
     End Sub
 End Class

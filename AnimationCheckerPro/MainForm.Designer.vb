@@ -64,12 +64,13 @@ Partial Class MainForm
         Me.AnimationListBox = New System.Windows.Forms.ListBox()
         Me.SplashPictureBox = New System.Windows.Forms.PictureBox()
         Me.NotifyIcon = New System.Windows.Forms.NotifyIcon(Me.components)
-        Me.NotifyContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ProgramInfoButton = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OptionMenu = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OpenContextMenu = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Separator = New System.Windows.Forms.ToolStripSeparator()
-        Me.CloseContextMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.QuickMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.OpenQuickMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.InfoQuickMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OptionQuickMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.CloseQuickMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.NoticeTimer = New System.Windows.Forms.Timer(Me.components)
         Me.PingBackgroundWorker = New System.ComponentModel.BackgroundWorker()
         Me.MainPanel.SuspendLayout()
@@ -79,7 +80,7 @@ Partial Class MainForm
         CType(Me.StillCutPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MainMenu.SuspendLayout()
         CType(Me.SplashPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.NotifyContextMenu.SuspendLayout()
+        Me.QuickMenu.SuspendLayout()
         Me.SuspendLayout()
         '
         'DownloadProgressBar
@@ -146,7 +147,7 @@ Partial Class MainForm
         Me.ProgramStatus.Name = "ProgramStatus"
         Me.ProgramStatus.Size = New System.Drawing.Size(472, 22)
         Me.ProgramStatus.TabIndex = 6
-        Me.ProgramStatus.Text = "StatusStrip1"
+        Me.ProgramStatus.Text = "AnimationCheckerPro"
         '
         'NoticeLabel
         '
@@ -444,46 +445,54 @@ Partial Class MainForm
         '
         'NotifyIcon
         '
-        Me.NotifyIcon.ContextMenuStrip = Me.NotifyContextMenu
+        Me.NotifyIcon.ContextMenuStrip = Me.QuickMenu
         Me.NotifyIcon.Icon = CType(resources.GetObject("NotifyIcon.Icon"), System.Drawing.Icon)
-        Me.NotifyIcon.Text = "AnimationCheckerPRO"
+        Me.NotifyIcon.Text = "AnimationCheckerPro"
         '
-        'NotifyContextMenu
+        'QuickMenu
         '
-        Me.NotifyContextMenu.BackColor = System.Drawing.Color.Transparent
-        Me.NotifyContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgramInfoButton, Me.OptionMenu, Me.OpenContextMenu, Me.Separator, Me.CloseContextMenu})
-        Me.NotifyContextMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table
-        Me.NotifyContextMenu.Name = "ContextMenu"
-        Me.NotifyContextMenu.Size = New System.Drawing.Size(166, 98)
+        Me.QuickMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenQuickMenu, Me.ToolStripSeparator2, Me.InfoQuickMenu, Me.OptionQuickMenu, Me.ToolStripSeparator1, Me.CloseQuickMenu})
+        Me.QuickMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow
+        Me.QuickMenu.Name = "QuickMenu"
+        Me.QuickMenu.ShowCheckMargin = True
+        Me.QuickMenu.ShowImageMargin = False
+        Me.QuickMenu.ShowItemToolTips = False
+        Me.QuickMenu.Size = New System.Drawing.Size(172, 104)
         '
-        'ProgramInfoButton
+        'OpenQuickMenu
         '
-        Me.ProgramInfoButton.Name = "ProgramInfoButton"
-        Me.ProgramInfoButton.Size = New System.Drawing.Size(165, 22)
-        Me.ProgramInfoButton.Text = "프로그램 정보 (&I)"
+        Me.OpenQuickMenu.Name = "OpenQuickMenu"
+        Me.OpenQuickMenu.Size = New System.Drawing.Size(171, 22)
+        Me.OpenQuickMenu.Text = "프로그램 열기 (&O)"
         '
-        'OptionMenu
+        'ToolStripSeparator2
         '
-        Me.OptionMenu.Name = "OptionMenu"
-        Me.OptionMenu.Size = New System.Drawing.Size(165, 22)
-        Me.OptionMenu.Text = "옵션 (&P)"
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(168, 6)
         '
-        'OpenContextMenu
+        'InfoQuickMenu
         '
-        Me.OpenContextMenu.Name = "OpenContextMenu"
-        Me.OpenContextMenu.Size = New System.Drawing.Size(165, 22)
-        Me.OpenContextMenu.Text = "열기 (&O)"
+        Me.InfoQuickMenu.Name = "InfoQuickMenu"
+        Me.InfoQuickMenu.Size = New System.Drawing.Size(171, 22)
+        Me.InfoQuickMenu.Text = "프로그램 정보 (&I)"
         '
-        'Separator
+        'OptionQuickMenu
         '
-        Me.Separator.Name = "Separator"
-        Me.Separator.Size = New System.Drawing.Size(162, 6)
+        Me.OptionQuickMenu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.OptionQuickMenu.Name = "OptionQuickMenu"
+        Me.OptionQuickMenu.Size = New System.Drawing.Size(171, 22)
+        Me.OptionQuickMenu.Text = "옵션 (&P)"
         '
-        'CloseContextMenu
+        'ToolStripSeparator1
         '
-        Me.CloseContextMenu.Name = "CloseContextMenu"
-        Me.CloseContextMenu.Size = New System.Drawing.Size(165, 22)
-        Me.CloseContextMenu.Text = "종료 (&E)"
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(168, 6)
+        '
+        'CloseQuickMenu
+        '
+        Me.CloseQuickMenu.Name = "CloseQuickMenu"
+        Me.CloseQuickMenu.Size = New System.Drawing.Size(171, 22)
+        Me.CloseQuickMenu.Text = "끝내기 (&E)"
         '
         'NoticeTimer
         '
@@ -523,7 +532,7 @@ Partial Class MainForm
         Me.MainMenu.ResumeLayout(False)
         Me.MainMenu.PerformLayout()
         CType(Me.SplashPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.NotifyContextMenu.ResumeLayout(False)
+        Me.QuickMenu.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -559,12 +568,6 @@ Partial Class MainForm
     Friend WithEvents ManagementSkinButton As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ProgramInformationButton As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents NotifyIcon As System.Windows.Forms.NotifyIcon
-    Friend WithEvents NotifyContextMenu As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents OpenContextMenu As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents CloseContextMenu As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ProgramInfoButton As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents OptionMenu As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents Separator As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents SubFileNameChangerMenu As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ProgramStatus As System.Windows.Forms.StatusStrip
     Friend WithEvents NoticeLabel As System.Windows.Forms.ToolStripStatusLabel
@@ -576,4 +579,11 @@ Partial Class MainForm
     Friend WithEvents TestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ImageErrorLabel As System.Windows.Forms.Label
     Friend WithEvents ImageShowButton As System.Windows.Forms.Button
+    Friend WithEvents QuickMenu As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents OpenQuickMenu As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents InfoQuickMenu As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OptionQuickMenu As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CloseQuickMenu As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
 End Class

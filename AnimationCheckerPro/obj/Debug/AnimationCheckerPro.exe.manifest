@@ -29,14 +29,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AnimationCheckerPro.exe" size="3197952">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AnimationCheckerPro.exe" size="3198464">
       <assemblyIdentity name="AnimationCheckerPro" version="1.3.4.58740" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>OkxhooH2sLvhroplTQinqHj+SW59NUtqbtfEwPiEFgk=</dsig:DigestValue>
+        <dsig:DigestValue>Q6U1sXHOBuNlR7mlXZ5oWbF+pLQp2zl1t01VbYnnqxU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

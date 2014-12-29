@@ -55,7 +55,6 @@ Public Class ProgramOption
             AnimationFolderTextBox.Text = AnimationFolder
         End If
         NoticeRecvComboBox.SelectedIndex = NoticeRecive
-        OldListComboBox.SelectedIndex = OldListCheck
         ListDateLabel.Text = ListDate
         ListProducerLabel.Text = ListProducer
         ProgramModeComboBox.SelectedIndex = getMode
@@ -95,8 +94,6 @@ Public Class ProgramOption
         OptionTab.Text = OptionTreeView.SelectedNode.Text
         If OptionTreeView.SelectedNode.Name = "CommonConfigNode" Then
             ProgramConfigPanel.BringToFront()
-        ElseIf OptionTreeView.SelectedNode.Name = "ListConfigNode" Then
-            ListSettingPanel.BringToFront()
         ElseIf OptionTreeView.SelectedNode.Name = "ListInformationNode" Then
             ListInfoPanel.BringToFront()
         ElseIf OptionTreeView.SelectedNode.Name = "AvailiableListShowNode" Then
@@ -195,7 +192,6 @@ Public Class ProgramOption
                 SystemSet.SetValue("AnimationFolder", AnimationFolderTextBox.Text)
             End If
         End If
-        ListSet.SetValue("OldListCheck", OldListComboBox.SelectedIndex, RegistryValueKind.String)
         SystemSet.SetValue("ModeType", ProgramModeComboBox.SelectedIndex, RegistryValueKind.String)
         MainForm.ProgramMode = ProgramModeComboBox.SelectedIndex
         SystemSet.SetValue("NoticeReceive", NoticeRecvComboBox.SelectedIndex, RegistryValueKind.String)

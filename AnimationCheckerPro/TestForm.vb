@@ -177,6 +177,21 @@ Public Class TestForm
             MsgBox("ex code : " & ex.HResult & " / ex massage : " & ex.Message)
         End Try
     End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Dim Today As Date = Date.Now
+        Dim Month As String = ""
+        If Today.ToString("MM") = "01" Or Today.ToString("MM") = "02" Or Today.ToString("MM") = "03" Then
+            Month = "01"
+        ElseIf Today.ToString("MM") = "04" Or Today.ToString("MM") = "05" Or Today.ToString("MM") = "06" Then
+            Month = "04"
+        ElseIf Today.ToString("MM") = "07" Or Today.ToString("MM") = "08" Or Today.ToString("MM") = "09" Then
+            Month = "07"
+        ElseIf Today.ToString("MM") = "10" Or Today.ToString("MM") = "11" Or Today.ToString("MM") = "12" Then
+            Month = "10"
+        End If
+        MsgBox("get " & Today.ToString("yy") & Month & "List")
+    End Sub
 End Class
 
 Public Class JSON

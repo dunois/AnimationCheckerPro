@@ -39,6 +39,8 @@ Partial Class ProgramOption
         Me.SaveSettingButton = New System.Windows.Forms.Button()
         Me.OptionTab = New System.Windows.Forms.GroupBox()
         Me.ProgramConfigPanel = New System.Windows.Forms.Panel()
+        Me.ImageFilteringComboBox = New System.Windows.Forms.ComboBox()
+        Me.ImageFilteringLabel = New System.Windows.Forms.Label()
         Me.ImageModeComboBox = New System.Windows.Forms.ComboBox()
         Me.ImageModeLabel = New System.Windows.Forms.Label()
         Me.NoticeRecvComboBox = New System.Windows.Forms.ComboBox()
@@ -58,9 +60,6 @@ Partial Class ProgramOption
         Me.ListProducerInfoLabel = New System.Windows.Forms.Label()
         Me.ListDateLabel = New System.Windows.Forms.Label()
         Me.ListDateInfoLabel = New System.Windows.Forms.Label()
-        Me.ListSettingPanel = New System.Windows.Forms.Panel()
-        Me.OldListComboBox = New System.Windows.Forms.ComboBox()
-        Me.CheckOldListLabel = New System.Windows.Forms.Label()
         Me.AvailiableListPanel = New System.Windows.Forms.Panel()
         Me.AvailiableListDownloadButton = New System.Windows.Forms.Button()
         Me.AvailiableListLabel = New System.Windows.Forms.Label()
@@ -96,12 +95,9 @@ Partial Class ProgramOption
         Me.OptionSaveButton = New System.Windows.Forms.Button()
         Me.FormCloseButton = New System.Windows.Forms.Button()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.ImageFilteringLabel = New System.Windows.Forms.Label()
-        Me.ImageFilteringComboBox = New System.Windows.Forms.ComboBox()
         Me.OptionTab.SuspendLayout()
         Me.ProgramConfigPanel.SuspendLayout()
         Me.ListInfoPanel.SuspendLayout()
-        Me.ListSettingPanel.SuspendLayout()
         Me.AvailiableListPanel.SuspendLayout()
         Me.ExpandModePanel.SuspendLayout()
         Me.ActionSettingGroupBox.SuspendLayout()
@@ -172,7 +168,6 @@ Partial Class ProgramOption
         '
         Me.OptionTab.Controls.Add(Me.ProgramConfigPanel)
         Me.OptionTab.Controls.Add(Me.ListInfoPanel)
-        Me.OptionTab.Controls.Add(Me.ListSettingPanel)
         Me.OptionTab.Controls.Add(Me.AvailiableListPanel)
         Me.OptionTab.Controls.Add(Me.ExpandModePanel)
         Me.OptionTab.Controls.Add(Me.WebReachTestPanel)
@@ -208,6 +203,25 @@ Partial Class ProgramOption
         Me.ProgramConfigPanel.Name = "ProgramConfigPanel"
         Me.ProgramConfigPanel.Size = New System.Drawing.Size(446, 362)
         Me.ProgramConfigPanel.TabIndex = 0
+        '
+        'ImageFilteringComboBox
+        '
+        Me.ImageFilteringComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ImageFilteringComboBox.FormattingEnabled = True
+        Me.ImageFilteringComboBox.Items.AddRange(New Object() {"사용하지 않음", "사용함"})
+        Me.ImageFilteringComboBox.Location = New System.Drawing.Point(231, 220)
+        Me.ImageFilteringComboBox.Name = "ImageFilteringComboBox"
+        Me.ImageFilteringComboBox.Size = New System.Drawing.Size(140, 23)
+        Me.ImageFilteringComboBox.TabIndex = 19
+        '
+        'ImageFilteringLabel
+        '
+        Me.ImageFilteringLabel.AutoSize = True
+        Me.ImageFilteringLabel.Location = New System.Drawing.Point(117, 223)
+        Me.ImageFilteringLabel.Name = "ImageFilteringLabel"
+        Me.ImageFilteringLabel.Size = New System.Drawing.Size(92, 15)
+        Me.ImageFilteringLabel.TabIndex = 18
+        Me.ImageFilteringLabel.Text = "이미지 필터링 : "
         '
         'ImageModeComboBox
         '
@@ -387,34 +401,6 @@ Partial Class ProgramOption
         Me.ListDateInfoLabel.Size = New System.Drawing.Size(92, 15)
         Me.ListDateInfoLabel.TabIndex = 0
         Me.ListDateInfoLabel.Text = "리스트 제작일 : "
-        '
-        'ListSettingPanel
-        '
-        Me.ListSettingPanel.Controls.Add(Me.OldListComboBox)
-        Me.ListSettingPanel.Controls.Add(Me.CheckOldListLabel)
-        Me.ListSettingPanel.Location = New System.Drawing.Point(6, 22)
-        Me.ListSettingPanel.Name = "ListSettingPanel"
-        Me.ListSettingPanel.Size = New System.Drawing.Size(446, 362)
-        Me.ListSettingPanel.TabIndex = 4
-        '
-        'OldListComboBox
-        '
-        Me.OldListComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.OldListComboBox.FormattingEnabled = True
-        Me.OldListComboBox.Items.AddRange(New Object() {"항상 확인함", "확인하지 않음"})
-        Me.OldListComboBox.Location = New System.Drawing.Point(208, 22)
-        Me.OldListComboBox.Name = "OldListComboBox"
-        Me.OldListComboBox.Size = New System.Drawing.Size(140, 23)
-        Me.OldListComboBox.TabIndex = 1
-        '
-        'CheckOldListLabel
-        '
-        Me.CheckOldListLabel.AutoSize = True
-        Me.CheckOldListLabel.Location = New System.Drawing.Point(62, 25)
-        Me.CheckOldListLabel.Name = "CheckOldListLabel"
-        Me.CheckOldListLabel.Size = New System.Drawing.Size(134, 15)
-        Me.CheckOldListLabel.TabIndex = 0
-        Me.CheckOldListLabel.Text = "구작 리스트 확인 여부 : "
         '
         'AvailiableListPanel
         '
@@ -744,25 +730,6 @@ Partial Class ProgramOption
         '
         Me.Timer1.Interval = 10
         '
-        'ImageFilteringLabel
-        '
-        Me.ImageFilteringLabel.AutoSize = True
-        Me.ImageFilteringLabel.Location = New System.Drawing.Point(117, 223)
-        Me.ImageFilteringLabel.Name = "ImageFilteringLabel"
-        Me.ImageFilteringLabel.Size = New System.Drawing.Size(92, 15)
-        Me.ImageFilteringLabel.TabIndex = 18
-        Me.ImageFilteringLabel.Text = "이미지 필터링 : "
-        '
-        'ImageFilteringComboBox
-        '
-        Me.ImageFilteringComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ImageFilteringComboBox.FormattingEnabled = True
-        Me.ImageFilteringComboBox.Items.AddRange(New Object() {"사용하지 않음", "사용함"})
-        Me.ImageFilteringComboBox.Location = New System.Drawing.Point(231, 220)
-        Me.ImageFilteringComboBox.Name = "ImageFilteringComboBox"
-        Me.ImageFilteringComboBox.Size = New System.Drawing.Size(140, 23)
-        Me.ImageFilteringComboBox.TabIndex = 19
-        '
         'ProgramOption
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
@@ -788,8 +755,6 @@ Partial Class ProgramOption
         Me.ProgramConfigPanel.PerformLayout()
         Me.ListInfoPanel.ResumeLayout(False)
         Me.ListInfoPanel.PerformLayout()
-        Me.ListSettingPanel.ResumeLayout(False)
-        Me.ListSettingPanel.PerformLayout()
         Me.AvailiableListPanel.ResumeLayout(False)
         Me.AvailiableListPanel.PerformLayout()
         Me.ExpandModePanel.ResumeLayout(False)
@@ -825,9 +790,6 @@ Partial Class ProgramOption
     Friend WithEvents SearchFilterLabel As System.Windows.Forms.Label
     Friend WithEvents SearchCatComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents SearchCatLabel As System.Windows.Forms.Label
-    Friend WithEvents ListSettingPanel As System.Windows.Forms.Panel
-    Friend WithEvents OldListComboBox As System.Windows.Forms.ComboBox
-    Friend WithEvents CheckOldListLabel As System.Windows.Forms.Label
     Friend WithEvents ListInfoPanel As System.Windows.Forms.Panel
     Friend WithEvents ListProducerLabel As System.Windows.Forms.Label
     Friend WithEvents ListProducerInfoLabel As System.Windows.Forms.Label
