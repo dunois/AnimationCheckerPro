@@ -53,15 +53,15 @@ Partial Class SkinSettingForm
         Me.SkinApplyButton.Location = New System.Drawing.Point(9, 9)
         Me.SkinApplyButton.Margin = New System.Windows.Forms.Padding(0)
         Me.SkinApplyButton.Name = "SkinApplyButton"
-        Me.SkinApplyButton.Size = New System.Drawing.Size(86, 29)
+        Me.SkinApplyButton.Size = New System.Drawing.Size(101, 29)
         Me.SkinApplyButton.TabIndex = 1
-        Me.SkinApplyButton.Text = "화면 적용"
+        Me.SkinApplyButton.Text = " 배경화면 적용"
         Me.SkinApplyButton.UseVisualStyleBackColor = True
         '
         'DeleteSkinButton
         '
         Me.DeleteSkinButton.Enabled = False
-        Me.DeleteSkinButton.Location = New System.Drawing.Point(95, 9)
+        Me.DeleteSkinButton.Location = New System.Drawing.Point(110, 9)
         Me.DeleteSkinButton.Margin = New System.Windows.Forms.Padding(0)
         Me.DeleteSkinButton.Name = "DeleteSkinButton"
         Me.DeleteSkinButton.Size = New System.Drawing.Size(108, 29)
@@ -127,7 +127,7 @@ Partial Class SkinSettingForm
         'ImageModeLabel
         '
         Me.ImageModeLabel.AutoSize = True
-        Me.ImageModeLabel.Location = New System.Drawing.Point(218, 16)
+        Me.ImageModeLabel.Location = New System.Drawing.Point(221, 16)
         Me.ImageModeLabel.Name = "ImageModeLabel"
         Me.ImageModeLabel.Size = New System.Drawing.Size(68, 15)
         Me.ImageModeLabel.TabIndex = 8

@@ -6,7 +6,7 @@ Public Class MainForm
 
     Public ACDataFolder As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData
     Dim ProjectLoadingFaild As Boolean = False
-    Public Version As Double = 1.343
+    Public Version As Double = 1.345
     Dim REG As RegistryKey = Registry.LocalMachine
     Public UserBrowser As String
     Dim RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
@@ -84,7 +84,6 @@ Public Class MainForm
                 DownloadStatusLabel.Text = FileType & "다운로드 완료"
 
             Catch ex As Exception
-                MsgBox("", MsgBoxStyle.OkOnly, "")
                 End
             End Try
             GetFileStream.Close()
@@ -104,7 +103,7 @@ Public Class MainForm
         Try
             My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/ACPData/SystemConfig.ini", ACDataFolder & "\Config.ini")
         Catch ex As Exception
-            MsgBox("다운로드에 실패하였습니다! 인터넷 문제일수있습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+            MsgBox("필수 구성요소(리스트 환경설정) 다운로드에 실패하였습니다! 인터넷 문제일수있습니다." & Chr(10) & "오류코드 : 0_LD_CONFIG", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
             DownloadStatusLabel.Text = "다운로드 오류"
             DownSpeedLabel.Text = "다운로드 오류"
             ErrorStatuse = True
@@ -338,6 +337,7 @@ Public Class MainForm
         If Not bCreated Then '뮤텍스가 정상적으로 생성되지 않았으면 같은 이름의 뮤텍스가 있는것으로 판단
             MsgBox("프로그램이 이미 실행중입니다!", MsgBoxStyle.Exclamation + MsgBoxStyle.OkOnly, "오류")
             Application.ExitThread()
+            NotifyIcon.Visible = False
             End
         Else
             If REG.OpenSubKey(RegStorage) Is Nothing Then
@@ -354,6 +354,11 @@ Public Class MainForm
             End If
             If REG.OpenSubKey(RegStorage & "\\Skin\\Download") Is Nothing Then
                 REG.CreateSubKey(RegStorage & "\\Skin\\Download")
+            End If
+            If My.Computer.FileSystem.DirectoryExists(ACDataFolder & "\cache") Then
+
+            Else
+                My.Computer.FileSystem.CreateDirectory(ACDataFolder & "\cache")
             End If
             Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
             regkey.SetValue("CurrentProgramVersion", Version, RegistryValueKind.String)
@@ -481,12 +486,39 @@ Public Class MainForm
         End If
     End Sub
     Private Sub ImageGet()
+        Dim FileNameOnly As String = ImageUrl.Substring(ImageUrl.LastIndexOf("/") + 1)
         Try
             Dim rq = Net.WebRequest.Create(ImageUrl)
             rq.Timeout = 5000
             rq.GetResponse()
             ImageErrorLabel.Visible = False
-            StillCutPictureBox.ImageLocation = ImageUrl
+            If My.Computer.FileSystem.FileExists(ACDataFolder & "\cache\" & FileNameOnly) Then
+
+            Else
+                StillCutPictureBox.Visible = False
+                Dim DownloadDestination As String = ACDataFolder & "\cache\" & FileNameOnly
+                ImgDownloadProgressBar.Visible = True
+                Dim ReDownBufferSize As Double = 0
+                Dim ThisRequest As HttpWebRequest = DirectCast(WebRequest.Create(ImageUrl), HttpWebRequest)
+                Dim ThisResponese As HttpWebResponse = DirectCast(ThisRequest.GetResponse(), HttpWebResponse)
+                Dim TotalSize As Integer = ThisResponese.ContentLength
+                Dim MyThisStream As Stream = ThisResponese.GetResponseStream()
+                Dim GetFileStream As New FileStream(DownloadDestination, FileMode.Create)
+                Dim buff As Byte() = New Byte(TotalSize) {}
+                Dim buffer As Byte() = buff
+                Do Until GetFileStream.Length = TotalSize
+                    ReDownBufferSize = MyThisStream.Read(buff, 0, 1024)
+                    GetFileStream.Write(buffer, 0, ReDownBufferSize)
+                    Application.DoEvents()
+                    ImgDownloadProgressBar.Value = Math.Round(GetFileStream.Length) / Math.Round(TotalSize) * 100
+                Loop
+                GetFileStream.Close()
+                MyThisStream.Close()
+                ThisResponese.Close()
+                ImgDownloadProgressBar.Visible = False
+            End If
+            StillCutPictureBox.Visible = True
+            StillCutPictureBox.ImageLocation = ACDataFolder & "\cache\" & FileNameOnly
             StillCutHideButton.Enabled = True
             ShowLargeImageButton.Enabled = True
             rq.Abort()
@@ -658,14 +690,7 @@ Public Class MainForm
     End Sub
 
     Private Sub ShowLargeImageButton_Click(sender As Object, e As EventArgs) Handles ShowLargeImageButton.Click
-        Dim getSelectedItem As Integer = AnimationListBox.SelectedIndex + 1
-        Dim getImageType As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "PictureType", ACDataFolder & "\AnimationCheckerProList.ini")
-        Dim getImageUrl As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "PictureUrl", ACDataFolder & "\AnimationCheckerProList.ini")
-        Dim FinalUrl As String = ""
-        If getImageType = 0 Then
-            FinalUrl = "http://gkskvhtm403.cafe24.com/" & getImageUrl
-        End If
-        LargeImageForm.LargePictureBox.ImageLocation = FinalUrl
+        LargeImageForm.LargePictureBox.ImageLocation = StillCutPictureBox.ImageLocation
         LargeImageForm.ShowDialog()
     End Sub
 
@@ -683,7 +708,8 @@ Public Class MainForm
         Dim getCloseAlert As Integer = regkey.GetValue("CloseAlert", 0)
         If getCloseTray = 2 Then
             If CloseCheck = True Then
-
+                StillCutPictureBox.Image = Nothing
+                My.Computer.FileSystem.DeleteDirectory(ACDataFolder & "\cache", FileIO.DeleteDirectoryOption.DeleteAllContents)
             Else
                 Me.Hide()
                 HideCheck = True
@@ -694,12 +720,14 @@ Public Class MainForm
             If getCloseAlert = 0 Then
                 Dim CloseAlertMsg = MsgBox("정말로 종료하시겠습니까?" & Chr(10) & "(이 설정은 옵션 - 프로그램 설정 에서 설정할수있습니다.)", MsgBoxStyle.YesNo + MsgBoxStyle.Information, "확인")
                 If CloseAlertMsg = vbYes Then
-
+                    StillCutPictureBox.Image = Nothing
+                    My.Computer.FileSystem.DeleteDirectory(ACDataFolder & "\cache", FileIO.DeleteDirectoryOption.DeleteAllContents)
                 Else
                     e.Cancel = True
                 End If
             Else
-
+                StillCutPictureBox.Image = Nothing
+                My.Computer.FileSystem.DeleteDirectory(ACDataFolder & "\cache", FileIO.DeleteDirectoryOption.DeleteAllContents)
             End If
         End If
     End Sub

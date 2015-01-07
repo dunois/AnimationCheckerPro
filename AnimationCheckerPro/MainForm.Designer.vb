@@ -73,6 +73,7 @@ Partial Class MainForm
         Me.CloseQuickMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.NoticeTimer = New System.Windows.Forms.Timer(Me.components)
         Me.PingBackgroundWorker = New System.ComponentModel.BackgroundWorker()
+        Me.ImgDownloadProgressBar = New System.Windows.Forms.ProgressBar()
         Me.MainPanel.SuspendLayout()
         Me.ProgramStatus.SuspendLayout()
         Me.SkinPanel.SuspendLayout()
@@ -177,6 +178,7 @@ Partial Class MainForm
         '
         Me.ImagePanel.AutoScroll = True
         Me.ImagePanel.BackColor = System.Drawing.Color.Transparent
+        Me.ImagePanel.Controls.Add(Me.ImgDownloadProgressBar)
         Me.ImagePanel.Controls.Add(Me.ImageShowButton)
         Me.ImagePanel.Controls.Add(Me.ImageErrorLabel)
         Me.ImagePanel.Controls.Add(Me.OnAirTimeLabel)
@@ -500,6 +502,14 @@ Partial Class MainForm
         'PingBackgroundWorker
         '
         '
+        'ImgDownloadProgressBar
+        '
+        Me.ImgDownloadProgressBar.Location = New System.Drawing.Point(321, 247)
+        Me.ImgDownloadProgressBar.Name = "ImgDownloadProgressBar"
+        Me.ImgDownloadProgressBar.Size = New System.Drawing.Size(353, 23)
+        Me.ImgDownloadProgressBar.TabIndex = 13
+        Me.ImgDownloadProgressBar.Visible = False
+        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
@@ -586,4 +596,5 @@ Partial Class MainForm
     Friend WithEvents CloseQuickMenu As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ImgDownloadProgressBar As System.Windows.Forms.ProgressBar
 End Class

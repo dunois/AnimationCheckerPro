@@ -94,30 +94,28 @@ Public Class ProgramOption
         OptionTab.Text = OptionTreeView.SelectedNode.Text
         If OptionTreeView.SelectedNode.Name = "CommonConfigNode" Then
             ProgramConfigPanel.BringToFront()
-        ElseIf OptionTreeView.SelectedNode.Name = "ListInformationNode" Then
+        ElseIf OptionTreeView.SelectedNode.Name = "ListConfigNode" Then
             ListInfoPanel.BringToFront()
         ElseIf OptionTreeView.SelectedNode.Name = "AvailiableListShowNode" Then
-            If My.Computer.FileSystem.FileExists(MainForm.ACDataFolder & "\DLCList.ini") Then
-                My.Computer.FileSystem.DeleteFile(MainForm.ACDataFolder & "\DLCList.ini")
+            If My.Computer.FileSystem.FileExists(MainForm.ACDataFolder & "\DownloadableList.ini") Then
+                My.Computer.FileSystem.DeleteFile(MainForm.ACDataFolder & "\DownloadableList.ini")
             End If
             Try
-                My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/ACPData/DLCList.ini", MainForm.ACDataFolder & "\DLCList.ini")
+                My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/ACPData/DLCList.ini", MainForm.ACDataFolder & "\DownloadableList.ini")
                 AvailiableListPanel.BringToFront()
                 AvailiableListComboBox.Items.Clear()
-                Dim DLCListNumber As Integer = MainForm.INIRead("DLCL", "Number", MainForm.ACDataFolder & "\DLCList.ini")
+                Dim DLCListNumber As Integer = MainForm.INIRead("DLCL", "Number", MainForm.ACDataFolder & "\DownloadableList.ini")
                 For i As Integer = 1 To DLCListNumber
-                    Dim DLCListName As String = MainForm.INIRead("DLCL", "List" & i, MainForm.ACDataFolder & "\DLCList.ini")
+                    Dim DLCListName As String = MainForm.INIRead("DLCL", "List" & i, MainForm.ACDataFolder & "\DownloadableList.ini")
                     AvailiableListComboBox.Items.Add(DLCListName)
                 Next
-                Dim getLoadedListStatus As Integer = MainForm.LoadedListStatus
-                If getLoadedListStatus = 0 Then
-                    Dim CurrentList As Integer = MainForm.INIRead("DLCL", "CurrentList", MainForm.ACDataFolder & "\DLCList.ini")
-                    AvailiableListComboBox.SelectedIndex = CurrentList - 1
-                    AvailiableListDownloadButton.Enabled = False
-                Else
-                    AvailiableListComboBox.SelectedIndex = getLoadedListStatus - 1
-                    AvailiableListDownloadButton.Enabled = False
-                End If
+                For i As Integer = 1 To DLCListNumber
+                    Dim DLCListQut As String = MainForm.INIRead("DLCL", "List" & i & "Qut", MainForm.ACDataFolder & "\DownloadableList.ini")
+                    If DLCListQut = MainForm.ListQuater Then
+                        AvailiableListComboBox.SelectedIndex = i - 1
+                        Exit For
+                    End If
+                Next
             Catch ex As Exception
                 MsgBox("다운로드에 실패하였습니다! 인터넷 문제일수있습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
             End Try
@@ -240,34 +238,22 @@ Public Class ProgramOption
         If AvailiableListComboBox.SelectedIndex = -1 Then
             AvailiableListDownloadButton.Enabled = False
         Else
-            Dim GetLoadedList As Integer = MainForm.LoadedListStatus
-            Dim getCurrentList As Integer = MainForm.INIRead("DLCL", "CurrentList", MainForm.ACDataFolder & "\DLCList.ini")
-            If GetLoadedList = 0 Then
-                If AvailiableListComboBox.SelectedIndex = getCurrentList - 1 Then
-                    AvailiableListDownloadButton.Enabled = False
-                    AvailiableListDownloadButton.Width = 155
-                    AvailiableListDownloadButton.Text = "현재 다운로드한 리스트"
-                Else
-                    AvailiableListDownloadButton.Enabled = True
-                    AvailiableListDownloadButton.Width = 75
-                    AvailiableListDownloadButton.Text = "다운로드"
-                End If
+            Dim getSelectListQut As String = MainForm.INIRead("DLCL", "List" & AvailiableListComboBox.SelectedIndex + 1 & "Qut", MainForm.ACDataFolder & "\DownloadableList.ini")
+            If getSelectListQut = MainForm.ListQuater Then
+                AvailiableListDownloadButton.Enabled = False
+                AvailiableListDownloadButton.Width = 155
+                AvailiableListDownloadButton.Text = "현재 다운로드한 리스트"
             Else
-                If AvailiableListComboBox.SelectedIndex = GetLoadedList - 1 Then
-                    AvailiableListDownloadButton.Enabled = False
-                    AvailiableListDownloadButton.Width = 155
-                    AvailiableListDownloadButton.Text = "현재 다운로드한 리스트"
-                Else
-                    AvailiableListDownloadButton.Enabled = True
-                    AvailiableListDownloadButton.Width = 75
-                    AvailiableListDownloadButton.Text = "다운로드"
-                End If
+                AvailiableListDownloadButton.Enabled = True
+                AvailiableListDownloadButton.Width = 75
+                AvailiableListDownloadButton.Text = "다운로드"
             End If
         End If
     End Sub
 
     Private Sub AvailiableListDownloadButton_Click(sender As Object, e As EventArgs) Handles AvailiableListDownloadButton.Click
-        Dim getSelectedListLocate As String = MainForm.INIRead("DLCL", "List" & AvailiableListComboBox.SelectedIndex + 1 & "Location", MainForm.ACDataFolder & "\DLCList.ini")
+        Dim getSelectedListLocate As String = MainForm.INIRead("DLCL", "List" & AvailiableListComboBox.SelectedIndex + 1 & "Location", MainForm.ACDataFolder & "\DownloadableList.ini")
+        Dim getSelectedListQut As String = MainForm.INIRead("DLCL", "List" & AvailiableListComboBox.SelectedIndex + 1 & "Qut", MainForm.ACDataFolder & "\DownloadableList.ini")
         MainForm.AnimationListBox.Items.Clear()
         MainForm.SearchListBox.Items.Clear()
         MainForm.SubListBox.Items.Clear()
@@ -277,14 +263,16 @@ Public Class ProgramOption
         Try
             My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/" & getSelectedListLocate, MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
             MainForm.Listloading()
-            MainForm.LoadedListStatus = AvailiableListComboBox.SelectedIndex + 1
+            MainForm.ListQuater = getSelectedListQut
+            MainForm.SearchListBox.Items.Add("애니메이션을 선택하세요")
+            MainForm.SubListBox.Items.Add("애니메이션을 선택하세요")
+            MsgBox("다운로드가 완료되었습니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "완료")
+            AvailiableListDownloadButton.Enabled = False
+            AvailiableListDownloadButton.Width = 155
+            AvailiableListDownloadButton.Text = "현재 다운로드한 리스트"
         Catch ex As Exception
             MsgBox("다운로드에 실패하였습니다! 인터넷 문제일수있습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
         End Try
-        MainForm.SearchListBox.Items.Add("애니메이션을 선택하세요")
-        MainForm.SubListBox.Items.Add("애니메이션을 선택하세요")
-        MsgBox("다운로드가 완료되었습니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "완료")
-        Me.Close()
     End Sub
 
     Private Sub TTSizeCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TTSizeCheckBox.CheckedChanged

@@ -33,6 +33,7 @@ Public Class SkinSettingForm
         SystemSet.SetValue("SkinUse", "1", Microsoft.Win32.RegistryValueKind.String)
         SkinSet.SetValue("SkinLocation", FileName, Microsoft.Win32.RegistryValueKind.String)
         SkinSet.SetValue("DownloadedSkinUse", 0, Microsoft.Win32.RegistryValueKind.String)
+
         Me.Close()
     End Sub
 
@@ -72,6 +73,7 @@ Public Class SkinSettingForm
             SkinPictureBox.ImageLocation = Str.ToString
             SkinApplyButton.Enabled = True
             ShowLargeImageButton.Enabled = True
+            FileName = Str.ToString
         Next
     End Sub
 
