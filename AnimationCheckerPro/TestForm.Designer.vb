@@ -29,11 +29,12 @@ Partial Class TestForm
         Me.AnissiaAPIWeekComboBox = New System.Windows.Forms.ComboBox()
         Me.WebRQTLabel = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.ListBox2 = New System.Windows.Forms.ListBox()
         Me.ListBox1 = New System.Windows.Forms.ListBox()
-        Me.Button3 = New System.Windows.Forms.Button()
+        Me.Button4 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -122,10 +123,19 @@ Partial Class TestForm
         Me.GroupBox2.Dock = System.Windows.Forms.DockStyle.Top
         Me.GroupBox2.Location = New System.Drawing.Point(446, 0)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(510, 70)
+        Me.GroupBox2.Size = New System.Drawing.Size(766, 70)
         Me.GroupBox2.TabIndex = 4
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "WEB Test"
+        '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(387, 24)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(111, 23)
+        Me.Button3.TabIndex = 5
+        Me.Button3.Text = "DateTimePicker"
+        Me.Button3.UseVisualStyleBackColor = True
         '
         'Button2
         '
@@ -140,10 +150,10 @@ Partial Class TestForm
         '
         Me.GroupBox3.Controls.Add(Me.ListBox2)
         Me.GroupBox3.Controls.Add(Me.ListBox1)
-        Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Left
         Me.GroupBox3.Location = New System.Drawing.Point(446, 70)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(510, 486)
+        Me.GroupBox3.Size = New System.Drawing.Size(266, 486)
         Me.GroupBox3.TabIndex = 5
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Anissia API Listbox"
@@ -155,7 +165,7 @@ Partial Class TestForm
         Me.ListBox2.ItemHeight = 15
         Me.ListBox2.Location = New System.Drawing.Point(3, 239)
         Me.ListBox2.Name = "ListBox2"
-        Me.ListBox2.Size = New System.Drawing.Size(504, 244)
+        Me.ListBox2.Size = New System.Drawing.Size(260, 244)
         Me.ListBox2.TabIndex = 1
         '
         'ListBox1
@@ -165,27 +175,29 @@ Partial Class TestForm
         Me.ListBox1.ItemHeight = 15
         Me.ListBox1.Location = New System.Drawing.Point(3, 17)
         Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.Size = New System.Drawing.Size(504, 214)
+        Me.ListBox1.Size = New System.Drawing.Size(260, 214)
         Me.ListBox1.TabIndex = 0
         '
-        'Button3
+        'Button4
         '
-        Me.Button3.Location = New System.Drawing.Point(387, 24)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(111, 23)
-        Me.Button3.TabIndex = 5
-        Me.Button3.Text = "DateTimePicker"
-        Me.Button3.UseVisualStyleBackColor = True
+        Me.Button4.Location = New System.Drawing.Point(910, 278)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(133, 23)
+        Me.Button4.TabIndex = 6
+        Me.Button4.Text = "MakeControl"
+        Me.Button4.UseVisualStyleBackColor = True
         '
         'TestForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(956, 556)
+        Me.ClientSize = New System.Drawing.Size(1212, 556)
+        Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.MaximizeBox = False
         Me.Name = "TestForm"
@@ -212,4 +224,5 @@ Partial Class TestForm
     Friend WithEvents ListBox1 As System.Windows.Forms.ListBox
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents Button3 As System.Windows.Forms.Button
+    Friend WithEvents Button4 As System.Windows.Forms.Button
 End Class

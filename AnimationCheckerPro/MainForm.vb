@@ -6,7 +6,7 @@ Public Class MainForm
 
     Public ACDataFolder As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData
     Dim ProjectLoadingFaild As Boolean = False
-    Public Version As Double = 1.345
+    Public Version As Double = 1.346
     Dim REG As RegistryKey = Registry.LocalMachine
     Public UserBrowser As String
     Dim RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
@@ -127,20 +127,18 @@ Public Class MainForm
         End If
     End Sub
     Public Sub VersionCheck()
+        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
         Dim getVersion As Double = INIRead("System", "Version", ACDataFolder & "\Config.ini")
         If Command() = "noupdate" Then
             MsgBox("Alert! Command 'noupdate' is detected Program will not run update process" & Chr(10) & "Program Current Version : " & Version & " / Internal Version : " & getVersion, MsgBoxStyle.Exclamation + MsgBoxStyle.OkOnly)
         Else
             If getVersion > Version Then
-                Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
                 If regkey.GetValue("Update Status") Is Nothing Then
                     regkey.SetValue("Update Status", 1, RegistryValueKind.String)
                 End If
                 regkey.SetValue("Update Status", 1, RegistryValueKind.String)
                 Shell(ACDataFolder & "\ACPUpdater.exe", AppWinStyle.NormalFocus)
                 End
-            Else
-
             End If
         End If
     End Sub
@@ -355,11 +353,6 @@ Public Class MainForm
             If REG.OpenSubKey(RegStorage & "\\Skin\\Download") Is Nothing Then
                 REG.CreateSubKey(RegStorage & "\\Skin\\Download")
             End If
-            If My.Computer.FileSystem.DirectoryExists(ACDataFolder & "\cache") Then
-
-            Else
-                My.Computer.FileSystem.CreateDirectory(ACDataFolder & "\cache")
-            End If
             Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
             regkey.SetValue("CurrentProgramVersion", Version, RegistryValueKind.String)
             regkey.SetValue("Location", My.Application.Info.DirectoryPath & "\")
@@ -380,7 +373,11 @@ Public Class MainForm
             ElseIf Stage = 2 Then
                 UpdaterProcess()
             ElseIf Stage = 3 Then
-                VersionCheck()
+                If Command() = "debug" Then
+                    MsgBox("command detected : debug" & Chr(10) & "AnimationCheckerSystem will not process update", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Command detected")
+                Else
+                    VersionCheck()
+                End If
             ElseIf Stage = 4 Then
                 FactorCheck()
             ElseIf Stage = 5 Then
@@ -437,16 +434,26 @@ Public Class MainForm
             If getImageType = 0 Then
                 ImageUrl = "http://gkskvhtm403.cafe24.com/" & getImageUrl
             End If
-            If getImgFilter = 1 Then
-                If getImageFilterRate = "1" Then
-                    ImageShowButton.Visible = True
+            Dim ImgReq = Net.WebRequest.Create(ImageUrl)
+            ImgReq.Timeout = 5000
+            Try
+                ImgReq.GetResponse()
+                If getImgFilter = 1 Then
+                    If getImageFilterRate = "1" Then
+                        ImageShowButton.Visible = True
+                    Else
+                        ImageShowButton.Visible = False
+                        StillCutPictureBox.ImageLocation = ImageUrl
+                    End If
                 Else
-                    ImageShowButton.Visible = False
-                    ImageGet()
+                    StillCutPictureBox.ImageLocation = ImageUrl
                 End If
-            Else
-                ImageGet()
-            End If
+            Catch ex As Exception
+                ImageErrorLabel.Visible = True
+                StillCutHideButton.Enabled = False
+                ShowLargeImageButton.Enabled = False
+            End Try
+            ImgReq.Abort()
             OnAirTimeLabel.Text = getTime
         ElseIf Type = "sub" Then
             Dim getSubNumber As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "SubNumber", ACDataFolder & "\AnimationCheckerProList.ini")
@@ -485,50 +492,9 @@ Public Class MainForm
             End If
         End If
     End Sub
-    Private Sub ImageGet()
-        Dim FileNameOnly As String = ImageUrl.Substring(ImageUrl.LastIndexOf("/") + 1)
-        Try
-            Dim rq = Net.WebRequest.Create(ImageUrl)
-            rq.Timeout = 5000
-            rq.GetResponse()
-            ImageErrorLabel.Visible = False
-            If My.Computer.FileSystem.FileExists(ACDataFolder & "\cache\" & FileNameOnly) Then
 
-            Else
-                StillCutPictureBox.Visible = False
-                Dim DownloadDestination As String = ACDataFolder & "\cache\" & FileNameOnly
-                ImgDownloadProgressBar.Visible = True
-                Dim ReDownBufferSize As Double = 0
-                Dim ThisRequest As HttpWebRequest = DirectCast(WebRequest.Create(ImageUrl), HttpWebRequest)
-                Dim ThisResponese As HttpWebResponse = DirectCast(ThisRequest.GetResponse(), HttpWebResponse)
-                Dim TotalSize As Integer = ThisResponese.ContentLength
-                Dim MyThisStream As Stream = ThisResponese.GetResponseStream()
-                Dim GetFileStream As New FileStream(DownloadDestination, FileMode.Create)
-                Dim buff As Byte() = New Byte(TotalSize) {}
-                Dim buffer As Byte() = buff
-                Do Until GetFileStream.Length = TotalSize
-                    ReDownBufferSize = MyThisStream.Read(buff, 0, 1024)
-                    GetFileStream.Write(buffer, 0, ReDownBufferSize)
-                    Application.DoEvents()
-                    ImgDownloadProgressBar.Value = Math.Round(GetFileStream.Length) / Math.Round(TotalSize) * 100
-                Loop
-                GetFileStream.Close()
-                MyThisStream.Close()
-                ThisResponese.Close()
-                ImgDownloadProgressBar.Visible = False
-            End If
-            StillCutPictureBox.Visible = True
-            StillCutPictureBox.ImageLocation = ACDataFolder & "\cache\" & FileNameOnly
-            StillCutHideButton.Enabled = True
-            ShowLargeImageButton.Enabled = True
-            rq.Abort()
-        Catch ex As Exception
-            ImageErrorLabel.Visible = True
-            StillCutHideButton.Enabled = False
-            ShowLargeImageButton.Enabled = False
-        End Try
-    End Sub
     Private Sub AnimationListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AnimationListBox.SelectedIndexChanged
+        Application.DoEvents()
         If AnimationListBox.SelectedIndex = -1 Then
             SearchListBox.Items.Clear()
             SubListBox.Items.Clear()
@@ -708,8 +674,7 @@ Public Class MainForm
         Dim getCloseAlert As Integer = regkey.GetValue("CloseAlert", 0)
         If getCloseTray = 2 Then
             If CloseCheck = True Then
-                StillCutPictureBox.Image = Nothing
-                My.Computer.FileSystem.DeleteDirectory(ACDataFolder & "\cache", FileIO.DeleteDirectoryOption.DeleteAllContents)
+
             Else
                 Me.Hide()
                 HideCheck = True
@@ -720,14 +685,12 @@ Public Class MainForm
             If getCloseAlert = 0 Then
                 Dim CloseAlertMsg = MsgBox("정말로 종료하시겠습니까?" & Chr(10) & "(이 설정은 옵션 - 프로그램 설정 에서 설정할수있습니다.)", MsgBoxStyle.YesNo + MsgBoxStyle.Information, "확인")
                 If CloseAlertMsg = vbYes Then
-                    StillCutPictureBox.Image = Nothing
-                    My.Computer.FileSystem.DeleteDirectory(ACDataFolder & "\cache", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                   
                 Else
                     e.Cancel = True
                 End If
             Else
-                StillCutPictureBox.Image = Nothing
-                My.Computer.FileSystem.DeleteDirectory(ACDataFolder & "\cache", FileIO.DeleteDirectoryOption.DeleteAllContents)
+
             End If
         End If
     End Sub
@@ -872,7 +835,7 @@ Public Class MainForm
     End Sub
 
     Private Sub ImageShowButton_Click(sender As Object, e As EventArgs) Handles ImageShowButton.Click
-        ImageGet()
+        StillCutPictureBox.ImageLocation = ImageUrl
         ImageShowButton.Visible = False
     End Sub
 

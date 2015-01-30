@@ -192,6 +192,13 @@ Public Class TestForm
         End If
         MsgBox("get " & Today.ToString("yy") & Month & "List")
     End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Dim ImgDownloadProgressBar As New ProgressBar
+        ImgDownloadProgressBar.Location = New System.Drawing.Point(852, 360)
+        ImgDownloadProgressBar.Size = New System.Drawing.Size(248, 18)
+        ImgDownloadProgressBar.Visible = True
+    End Sub
 End Class
 
 Public Class JSON
