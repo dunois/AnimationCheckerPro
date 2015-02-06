@@ -6,10 +6,10 @@ Public Class MainForm
 
     Public ACDataFolder As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData
     Dim ProjectLoadingFaild As Boolean = False
-    Public Version As Double = 1.346
+    Public Version As Double = 1.3471
     Dim REG As RegistryKey = Registry.LocalMachine
     Public UserBrowser As String
-    Dim RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
+    Public RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
     Dim CloseCheck As Boolean = False
     Dim HideCheck As Boolean = False
     Dim getUserBrowser As String
@@ -42,6 +42,7 @@ Public Class MainForm
     Dim GetQMonth As String = ""
     Public ListQuater As String = ""
     Dim ListDownloadError As Boolean = False
+
     '필요 구분 선언
     Public Function INIRead(ByVal Session As String, ByVal KeyValue As String, ByVal INIFILE As String) As String
         Dim s As New String("", 1024)
@@ -137,7 +138,7 @@ Public Class MainForm
                     regkey.SetValue("Update Status", 1, RegistryValueKind.String)
                 End If
                 regkey.SetValue("Update Status", 1, RegistryValueKind.String)
-                Shell(ACDataFolder & "\ACPUpdater.exe", AppWinStyle.NormalFocus)
+                Process.Start(ACDataFolder & "\ACPUpdater.exe")
                 End
             End If
         End If
@@ -329,9 +330,10 @@ Public Class MainForm
                 End If
             End If
         Next
+
     End Sub
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.StartPosition = FormStartPosition.CenterScreen
+        StartPosition = FormStartPosition.CenterScreen
         If Not bCreated Then '뮤텍스가 정상적으로 생성되지 않았으면 같은 이름의 뮤텍스가 있는것으로 판단
             MsgBox("프로그램이 이미 실행중입니다!", MsgBoxStyle.Exclamation + MsgBoxStyle.OkOnly, "오류")
             Application.ExitThread()
@@ -448,6 +450,9 @@ Public Class MainForm
                 Else
                     StillCutPictureBox.ImageLocation = ImageUrl
                 End If
+                ImageErrorLabel.Visible = False
+                StillCutHideButton.Enabled = True
+                ShowLargeImageButton.Enabled = True
             Catch ex As Exception
                 ImageErrorLabel.Visible = True
                 StillCutHideButton.Enabled = False
@@ -827,11 +832,6 @@ Public Class MainForm
             End Try
         Next
         ProgramOption.ReTestButton.Enabled = True
-    End Sub
-
-    Private Sub TestToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TestToolStripMenuItem.Click
-        TestForm.ShowDialog()
-
     End Sub
 
     Private Sub ImageShowButton_Click(sender As Object, e As EventArgs) Handles ImageShowButton.Click

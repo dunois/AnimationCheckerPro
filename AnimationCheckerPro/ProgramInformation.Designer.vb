@@ -31,22 +31,22 @@ Partial Class ProgramInformation
         Me.ProgramLabel = New System.Windows.Forms.Label()
         Me.UpdateInfoTabPage = New System.Windows.Forms.TabPage()
         Me.ChangeLogRichTextBox = New System.Windows.Forms.RichTextBox()
-        CType(Me.LogoPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.MainTabControl.SuspendLayout()
-        Me.ProgramInfoTabPage.SuspendLayout()
-        Me.UpdateInfoTabPage.SuspendLayout()
-        Me.SuspendLayout()
+        CType(Me.LogoPictureBox,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.MainTabControl.SuspendLayout
+        Me.ProgramInfoTabPage.SuspendLayout
+        Me.UpdateInfoTabPage.SuspendLayout
+        Me.SuspendLayout
         '
         'LogoPictureBox
         '
-        Me.LogoPictureBox.Image = CType(resources.GetObject("LogoPictureBox.Image"), System.Drawing.Image)
+        Me.LogoPictureBox.Image = CType(resources.GetObject("LogoPictureBox.Image"),System.Drawing.Image)
         Me.LogoPictureBox.Location = New System.Drawing.Point(8, 8)
         Me.LogoPictureBox.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.LogoPictureBox.Name = "LogoPictureBox"
         Me.LogoPictureBox.Size = New System.Drawing.Size(498, 192)
         Me.LogoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
         Me.LogoPictureBox.TabIndex = 0
-        Me.LogoPictureBox.TabStop = False
+        Me.LogoPictureBox.TabStop = false
         '
         'MainTabControl
         '
@@ -73,11 +73,11 @@ Partial Class ProgramInformation
         Me.ProgramInfoTabPage.Size = New System.Drawing.Size(498, 373)
         Me.ProgramInfoTabPage.TabIndex = 0
         Me.ProgramInfoTabPage.Text = "프로그램 정보"
-        Me.ProgramInfoTabPage.UseVisualStyleBackColor = True
+        Me.ProgramInfoTabPage.UseVisualStyleBackColor = true
         '
         'CopyrightLabel
         '
-        Me.CopyrightLabel.AutoSize = True
+        Me.CopyrightLabel.AutoSize = true
         Me.CopyrightLabel.Location = New System.Drawing.Point(42, 298)
         Me.CopyrightLabel.Name = "CopyrightLabel"
         Me.CopyrightLabel.Size = New System.Drawing.Size(406, 15)
@@ -86,7 +86,7 @@ Partial Class ProgramInformation
         '
         'VersionInfoLabel
         '
-        Me.VersionInfoLabel.AutoSize = True
+        Me.VersionInfoLabel.AutoSize = true
         Me.VersionInfoLabel.Location = New System.Drawing.Point(75, 268)
         Me.VersionInfoLabel.Name = "VersionInfoLabel"
         Me.VersionInfoLabel.Size = New System.Drawing.Size(90, 15)
@@ -95,8 +95,8 @@ Partial Class ProgramInformation
         '
         'ProgramLabel
         '
-        Me.ProgramLabel.AutoSize = True
-        Me.ProgramLabel.Font = New System.Drawing.Font("나눔고딕", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ProgramLabel.AutoSize = true
+        Me.ProgramLabel.Font = New System.Drawing.Font("나눔고딕", 18!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.ProgramLabel.Location = New System.Drawing.Point(40, 222)
         Me.ProgramLabel.Name = "ProgramLabel"
         Me.ProgramLabel.Size = New System.Drawing.Size(272, 28)
@@ -121,37 +121,37 @@ Partial Class ProgramInformation
         Me.ChangeLogRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.ChangeLogRichTextBox.Cursor = System.Windows.Forms.Cursors.Arrow
         Me.ChangeLogRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ChangeLogRichTextBox.Font = New System.Drawing.Font("나눔바른고딕", 8.95!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ChangeLogRichTextBox.Font = New System.Drawing.Font("나눔바른고딕", 8.95!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.ChangeLogRichTextBox.Location = New System.Drawing.Point(3, 4)
         Me.ChangeLogRichTextBox.Name = "ChangeLogRichTextBox"
-        Me.ChangeLogRichTextBox.ReadOnly = True
+        Me.ChangeLogRichTextBox.ReadOnly = true
         Me.ChangeLogRichTextBox.Size = New System.Drawing.Size(492, 365)
         Me.ChangeLogRichTextBox.TabIndex = 0
         Me.ChangeLogRichTextBox.Text = resources.GetString("ChangeLogRichTextBox.Text")
         '
         'ProgramInformation
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8!, 15!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(506, 401)
         Me.Controls.Add(Me.MainTabControl)
-        Me.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Icon = CType(resources.GetObject("$this.Icon"),System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
+        Me.MaximizeBox = false
+        Me.MinimizeBox = false
         Me.Name = "ProgramInformation"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "프로그램 정보"
-        CType(Me.LogoPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.MainTabControl.ResumeLayout(False)
-        Me.ProgramInfoTabPage.ResumeLayout(False)
-        Me.ProgramInfoTabPage.PerformLayout()
-        Me.UpdateInfoTabPage.ResumeLayout(False)
-        Me.ResumeLayout(False)
+        CType(Me.LogoPictureBox,System.ComponentModel.ISupportInitialize).EndInit
+        Me.MainTabControl.ResumeLayout(false)
+        Me.ProgramInfoTabPage.ResumeLayout(false)
+        Me.ProgramInfoTabPage.PerformLayout
+        Me.UpdateInfoTabPage.ResumeLayout(false)
+        Me.ResumeLayout(false)
 
-    End Sub
+End Sub
     Friend WithEvents LogoPictureBox As System.Windows.Forms.PictureBox
     Friend WithEvents MainTabControl As System.Windows.Forms.TabControl
     Friend WithEvents ProgramInfoTabPage As System.Windows.Forms.TabPage

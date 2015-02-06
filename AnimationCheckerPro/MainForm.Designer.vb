@@ -58,7 +58,6 @@ Partial Class MainForm
         Me.ToolMenuButton = New System.Windows.Forms.ToolStripDropDownButton()
         Me.SubFileNameChangerMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.AnimationSaveFolderOpenMenu = New System.Windows.Forms.ToolStripMenuItem()
-        Me.TestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SubListBox = New System.Windows.Forms.ListBox()
         Me.SearchListBox = New System.Windows.Forms.ListBox()
         Me.AnimationListBox = New System.Windows.Forms.ListBox()
@@ -73,15 +72,15 @@ Partial Class MainForm
         Me.CloseQuickMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.NoticeTimer = New System.Windows.Forms.Timer(Me.components)
         Me.PingBackgroundWorker = New System.ComponentModel.BackgroundWorker()
-        Me.MainPanel.SuspendLayout()
-        Me.ProgramStatus.SuspendLayout()
-        Me.SkinPanel.SuspendLayout()
-        Me.ImagePanel.SuspendLayout()
-        CType(Me.StillCutPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.MainMenu.SuspendLayout()
-        CType(Me.SplashPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.QuickMenu.SuspendLayout()
-        Me.SuspendLayout()
+        Me.MainPanel.SuspendLayout
+        Me.ProgramStatus.SuspendLayout
+        Me.SkinPanel.SuspendLayout
+        Me.ImagePanel.SuspendLayout
+        CType(Me.StillCutPictureBox,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.MainMenu.SuspendLayout
+        CType(Me.SplashPictureBox,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.QuickMenu.SuspendLayout
+        Me.SuspendLayout
         '
         'DownloadProgressBar
         '
@@ -93,7 +92,7 @@ Partial Class MainForm
         '
         'DownSpeedLabel
         '
-        Me.DownSpeedLabel.AutoSize = True
+        Me.DownSpeedLabel.AutoSize = true
         Me.DownSpeedLabel.BackColor = System.Drawing.Color.White
         Me.DownSpeedLabel.Location = New System.Drawing.Point(47, 378)
         Me.DownSpeedLabel.Margin = New System.Windows.Forms.Padding(0)
@@ -104,7 +103,7 @@ Partial Class MainForm
         '
         'DownloadStatusLabel
         '
-        Me.DownloadStatusLabel.AutoSize = True
+        Me.DownloadStatusLabel.AutoSize = true
         Me.DownloadStatusLabel.BackColor = System.Drawing.Color.White
         Me.DownloadStatusLabel.Location = New System.Drawing.Point(47, 312)
         Me.DownloadStatusLabel.Name = "DownloadStatusLabel"
@@ -122,8 +121,8 @@ Partial Class MainForm
         Me.ErrorCloseButton.Size = New System.Drawing.Size(75, 23)
         Me.ErrorCloseButton.TabIndex = 4
         Me.ErrorCloseButton.Text = "닫기"
-        Me.ErrorCloseButton.UseVisualStyleBackColor = True
-        Me.ErrorCloseButton.Visible = False
+        Me.ErrorCloseButton.UseVisualStyleBackColor = true
+        Me.ErrorCloseButton.Visible = false
         '
         'MainPanel
         '
@@ -138,7 +137,7 @@ Partial Class MainForm
         Me.MainPanel.Name = "MainPanel"
         Me.MainPanel.Size = New System.Drawing.Size(472, 682)
         Me.MainPanel.TabIndex = 5
-        Me.MainPanel.Visible = False
+        Me.MainPanel.Visible = false
         '
         'ProgramStatus
         '
@@ -175,7 +174,7 @@ Partial Class MainForm
         '
         'ImagePanel
         '
-        Me.ImagePanel.AutoScroll = True
+        Me.ImagePanel.AutoScroll = true
         Me.ImagePanel.BackColor = System.Drawing.Color.Transparent
         Me.ImagePanel.Controls.Add(Me.ImageShowButton)
         Me.ImagePanel.Controls.Add(Me.ImageErrorLabel)
@@ -194,22 +193,22 @@ Partial Class MainForm
         Me.ImageShowButton.Size = New System.Drawing.Size(88, 23)
         Me.ImageShowButton.TabIndex = 12
         Me.ImageShowButton.Text = "이미지 보기"
-        Me.ImageShowButton.UseVisualStyleBackColor = True
-        Me.ImageShowButton.Visible = False
+        Me.ImageShowButton.UseVisualStyleBackColor = true
+        Me.ImageShowButton.Visible = false
         '
         'ImageErrorLabel
         '
-        Me.ImageErrorLabel.AutoSize = True
+        Me.ImageErrorLabel.AutoSize = true
         Me.ImageErrorLabel.Location = New System.Drawing.Point(370, 237)
         Me.ImageErrorLabel.Name = "ImageErrorLabel"
         Me.ImageErrorLabel.Size = New System.Drawing.Size(215, 15)
         Me.ImageErrorLabel.TabIndex = 11
         Me.ImageErrorLabel.Text = "서버에 사진이 저장되어있지 않습니다."
-        Me.ImageErrorLabel.Visible = False
+        Me.ImageErrorLabel.Visible = false
         '
         'OnAirTimeLabel
         '
-        Me.OnAirTimeLabel.AutoSize = True
+        Me.OnAirTimeLabel.AutoSize = true
         Me.OnAirTimeLabel.Location = New System.Drawing.Point(90, 13)
         Me.OnAirTimeLabel.Name = "OnAirTimeLabel"
         Me.OnAirTimeLabel.Size = New System.Drawing.Size(155, 15)
@@ -218,7 +217,7 @@ Partial Class MainForm
         '
         'OnAirTitleLabel
         '
-        Me.OnAirTitleLabel.AutoSize = True
+        Me.OnAirTitleLabel.AutoSize = true
         Me.OnAirTitleLabel.Location = New System.Drawing.Point(22, 13)
         Me.OnAirTitleLabel.Name = "OnAirTitleLabel"
         Me.OnAirTitleLabel.Size = New System.Drawing.Size(71, 15)
@@ -232,39 +231,39 @@ Partial Class MainForm
         Me.StillCutPictureBox.Size = New System.Drawing.Size(910, 420)
         Me.StillCutPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.StillCutPictureBox.TabIndex = 0
-        Me.StillCutPictureBox.TabStop = False
+        Me.StillCutPictureBox.TabStop = false
         '
         'ShowLargeImageButton
         '
-        Me.ShowLargeImageButton.Enabled = False
+        Me.ShowLargeImageButton.Enabled = false
         Me.ShowLargeImageButton.Location = New System.Drawing.Point(806, 10)
         Me.ShowLargeImageButton.Name = "ShowLargeImageButton"
         Me.ShowLargeImageButton.Size = New System.Drawing.Size(95, 23)
         Me.ShowLargeImageButton.TabIndex = 7
         Me.ShowLargeImageButton.Text = "사진 크게보기"
-        Me.ShowLargeImageButton.UseVisualStyleBackColor = True
+        Me.ShowLargeImageButton.UseVisualStyleBackColor = true
         '
         'SubLinkButton
         '
-        Me.SubLinkButton.Enabled = False
+        Me.SubLinkButton.Enabled = false
         Me.SubLinkButton.Location = New System.Drawing.Point(143, 550)
         Me.SubLinkButton.Margin = New System.Windows.Forms.Padding(0)
         Me.SubLinkButton.Name = "SubLinkButton"
         Me.SubLinkButton.Size = New System.Drawing.Size(90, 31)
         Me.SubLinkButton.TabIndex = 6
         Me.SubLinkButton.Text = "블로그 이동"
-        Me.SubLinkButton.UseVisualStyleBackColor = True
+        Me.SubLinkButton.UseVisualStyleBackColor = true
         '
         'SearchButton
         '
-        Me.SearchButton.Enabled = False
+        Me.SearchButton.Enabled = false
         Me.SearchButton.Location = New System.Drawing.Point(50, 550)
         Me.SearchButton.Margin = New System.Windows.Forms.Padding(0)
         Me.SearchButton.Name = "SearchButton"
         Me.SearchButton.Size = New System.Drawing.Size(83, 31)
         Me.SearchButton.TabIndex = 5
         Me.SearchButton.Text = "검색"
-        Me.SearchButton.UseVisualStyleBackColor = True
+        Me.SearchButton.UseVisualStyleBackColor = true
         '
         'MiniModeButton
         '
@@ -273,11 +272,11 @@ Partial Class MainForm
         Me.MiniModeButton.Size = New System.Drawing.Size(23, 23)
         Me.MiniModeButton.TabIndex = 4
         Me.MiniModeButton.Text = "<"
-        Me.MiniModeButton.UseVisualStyleBackColor = True
+        Me.MiniModeButton.UseVisualStyleBackColor = true
         '
         'NameLabel
         '
-        Me.NameLabel.AutoSize = True
+        Me.NameLabel.AutoSize = true
         Me.NameLabel.BackColor = System.Drawing.Color.Transparent
         Me.NameLabel.Location = New System.Drawing.Point(47, 14)
         Me.NameLabel.Name = "NameLabel"
@@ -287,7 +286,7 @@ Partial Class MainForm
         '
         'TimeLabel
         '
-        Me.TimeLabel.AutoSize = True
+        Me.TimeLabel.AutoSize = true
         Me.TimeLabel.Location = New System.Drawing.Point(132, 355)
         Me.TimeLabel.Name = "TimeLabel"
         Me.TimeLabel.Size = New System.Drawing.Size(155, 15)
@@ -296,13 +295,13 @@ Partial Class MainForm
         '
         'StillCutHideButton
         '
-        Me.StillCutHideButton.Enabled = False
+        Me.StillCutHideButton.Enabled = false
         Me.StillCutHideButton.Location = New System.Drawing.Point(907, 10)
         Me.StillCutHideButton.Name = "StillCutHideButton"
         Me.StillCutHideButton.Size = New System.Drawing.Size(88, 23)
         Me.StillCutHideButton.TabIndex = 1
         Me.StillCutHideButton.Text = "사진 숨기기"
-        Me.StillCutHideButton.UseVisualStyleBackColor = True
+        Me.StillCutHideButton.UseVisualStyleBackColor = true
         '
         'MainMenu
         '
@@ -325,7 +324,7 @@ Partial Class MainForm
         '
         Me.OptionButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.OptionButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgramInformationButton, Me.ProgramConfigButton, Me.SkinRootButton})
-        Me.OptionButton.Image = CType(resources.GetObject("OptionButton.Image"), System.Drawing.Image)
+        Me.OptionButton.Image = CType(resources.GetObject("OptionButton.Image"),System.Drawing.Image)
         Me.OptionButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.OptionButton.Name = "OptionButton"
         Me.OptionButton.Size = New System.Drawing.Size(44, 22)
@@ -371,9 +370,8 @@ Partial Class MainForm
         'ToolMenuButton
         '
         Me.ToolMenuButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolMenuButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SubFileNameChangerMenu, Me.AnimationSaveFolderOpenMenu, Me.TestToolStripMenuItem})
-        Me.ToolMenuButton.Enabled = False
-        Me.ToolMenuButton.Image = CType(resources.GetObject("ToolMenuButton.Image"), System.Drawing.Image)
+        Me.ToolMenuButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SubFileNameChangerMenu, Me.AnimationSaveFolderOpenMenu})
+        Me.ToolMenuButton.Image = CType(resources.GetObject("ToolMenuButton.Image"),System.Drawing.Image)
         Me.ToolMenuButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolMenuButton.Name = "ToolMenuButton"
         Me.ToolMenuButton.Size = New System.Drawing.Size(44, 22)
@@ -381,6 +379,7 @@ Partial Class MainForm
         '
         'SubFileNameChangerMenu
         '
+        Me.SubFileNameChangerMenu.Enabled = false
         Me.SubFileNameChangerMenu.Name = "SubFileNameChangerMenu"
         Me.SubFileNameChangerMenu.Size = New System.Drawing.Size(218, 22)
         Me.SubFileNameChangerMenu.Text = "자막 파일명 변환"
@@ -391,17 +390,10 @@ Partial Class MainForm
         Me.AnimationSaveFolderOpenMenu.Size = New System.Drawing.Size(218, 22)
         Me.AnimationSaveFolderOpenMenu.Text = "애니메이션 저장 폴더 열기"
         '
-        'TestToolStripMenuItem
-        '
-        Me.TestToolStripMenuItem.Name = "TestToolStripMenuItem"
-        Me.TestToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
-        Me.TestToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
-        Me.TestToolStripMenuItem.Text = "Test"
-        '
         'SubListBox
         '
-        Me.SubListBox.FormattingEnabled = True
-        Me.SubListBox.HorizontalScrollbar = True
+        Me.SubListBox.FormattingEnabled = true
+        Me.SubListBox.HorizontalScrollbar = true
         Me.SubListBox.ItemHeight = 15
         Me.SubListBox.Items.AddRange(New Object() {"애니메이션을 선택하세요"})
         Me.SubListBox.Location = New System.Drawing.Point(9, 477)
@@ -412,8 +404,8 @@ Partial Class MainForm
         '
         'SearchListBox
         '
-        Me.SearchListBox.FormattingEnabled = True
-        Me.SearchListBox.HorizontalScrollbar = True
+        Me.SearchListBox.FormattingEnabled = true
+        Me.SearchListBox.HorizontalScrollbar = true
         Me.SearchListBox.ItemHeight = 15
         Me.SearchListBox.Items.AddRange(New Object() {"애니메이션을 선택하세요"})
         Me.SearchListBox.Location = New System.Drawing.Point(9, 300)
@@ -424,7 +416,7 @@ Partial Class MainForm
         '
         'AnimationListBox
         '
-        Me.AnimationListBox.FormattingEnabled = True
+        Me.AnimationListBox.FormattingEnabled = true
         Me.AnimationListBox.ItemHeight = 15
         Me.AnimationListBox.Items.AddRange(New Object() {"리스트를 로딩중입니다."})
         Me.AnimationListBox.Location = New System.Drawing.Point(9, 38)
@@ -435,18 +427,18 @@ Partial Class MainForm
         'SplashPictureBox
         '
         Me.SplashPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.SplashPictureBox.Image = CType(resources.GetObject("SplashPictureBox.Image"), System.Drawing.Image)
+        Me.SplashPictureBox.Image = CType(resources.GetObject("SplashPictureBox.Image"),System.Drawing.Image)
         Me.SplashPictureBox.Location = New System.Drawing.Point(15, 132)
         Me.SplashPictureBox.Name = "SplashPictureBox"
         Me.SplashPictureBox.Size = New System.Drawing.Size(462, 195)
         Me.SplashPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
         Me.SplashPictureBox.TabIndex = 6
-        Me.SplashPictureBox.TabStop = False
+        Me.SplashPictureBox.TabStop = false
         '
         'NotifyIcon
         '
         Me.NotifyIcon.ContextMenuStrip = Me.QuickMenu
-        Me.NotifyIcon.Icon = CType(resources.GetObject("NotifyIcon.Icon"), System.Drawing.Icon)
+        Me.NotifyIcon.Icon = CType(resources.GetObject("NotifyIcon.Icon"),System.Drawing.Icon)
         Me.NotifyIcon.Text = "AnimationCheckerPro"
         '
         'QuickMenu
@@ -454,9 +446,9 @@ Partial Class MainForm
         Me.QuickMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenQuickMenu, Me.ToolStripSeparator2, Me.InfoQuickMenu, Me.OptionQuickMenu, Me.ToolStripSeparator1, Me.CloseQuickMenu})
         Me.QuickMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow
         Me.QuickMenu.Name = "QuickMenu"
-        Me.QuickMenu.ShowCheckMargin = True
-        Me.QuickMenu.ShowImageMargin = False
-        Me.QuickMenu.ShowItemToolTips = False
+        Me.QuickMenu.ShowCheckMargin = true
+        Me.QuickMenu.ShowImageMargin = false
+        Me.QuickMenu.ShowItemToolTips = false
         Me.QuickMenu.Size = New System.Drawing.Size(172, 104)
         '
         'OpenQuickMenu
@@ -502,7 +494,7 @@ Partial Class MainForm
         '
         'MainForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8!, 15!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(472, 682)
@@ -512,31 +504,31 @@ Partial Class MainForm
         Me.Controls.Add(Me.DownSpeedLabel)
         Me.Controls.Add(Me.DownloadProgressBar)
         Me.Controls.Add(Me.SplashPictureBox)
-        Me.Font = New System.Drawing.Font("나눔고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Font = New System.Drawing.Font("나눔고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Icon = CType(resources.GetObject("$this.Icon"),System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.MaximizeBox = False
+        Me.MaximizeBox = false
         Me.Name = "MainForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Animation CheckerPro"
-        Me.MainPanel.ResumeLayout(False)
-        Me.MainPanel.PerformLayout()
-        Me.ProgramStatus.ResumeLayout(False)
-        Me.ProgramStatus.PerformLayout()
-        Me.SkinPanel.ResumeLayout(False)
-        Me.SkinPanel.PerformLayout()
-        Me.ImagePanel.ResumeLayout(False)
-        Me.ImagePanel.PerformLayout()
-        CType(Me.StillCutPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.MainMenu.ResumeLayout(False)
-        Me.MainMenu.PerformLayout()
-        CType(Me.SplashPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.QuickMenu.ResumeLayout(False)
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        Me.MainPanel.ResumeLayout(false)
+        Me.MainPanel.PerformLayout
+        Me.ProgramStatus.ResumeLayout(false)
+        Me.ProgramStatus.PerformLayout
+        Me.SkinPanel.ResumeLayout(false)
+        Me.SkinPanel.PerformLayout
+        Me.ImagePanel.ResumeLayout(false)
+        Me.ImagePanel.PerformLayout
+        CType(Me.StillCutPictureBox,System.ComponentModel.ISupportInitialize).EndInit
+        Me.MainMenu.ResumeLayout(false)
+        Me.MainMenu.PerformLayout
+        CType(Me.SplashPictureBox,System.ComponentModel.ISupportInitialize).EndInit
+        Me.QuickMenu.ResumeLayout(false)
+        Me.ResumeLayout(false)
+        Me.PerformLayout
 
-    End Sub
+End Sub
     Friend WithEvents DownloadProgressBar As System.Windows.Forms.ProgressBar
     Friend WithEvents DownSpeedLabel As System.Windows.Forms.Label
     Friend WithEvents DownloadStatusLabel As System.Windows.Forms.Label
@@ -576,7 +568,6 @@ Partial Class MainForm
     Friend WithEvents NoticeTimer As System.Windows.Forms.Timer
     Friend WithEvents AnimationSaveFolderOpenMenu As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PingBackgroundWorker As System.ComponentModel.BackgroundWorker
-    Friend WithEvents TestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ImageErrorLabel As System.Windows.Forms.Label
     Friend WithEvents ImageShowButton As System.Windows.Forms.Button
     Friend WithEvents QuickMenu As System.Windows.Forms.ContextMenuStrip
