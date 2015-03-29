@@ -155,7 +155,7 @@ Public Class MainForm
         If My.Computer.FileSystem.FileExists(ACDataFolder & "\SkinList.ini") Then
             My.Computer.FileSystem.DeleteFile(ACDataFolder & "\SkinList.ini")
         End If
-        GetFileFromUrl("http://dnsoft.me/ACPData/ACPSkinList.ini", ACDataFolder & "\SkinList.ini", "SkinList")
+        GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/ACPSkinList.ini", ACDataFolder & "\SkinList.ini", "SkinList")
         If My.Computer.FileSystem.DirectoryExists(ACDataFolder & "\Skin") Then
 
         Else
@@ -169,14 +169,14 @@ Public Class MainForm
         End If
         getListQuater()
         Try
-            Dim rq = Net.WebRequest.Create("http://dnsoft.me/ACPData/ACP" & ListQuater & ".rev.ini")
+            Dim rq = Net.WebRequest.Create("http://gkskvhtm403.cafe24.com/ACPData/ACP" & ListQuater & ".rev.ini")
             rq.Timeout = 5000
             rq.GetResponse()
-            GetFileFromUrl("http://dnsoft.me/ACPData/ACP" & ListQuater & ".rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
+            GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/ACP" & ListQuater & ".rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
             ListDownloadError = False
         Catch ex As Exception
             MsgBox("서버에 지정된 리스트(" & TimeInfo.ToString("yy") & "년 " & GetQMonth & "월" & ")가 존재하지 않아 이전 리스트를 다운로드 합니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "리스트 존재하지 않음")
-            GetFileFromUrl("http://dnsoft.me/ACPData/AnimationCheckerProList.rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
+            GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/AnimationCheckerProList.rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
             ListDownloadError = True
         End Try
     End Sub
