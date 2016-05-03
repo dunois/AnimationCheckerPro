@@ -29,14 +29,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AnimationCheckerPro.exe" size="3197952">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AnimationCheckerPro.exe" size="2594816">
       <assemblyIdentity name="AnimationCheckerPro" version="1.3.4.64800" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>XgNWsfRDnFZ3BOaCPX3p6aSOyGMmu8CZmAUeGEaVHvw=</dsig:DigestValue>
+        <dsig:DigestValue>LYpN1oWl9LNSAmER+UxgeeLxcM99q5cRojE9KZseLg4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -49,13 +49,13 @@
       <dsig:DigestValue>6AqqqPaz9PC3dVRCgvxt13lF0M0yKgToDXgZQoAjamI=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="AnimationCheckerPro.exe.config" size="186">
+  <file name="AnimationCheckerPro.exe.config" size="231">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>h0UeIdteCM29dGVw07LmHp593fPbh0IN11GyN3f2uRA=</dsig:DigestValue>
+      <dsig:DigestValue>3kMR14I492SGHM3ENkovtFG0+GRFOanBVwmyCFv3r1w=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class SkinSettingForm
     Inherits System.Windows.Forms.Form
 
     'Form은 Dispose를 재정의하여 구성 요소 목록을 정리합니다.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class SkinSettingForm
     '참고: 다음 프로시저는 Windows Form 디자이너에 필요합니다.
     '수정하려면 Windows Form 디자이너를 사용하십시오.  
     '코드 편집기를 사용하여 수정하지 마십시오.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SkinSettingForm))
         Me.SkinFileOpenButton = New System.Windows.Forms.Button()
@@ -31,8 +31,6 @@ Partial Class SkinSettingForm
         Me.SkinPanel = New System.Windows.Forms.Panel()
         Me.SkinPictureBox = New System.Windows.Forms.PictureBox()
         Me.TipLabel = New System.Windows.Forms.Label()
-        Me.ImageModeComboBox = New System.Windows.Forms.ComboBox()
-        Me.ImageModeLabel = New System.Windows.Forms.Label()
         Me.SkinPanel.SuspendLayout()
         CType(Me.SkinPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -114,33 +112,12 @@ Partial Class SkinSettingForm
         Me.TipLabel.TabIndex = 6
         Me.TipLabel.Text = "파일을 끌어오면 쉽게 배경화면을 설정할수있습니다."
         '
-        'ImageModeComboBox
-        '
-        Me.ImageModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ImageModeComboBox.FormattingEnabled = True
-        Me.ImageModeComboBox.Items.AddRange(New Object() {"리사이즈 없음", "리사이즈"})
-        Me.ImageModeComboBox.Location = New System.Drawing.Point(292, 12)
-        Me.ImageModeComboBox.Name = "ImageModeComboBox"
-        Me.ImageModeComboBox.Size = New System.Drawing.Size(121, 23)
-        Me.ImageModeComboBox.TabIndex = 7
-        '
-        'ImageModeLabel
-        '
-        Me.ImageModeLabel.AutoSize = True
-        Me.ImageModeLabel.Location = New System.Drawing.Point(221, 16)
-        Me.ImageModeLabel.Name = "ImageModeLabel"
-        Me.ImageModeLabel.Size = New System.Drawing.Size(68, 15)
-        Me.ImageModeLabel.TabIndex = 8
-        Me.ImageModeLabel.Text = "보기 모드 : "
-        '
         'SkinSettingForm
         '
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(957, 707)
-        Me.Controls.Add(Me.ImageModeLabel)
-        Me.Controls.Add(Me.ImageModeComboBox)
         Me.Controls.Add(Me.TipLabel)
         Me.Controls.Add(Me.SkinPanel)
         Me.Controls.Add(Me.ShowLargeImageButton)
@@ -172,6 +149,4 @@ Partial Class SkinSettingForm
     Friend WithEvents SkinPanel As System.Windows.Forms.Panel
     Friend WithEvents SkinPictureBox As System.Windows.Forms.PictureBox
     Friend WithEvents TipLabel As System.Windows.Forms.Label
-    Friend WithEvents ImageModeComboBox As System.Windows.Forms.ComboBox
-    Friend WithEvents ImageModeLabel As System.Windows.Forms.Label
 End Class

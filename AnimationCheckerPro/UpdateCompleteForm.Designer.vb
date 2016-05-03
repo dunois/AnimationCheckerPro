@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class UpdateCompleteForm
     Inherits System.Windows.Forms.Form
 
     'Form은 Dispose를 재정의하여 구성 요소 목록을 정리합니다.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,18 +20,18 @@ Partial Class UpdateCompleteForm
     '참고: 다음 프로시저는 Windows Form 디자이너에 필요합니다.
     '수정하려면 Windows Form 디자이너를 사용하십시오.  
     '코드 편집기를 사용하여 수정하지 마십시오.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UpdateCompleteForm))
         Me.TitleLabel = New System.Windows.Forms.Label()
         Me.ChangeLog = New System.Windows.Forms.RichTextBox()
         Me.FormCloseButton = New System.Windows.Forms.Button()
-        Me.SuspendLayout
+        Me.SuspendLayout()
         '
         'TitleLabel
         '
-        Me.TitleLabel.AutoSize = true
-        Me.TitleLabel.Font = New System.Drawing.Font("나눔고딕", 18!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.TitleLabel.AutoSize = True
+        Me.TitleLabel.Font = New System.Drawing.Font("나눔고딕", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.TitleLabel.Location = New System.Drawing.Point(12, 23)
         Me.TitleLabel.Name = "TitleLabel"
         Me.TitleLabel.Size = New System.Drawing.Size(157, 28)
@@ -42,44 +42,44 @@ Partial Class UpdateCompleteForm
         '
         Me.ChangeLog.BackColor = System.Drawing.SystemColors.Control
         Me.ChangeLog.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.ChangeLog.Location = New System.Drawing.Point(34, 83)
+        Me.ChangeLog.Location = New System.Drawing.Point(34, 63)
         Me.ChangeLog.Name = "ChangeLog"
-        Me.ChangeLog.ReadOnly = true
+        Me.ChangeLog.ReadOnly = True
         Me.ChangeLog.Size = New System.Drawing.Size(399, 198)
         Me.ChangeLog.TabIndex = 2
         Me.ChangeLog.Text = "Loading"
         '
         'FormCloseButton
         '
-        Me.FormCloseButton.Location = New System.Drawing.Point(358, 287)
+        Me.FormCloseButton.Location = New System.Drawing.Point(451, 335)
         Me.FormCloseButton.Name = "FormCloseButton"
         Me.FormCloseButton.Size = New System.Drawing.Size(75, 23)
         Me.FormCloseButton.TabIndex = 3
         Me.FormCloseButton.Text = "닫기"
-        Me.FormCloseButton.UseVisualStyleBackColor = true
+        Me.FormCloseButton.UseVisualStyleBackColor = True
         '
         'UpdateCompleteForm
         '
         Me.AcceptButton = Me.FormCloseButton
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8!, 15!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(445, 319)
-        Me.ControlBox = false
+        Me.ClientSize = New System.Drawing.Size(538, 370)
+        Me.ControlBox = False
         Me.Controls.Add(Me.FormCloseButton)
         Me.Controls.Add(Me.ChangeLog)
         Me.Controls.Add(Me.TitleLabel)
-        Me.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
-        Me.Icon = CType(resources.GetObject("$this.Icon"),System.Drawing.Icon)
+        Me.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.MaximizeBox = false
-        Me.MinimizeBox = false
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "UpdateCompleteForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "업데이트 완료"
-        Me.ResumeLayout(false)
-        Me.PerformLayout
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
 
-End Sub
+    End Sub
     Friend WithEvents TitleLabel As System.Windows.Forms.Label
     Friend WithEvents ChangeLog As System.Windows.Forms.RichTextBox
     Friend WithEvents FormCloseButton As System.Windows.Forms.Button

@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>게시\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -104,12 +104,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DownloadedSkinConfig.Designer.vb">
-      <DependentUpon>DownloadedSkinConfig.vb</DependentUpon>
-    </Compile>
-    <Compile Include="DownloadedSkinConfig.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ACPFunction.vb" />
     <Compile Include="ImportantNotice.Designer.vb">
       <DependentUpon>ImportantNotice.vb</DependentUpon>
     </Compile>
@@ -155,20 +150,10 @@
     <Compile Include="ProgramOption.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SkinDownloadForm.Designer.vb">
-      <DependentUpon>SkinDownloadForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SkinDownloadForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="SkinSettingForm.Designer.vb">
       <DependentUpon>SkinSettingForm.vb</DependentUpon>
     </Compile>
     <Compile Include="SkinSettingForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TestForm.Designer.vb" />
-    <Compile Include="TestForm.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UpdateCompleteForm.Designer.vb">
@@ -179,9 +164,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DownloadedSkinConfig.resx">
-      <DependentUpon>DownloadedSkinConfig.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ImportantNotice.resx">
       <DependentUpon>ImportantNotice.vb</DependentUpon>
     </EmbeddedResource>
@@ -203,13 +185,9 @@
     <EmbeddedResource Include="ProgramOption.resx">
       <DependentUpon>ProgramOption.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SkinDownloadForm.resx">
-      <DependentUpon>SkinDownloadForm.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="SkinSettingForm.resx">
       <DependentUpon>SkinSettingForm.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TestForm.resx" />
     <EmbeddedResource Include="UpdateCompleteForm.resx">
       <DependentUpon>UpdateCompleteForm.vb</DependentUpon>
     </EmbeddedResource>
@@ -223,7 +201,7 @@
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
     <None Include="My Project\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>

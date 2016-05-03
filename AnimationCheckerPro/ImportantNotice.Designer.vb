@@ -28,12 +28,14 @@ Partial Class ImportantNotice
         Me.NoticeLabel = New System.Windows.Forms.Label()
         Me.FExitButton = New System.Windows.Forms.Button()
         Me.CloseButtonTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.SuspendLayout
+        Me.NoticePanel = New System.Windows.Forms.Panel()
+        Me.NoticePanel.SuspendLayout()
+        Me.SuspendLayout()
         '
         'TitleLabel
         '
-        Me.TitleLabel.AutoSize = true
-        Me.TitleLabel.Font = New System.Drawing.Font("나눔고딕", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.TitleLabel.AutoSize = True
+        Me.TitleLabel.Font = New System.Drawing.Font("나눔고딕", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.TitleLabel.Location = New System.Drawing.Point(12, 9)
         Me.TitleLabel.Name = "TitleLabel"
         Me.TitleLabel.Size = New System.Drawing.Size(90, 24)
@@ -42,9 +44,10 @@ Partial Class ImportantNotice
         '
         'NoticeLabel
         '
-        Me.NoticeLabel.Location = New System.Drawing.Point(35, 50)
+        Me.NoticeLabel.AutoSize = True
+        Me.NoticeLabel.Location = New System.Drawing.Point(15, 13)
         Me.NoticeLabel.Name = "NoticeLabel"
-        Me.NoticeLabel.Size = New System.Drawing.Size(430, 249)
+        Me.NoticeLabel.Size = New System.Drawing.Size(56, 15)
         Me.NoticeLabel.TabIndex = 1
         Me.NoticeLabel.Text = "Loading"
         '
@@ -55,32 +58,43 @@ Partial Class ImportantNotice
         Me.FExitButton.Size = New System.Drawing.Size(75, 23)
         Me.FExitButton.TabIndex = 2
         Me.FExitButton.Text = "닫기"
-        Me.FExitButton.UseVisualStyleBackColor = true
-        Me.FExitButton.Visible = false
+        Me.FExitButton.UseVisualStyleBackColor = True
+        Me.FExitButton.Visible = False
         '
         'CloseButtonTimer
         '
         '
+        'NoticePanel
+        '
+        Me.NoticePanel.AutoScroll = True
+        Me.NoticePanel.Controls.Add(Me.NoticeLabel)
+        Me.NoticePanel.Location = New System.Drawing.Point(16, 36)
+        Me.NoticePanel.Name = "NoticePanel"
+        Me.NoticePanel.Size = New System.Drawing.Size(449, 257)
+        Me.NoticePanel.TabIndex = 3
+        '
         'ImportantNotice
         '
         Me.AcceptButton = Me.FExitButton
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8!, 15!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(477, 349)
-        Me.ControlBox = false
+        Me.ControlBox = False
+        Me.Controls.Add(Me.NoticePanel)
         Me.Controls.Add(Me.FExitButton)
-        Me.Controls.Add(Me.NoticeLabel)
         Me.Controls.Add(Me.TitleLabel)
-        Me.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.Icon = CType(resources.GetObject("$this.Icon"),System.Drawing.Icon)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.MaximizeBox = false
-        Me.MinimizeBox = false
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "ImportantNotice"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "중요 공지사항"
-        Me.ResumeLayout(false)
+        Me.NoticePanel.ResumeLayout(False)
+        Me.NoticePanel.PerformLayout()
+        Me.ResumeLayout(False)
         Me.PerformLayout
 
 End Sub
@@ -88,4 +102,5 @@ End Sub
     Friend WithEvents NoticeLabel As System.Windows.Forms.Label
     Friend WithEvents FExitButton As System.Windows.Forms.Button
     Friend WithEvents CloseButtonTimer As System.Windows.Forms.Timer
+    Friend WithEvents NoticePanel As Panel
 End Class

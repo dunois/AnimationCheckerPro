@@ -1,12 +1,7 @@
 ﻿Imports Microsoft.Win32
 Public Class ImportantNotice
-
     Private Sub FExitButton_Click(sender As Object, e As EventArgs) Handles FExitButton.Click
-        Dim RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
-        Dim REG As RegistryKey = Registry.LocalMachine
-        Dim getNoticeType As String = MainForm.INIRead("Notice", "ImpNoticeType", MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
-        Dim regkey As RegistryKey = REG.OpenSubKey(RegStorage, True)
-        regkey.SetValue("NoticeType", getNoticeType)
+        XMLWriter(MainForm.ACDataFolder & "\Settings.xml", "System", "Notice", MainForm.INIRead("Notice", "ImpNoticeType", MainForm.ACDataFolder & "\AnimationCheckerProList.ini"))
         Me.Close()
     End Sub
 
