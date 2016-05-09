@@ -4,17 +4,24 @@ Imports Microsoft.Win32
 Imports System.Text.RegularExpressions
 
 Public Class ProgramOption
-    Dim TrayOption As String = XMLReader(MainForm.ACDataFolder & "\Settings.xml", "System", "SystemTray")
-    Dim CloseAlertOption As String = XMLReader(MainForm.ACDataFolder & "\Settings.xml", "System", "CloseAlert")
-    Dim ImageFilerOption As String = XMLReader(MainForm.ACDataFolder & "\Settings.xml", "System", "ImageFilter")
-    Dim AniFolderPath As String = XMLReader(MainForm.ACDataFolder & "\Settings.xml", "System", "AniFolder")
-    Dim ActionTypeOption As String = XMLReader(MainForm.ACDataFolder & "\Settings.xml", "System", "ActionType")
-    Dim NTCatOption As String = XMLReader(MainForm.ACDataFolder & "\Settings.xml", "System", "NTCat")
-    Dim NTFilterOption As String = XMLReader(MainForm.ACDataFolder & "\Settings.xml", "System", "NTFilter")
+    Dim TrayOption As String = XMLReader(MainForm.SettingFileLocation, "System", "SystemTray")
+    Dim CloseAlertOption As String = XMLReader(MainForm.SettingFileLocation, "System", "CloseAlert")
+    Dim ImageFilerOption As String = XMLReader(MainForm.SettingFileLocation, "System", "ImageFilter")
+    Dim AniFolderPath As String = XMLReader(MainForm.SettingFileLocation, "System", "AniFolder")
+    Dim ActionTypeOption As String = XMLReader(MainForm.SettingFileLocation, "System", "ActionType")
+    Dim NTCatOption As String = XMLReader(MainForm.SettingFileLocation, "System", "NTCat")
+    Dim NTFilterOption As String = XMLReader(MainForm.SettingFileLocation, "System", "NTFilter")
 
     Private Sub ProgramOption_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim ListDate As String = MainForm.INIRead("System", "ListDate", MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
         Dim ListProducer As String = MainForm.INIRead("System", "ListProducer", MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
+        TrayOption = XMLReader(MainForm.SettingFileLocation, "System", "SystemTray")
+        CloseAlertOption = XMLReader(MainForm.SettingFileLocation, "System", "CloseAlert")
+        ImageFilerOption = XMLReader(MainForm.SettingFileLocation, "System", "ImageFilter")
+        AniFolderPath = XMLReader(MainForm.SettingFileLocation, "System", "AniFolder")
+        ActionTypeOption = XMLReader(MainForm.SettingFileLocation, "System", "ActionType")
+        NTCatOption = XMLReader(MainForm.SettingFileLocation, "System", "NTCat")
+        NTFilterOption = XMLReader(MainForm.SettingFileLocation, "System", "NTFilter")
         SystemTrayComboBox.SelectedIndex = TrayOption
         CloseAlertComboBox.SelectedIndex = CloseAlertOption
         ImageFilteringComboBox.SelectedIndex = ImageFilerOption
@@ -151,12 +158,12 @@ Public Class ProgramOption
     End Sub
 
     Private Sub OptionSaveButton_Click(sender As Object, e As EventArgs) Handles OptionSaveButton.Click
-        XMLWriter(MainForm.ACDataFolder & "\Settings.xml", "System", "ActionType", ButtonActionComboBox.SelectedIndex)
-        XMLWriter(MainForm.ACDataFolder & "\Settings.xml", "System", "CloseAlert", CloseAlertComboBox.SelectedIndex)
-        XMLWriter(MainForm.ACDataFolder & "\Settings.xml", "System", "ImageFilter", ImageFilteringComboBox.SelectedIndex)
-        XMLWriter(MainForm.ACDataFolder & "\Settings.xml", "System", "NTCat", NTCatComboBox.Text)
-        XMLWriter(MainForm.ACDataFolder & "\Settings.xml", "System", "NTFilter", NTFilterComboBox.SelectedIndex)
-        XMLWriter(MainForm.ACDataFolder & "\Settings.xml", "System", "SystemTray", SystemTrayComboBox.SelectedIndex)
+        XMLWriter(MainForm.SettingFileLocation, "System", "ActionType", ButtonActionComboBox.SelectedIndex)
+        XMLWriter(MainForm.SettingFileLocation, "System", "CloseAlert", CloseAlertComboBox.SelectedIndex)
+        XMLWriter(MainForm.SettingFileLocation, "System", "ImageFilter", ImageFilteringComboBox.SelectedIndex)
+        XMLWriter(MainForm.SettingFileLocation, "System", "NTCat", NTCatComboBox.Text)
+        XMLWriter(MainForm.SettingFileLocation, "System", "NTFilter", NTFilterComboBox.SelectedIndex)
+        XMLWriter(MainForm.SettingFileLocation, "System", "SystemTray", SystemTrayComboBox.SelectedIndex)
         If SystemTrayComboBox.SelectedIndex = 1 Then
             MainForm.NotifyIcon.Visible = True
         Else
@@ -170,6 +177,7 @@ Public Class ProgramOption
             MainForm.SubLinkButton.Visible = True
         End If
         MsgBox("저장되었습니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "완료")
+        Refresh()
         Close()
     End Sub
 End Class

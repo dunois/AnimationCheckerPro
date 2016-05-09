@@ -45,7 +45,7 @@ Partial Class UpdateCompleteForm
         Me.ChangeLog.Location = New System.Drawing.Point(34, 63)
         Me.ChangeLog.Name = "ChangeLog"
         Me.ChangeLog.ReadOnly = True
-        Me.ChangeLog.Size = New System.Drawing.Size(399, 198)
+        Me.ChangeLog.Size = New System.Drawing.Size(492, 257)
         Me.ChangeLog.TabIndex = 2
         Me.ChangeLog.Text = "Loading"
         '

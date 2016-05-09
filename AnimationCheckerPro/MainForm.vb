@@ -1,12 +1,9 @@
 ﻿Imports System.Net
 Imports System.IO
-Imports Microsoft.Win32
-Imports System.Xml
 
 Public Class MainForm
-    Public Version As Double = 1.4
+    Public Version As Double = 1.411
     Public ACDataFolder As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData
-    Public RegStorage As String = "Software\\Dunois Soft\\Animation Checker Pro"
     Public WeekdayName As String
     Public LoadedListStatus As Integer = 0
     Public Declare Function GetPrivateProfileString Lib "kernel32" Alias "GetPrivateProfileStringA" (ByVal lpApplicationName As String, ByVal lpKeyName As String, ByVal lpDefault As String, ByVal lpReturnedString As String, ByVal nSize As Integer, ByVal lpFileName As String) As Integer
@@ -18,6 +15,7 @@ Public Class MainForm
     Public SearchLink As String = ""
     Public SubLink As String = ""
     Public ListQuater As String = ""
+    Public SettingFileLocation As String = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) & "\Dunois Software\AnimationCheckerPro\Settings.xml"
     Dim CloseToggleStatus As Boolean = False
     Dim ListDownloadError As Boolean = False
     Dim TodayDate = Weekday(My.Computer.Clock.LocalTime)
@@ -86,13 +84,13 @@ Public Class MainForm
     End Sub
 
     Public Sub ACConfigDownLoad()
-        If My.Computer.FileSystem.FileExists(ACDataFolder & "\Config.ini") Then
-            My.Computer.FileSystem.DeleteFile(ACDataFolder & "\Config.ini")
+        If My.Computer.FileSystem.FileExists(ACDataFolder & "\VersionInfo.ini") Then
+            My.Computer.FileSystem.DeleteFile(ACDataFolder & "\VersionInfo.ini")
         End If
         Try
-            My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/ACPData/SystemConfig.ini", ACDataFolder & "\Config.ini")
+            My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/ACPData/ACPVersion.ini", ACDataFolder & "\VersionInfo.ini")
         Catch ex As Exception
-            MsgBox("필수 구성요소(리스트 환경설정) 다운로드에 실패하였습니다! 인터넷 문제일수있습니다." & Chr(10) & "오류코드 : 0_LD_CONFIG", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+            MsgBox("버전 정보를 가져올 수 없습니다!", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
             DownloadStatusLabel.Text = "다운로드 오류"
             DownSpeedLabel.Text = "다운로드 오류"
             ErrorStatus = True
@@ -101,27 +99,28 @@ Public Class MainForm
         End Try
     End Sub
     Public Sub UpdaterProcess() 'XML
-        Dim UpdaterVersion As String = XMLReader(ACDataFolder & "\Settings.xml", "System", "UpdaterVersion")
-        Dim InternalUpdaterVersion As Double = INIRead("System", "UpdaterVersion", ACDataFolder & "\Config.ini")
+        Dim UpdaterVersion As String = XMLReader(SettingFileLocation, "System", "UpdaterVersion")
+        Dim InternalUpdaterVersion As Double = INIRead("System", "UpdaterVersion", ACDataFolder & "\VersionInfo.ini")
         If My.Computer.FileSystem.FileExists(ACDataFolder & "\ACPUpdater.exe") = False Or UpdaterVersion = "Error" Then
             GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/ACPUpdater.exe", ACDataFolder & "\ACPUpdater.exe", "Updater")
-            XMLWriter(ACDataFolder & "\Settings.xml", "System", "UpdaterVersion", InternalUpdaterVersion)
+            XMLWriter(SettingFileLocation, "System", "UpdaterVersion", InternalUpdaterVersion)
         Else
             If UpdaterVersion < InternalUpdaterVersion Then
                 My.Computer.FileSystem.DeleteFile(ACDataFolder & "\ACPUpdater.exe")
                 GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/ACPUpdater.exe", ACDataFolder & "\ACPUpdater.exe", "Updater")
-                XMLWriter(ACDataFolder & "\Settings.xml", "System", "UpdaterVersion", InternalUpdaterVersion)
+                XMLWriter(SettingFileLocation, "System", "UpdaterVersion", InternalUpdaterVersion)
             End If
         End If
     End Sub
     Public Sub VersionCheck() 'XML
-        Dim getVersion As Double = INIRead("System", "Version", ACDataFolder & "\Config.ini")
+        Dim getVersion As Double = INIRead("System", "Version", ACDataFolder & "\VersionInfo.ini")
         If Command() = "noupdate" Or Command() = "debug" Then
             MsgBox("Alert! Command '" & Command() & "' is detected Program will not run update process" & Chr(10) & "Program Current Version : " & Version & " / Internal Version : " & getVersion, MsgBoxStyle.Exclamation + MsgBoxStyle.OkOnly)
         Else
             If getVersion > Version Then
-                XMLWriter(ACDataFolder & "\Settings.xml", "System", "Update Status", 1)
-                Process.Start(ACDataFolder & "\ACPUpdater.exe")
+                XMLWriter(SettingFileLocation, "System", "UpdateStatus", 1)
+                Shell(ACDataFolder & "\ACPUpdater.exe " & Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) & "\Dunois Software\AnimationCheckerPro\", AppWinStyle.NormalFocus)
+                End
             End If
         End If
     End Sub
@@ -155,10 +154,10 @@ Public Class MainForm
         ListQuater = TimeInfo.ToString("yy") & GetQMonth
     End Sub
     Public Sub SettingApply() 'OK
-        Dim getSkinUse As String = XMLReader(ACDataFolder & "\Settings.xml", "System", "SkinUse")
-        Dim getSkinPath As String = XMLReader(ACDataFolder & "\Settings.xml", "System", "SkinPath")
-        Dim getAction As String = XMLReader(ACDataFolder & "\Settings.xml", "System", "ActionType")
-        Dim getTray As String = XMLReader(ACDataFolder & "\Settings.xml", "System", "SystemTray")
+        Dim getSkinUse As String = XMLReader(SettingFileLocation, "System", "SkinUse")
+        Dim getSkinPath As String = XMLReader(SettingFileLocation, "System", "SkinPath")
+        Dim getAction As String = XMLReader(SettingFileLocation, "System", "ActionType")
+        Dim getTray As String = XMLReader(SettingFileLocation, "System", "SystemTray")
         MainPanel.Visible = True
         If getSkinUse = 1 Then
             If My.Computer.FileSystem.FileExists(getSkinPath) Then
@@ -179,7 +178,7 @@ Public Class MainForm
         End If
     End Sub
     Public Sub ExtraWork()
-        Dim getUpdateStatus As String = XMLReader(ACDataFolder & "\Settings.xml", "System", "UpdateStatus")
+        Dim getUpdateStatus As String = XMLReader(SettingFileLocation, "System", "UpdateStatus")
         Dim getListDate As String = INIRead("System", "ListDate", ACDataFolder & "\AnimationCheckerProList.ini")
         WeekComboBox.SelectedIndex = TodayDate - 1
         If ListDownloadError = True Then
@@ -188,18 +187,18 @@ Public Class MainForm
             Dim DownloadListQuarter As String = INIRead("System", "ListTargetQuarter", ACDataFolder & "\AnimationCheckerProList.ini")
             MsgBox(DownloadListYear & "년 " & DownloadListMonth & "월 " & DownloadListQuarter & "분기 리스트를 다운로드 했습니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "확인")
         End If
-        If getUpdateStatus = "1" Then
+        If getUpdateStatus = "1" Or Command() = "-manual" Then
             If My.Computer.FileSystem.FileExists(ACDataFolder & "\Update.log") Then
                 My.Computer.FileSystem.DeleteFile(ACDataFolder & "\Update.log")
             End If
             My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/ACPData/Update.log", ACDataFolder & "\Update.log")
             UpdateCompleteForm.ShowDialog()
-            XMLWriter(ACDataFolder & "\Settings.xml", "System", "UpdateStatus", 0)
+            XMLWriter(SettingFileLocation, "System", "UpdateStatus", 0)
         Else
-            XMLWriter(ACDataFolder & "\Settings.xml", "System", "UpdateStatus", 0)
+            XMLWriter(SettingFileLocation, "System", "UpdateStatus", 0)
         End If
         ListDateLabel.Text = getListDate
-        Dim getCurrentNotice As String = XMLReader(ACDataFolder & "\Settings.xml", "System", "Notice")
+        Dim getCurrentNotice As String = XMLReader(SettingFileLocation, "System", "Notice")
         Dim getInternalNotice As String = INIRead("Notice", "ImpNoticeType", ACDataFolder & "\AnimationCheckerProList.ini")
         If getCurrentNotice = "Error" Then
             ImportantNotice.ShowDialog()
@@ -249,12 +248,13 @@ Public Class MainForm
             NotifyIcon.Visible = False
             End
         Else
-            If My.Computer.FileSystem.FileExists(ACDataFolder & "\Settings.xml") Then
+            If My.Computer.FileSystem.FileExists(SettingFileLocation) Then
 
             Else
-                CreatXmlDoc("Settings.xml", ACDataFolder)
+                CreatXmlDoc("Settings.xml", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) & "\Dunois Software\AnimationCheckerPro")
             End If
-            XMLWriter(ACDataFolder & "\Settings.xml", "System", "ProgramPath", My.Application.Info.DirectoryPath)
+            XMLWriter(SettingFileLocation, "System", "ProgramPath", My.Application.Info.DirectoryPath)
+            XMLWriter(SettingFileLocation, "System", "ProgramVersion", Version)
             SettingChecker()
             FormLoadCompleteTimer.Enabled = True
         End If
@@ -295,7 +295,7 @@ Public Class MainForm
     End Sub
     Public Sub AniListReading(ByVal Type As String)
         Dim getSelectedItem As Integer = AnimationListBox.SelectedIndex + 1
-        Dim getImgFilter As String = XMLReader(ACDataFolder & "\Settings.xml", "System", "SystemTray")
+        Dim getImgFilter As String = XMLReader(SettingFileLocation, "System", "SystemTray")
         Dim getDN As Integer = WeekComboBox.SelectedIndex + 1
         If Type = "t,img" Then
             StillCutPictureBox.Image = Nothing
@@ -408,8 +408,8 @@ Public Class MainForm
             Dim getSearchEngineType As Integer = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Search" & getSelectedSearchItem & "Type", ACDataFolder & "\AnimationCheckerProList.ini")
             If getSearchEngineType = 0 Then 'NT
                 Dim getString As String = INIRead(WeekdayName, "Ani" & getSelectedListItem & "Search" & getSelectedSearchItem & "String", ACDataFolder & "\AnimationCheckerProList.ini")
-                Dim getSearchCat As String = XMLReader(ACDataFolder & "\Settings.xml", "System", "NTCat")
-                Dim getSearchFilter As String = XMLReader(ACDataFolder & "\Settings.xml", "System", "NTFilter")
+                Dim getSearchCat As String = XMLReader(SettingFileLocation, "System", "NTCat")
+                Dim getSearchFilter As String = XMLReader(SettingFileLocation, "System", "NTFilter")
                 Dim SearchEngine As String = "http://www.nyaa.se/?page=search&cats="
                 SearchLink = SearchEngine & getSearchCat & "&filter=" & getSearchFilter & "&term=" & getString
             ElseIf getSearchEngineType = 2 Then 'Leopard
@@ -468,22 +468,22 @@ Public Class MainForm
     End Sub
 
     Private Sub SearchListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SearchListBox.SelectedIndexChanged
-        Dim ActionType As Integer = XMLReader(ACDataFolder & "\Settings.xml", "System", "ActionType")
+        Dim ActionType As Integer = XMLReader(SettingFileLocation, "System", "ActionType")
         SearchFunc(ActionType, 0)
     End Sub
 
     Private Sub SubListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SubListBox.SelectedIndexChanged
-        Dim ActionType As Integer = XMLReader(ACDataFolder & "\Settings.xml", "System", "ActionType")
+        Dim ActionType As Integer = XMLReader(SettingFileLocation, "System", "ActionType")
         SubFunc(ActionType, 0)
     End Sub
 
     Private Sub SearchListBox_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles SearchListBox.MouseDoubleClick
-        Dim ActionType As Integer = XMLReader(ACDataFolder & "\Settings.xml", "System", "ActionType")
+        Dim ActionType As Integer = XMLReader(SettingFileLocation, "System", "ActionType")
         SearchFunc(ActionType, 1)
     End Sub
 
     Private Sub SubListBox_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles SubListBox.MouseDoubleClick
-        Dim ActionType As Integer = XMLReader(ACDataFolder & "\Settings.xml", "System", "ActionType")
+        Dim ActionType As Integer = XMLReader(SettingFileLocation, "System", "ActionType")
         SubFunc(ActionType, 1)
     End Sub
 
@@ -509,8 +509,8 @@ Public Class MainForm
     End Sub
 
     Private Sub MainForm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        Dim getTray As String = XMLReader(ACDataFolder & "\Settings.xml", "System", "SystemTray")
-        Dim getCloseAlert As String = XMLReader(ACDataFolder & "\Settings.xml", "System", "CloseAlert")
+        Dim getTray As String = XMLReader(SettingFileLocation, "System", "SystemTray")
+        Dim getCloseAlert As String = XMLReader(SettingFileLocation, "System", "CloseAlert")
         If getTray = 1 And CloseToggleStatus = False Then
             Me.Hide()
             SystemTrayed = True
@@ -612,8 +612,8 @@ Public Class MainForm
     End Sub
 
     Private Sub MainForm_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
-        Dim getTray As String = XMLReader(ACDataFolder & "\Settings.xml", "System", "SystemTray")
-        If My.Computer.FileSystem.FileExists(ACDataFolder & "\Settings.xml") Then
+        If My.Computer.FileSystem.FileExists(SettingFileLocation) Then
+            Dim getTray As String = XMLReader(SettingFileLocation, "System", "SystemTray")
             If getTray = 2 And SystemTrayed = False And LoadStageChecker = False Then
                 Me.Hide()
                 SystemTrayed = True
@@ -632,7 +632,7 @@ Public Class MainForm
         NotifyIcon.Visible = False
     End Sub
     Public Sub OpenAppTray()
-        Dim getTray As String = XMLReader(ACDataFolder & "\Settings.xml", "System", "SystemTray")
+        Dim getTray As String = XMLReader(SettingFileLocation, "System", "SystemTray")
         If SystemTrayed = True Then
             Me.Show()
             Me.WindowState = FormWindowState.Normal

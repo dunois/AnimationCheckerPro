@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.Win32
 Public Class ImportantNotice
     Private Sub FExitButton_Click(sender As Object, e As EventArgs) Handles FExitButton.Click
-        XMLWriter(MainForm.ACDataFolder & "\Settings.xml", "System", "Notice", MainForm.INIRead("Notice", "ImpNoticeType", MainForm.ACDataFolder & "\AnimationCheckerProList.ini"))
+        XMLWriter(MainForm.SettingFileLocation, "System", "Notice", MainForm.INIRead("Notice", "ImpNoticeType", MainForm.ACDataFolder & "\AnimationCheckerProList.ini"))
         Me.Close()
     End Sub
 

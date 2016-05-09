@@ -21,14 +21,14 @@ Public Class SkinSettingForm
 
     Private Sub SkinApplyButton_Click(sender As Object, e As EventArgs) Handles SkinApplyButton.Click
         MainForm.SkinPanel.BackgroundImage = Image.FromFile(FileName)
-        XMLWriter(MainForm.ACDataFolder & "\Settings.xml", "System", "SkinUse", 1)
-        XMLWriter(MainForm.ACDataFolder & "\Settings.xml", "System", "SkinPath", SkinFileLocationTextBox.Text)
+        XMLWriter(MainForm.SettingFileLocation, "System", "SkinUse", 1)
+        XMLWriter(MainForm.SettingFileLocation, "System", "SkinPath", SkinFileLocationTextBox.Text)
         Me.Close()
     End Sub
 
     Private Sub SkinSettingForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim getSkinUse As Integer = XMLReader(MainForm.ACDataFolder & "\Settings.xml", "System", "SkinUse")
-        Dim getSkinPath As String = XMLReader(MainForm.ACDataFolder & "\Settings.xml", "System", "SkinPath")
+        Dim getSkinUse As Integer = XMLReader(MainForm.SettingFileLocation, "System", "SkinUse")
+        Dim getSkinPath As String = XMLReader(MainForm.SettingFileLocation, "System", "SkinPath")
         If getSkinUse = 0 Then
 
         Else
@@ -62,8 +62,8 @@ Public Class SkinSettingForm
 
     Private Sub DeleteSkinButton_Click(sender As Object, e As EventArgs) Handles DeleteSkinButton.Click
         If MsgBox("선택한 스킨이 지워집니다." & Chr(10) & "그래도 진행하시겠습니까?", MsgBoxStyle.Exclamation + MsgBoxStyle.YesNo, "확인") = System.Windows.Forms.DialogResult.Yes Then
-            XMLWriter(MainForm.ACDataFolder & "\Settings.xml", "System", "SkinUse", 0)
-            XMLWriter(MainForm.ACDataFolder & "\Settings.xml", "System", "SkinPath", "None")
+            XMLWriter(MainForm.SettingFileLocation, "System", "SkinUse", 0)
+            XMLWriter(MainForm.SettingFileLocation, "System", "SkinPath", "None")
             MsgBox("완료되었습니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "완료")
             MainForm.SkinPanel.BackgroundImage = Nothing
             SkinFileLocationTextBox.Text = ""
