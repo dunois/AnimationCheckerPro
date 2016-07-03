@@ -4,7 +4,7 @@
   <description asmv2:iconFile="_39780656.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="AnimationCheckerPro" version="1.4.1.15200" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="AnimationCheckerPro" version="1.4.2.14200" language="neutral" processorArchitecture="msil" />
     <commandLine file="AnimationCheckerPro.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -29,14 +29,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AnimationCheckerPro.exe" size="2595328">
-      <assemblyIdentity name="AnimationCheckerPro" version="1.4.1.15200" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AnimationCheckerPro.exe" size="2597376">
+      <assemblyIdentity name="AnimationCheckerPro" version="1.4.2.14200" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>GFu+rabVOb9C8vmC/G7ucRR6tQvZ3rfIORHBprF2w/8=</dsig:DigestValue>
+        <dsig:DigestValue>xPG9d4yBIAe3wJz6QqGMgQW1vUVb3z/buvKXFKZ7gUU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

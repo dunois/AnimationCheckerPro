@@ -11,8 +11,8 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("AnimationCheckerPro")> 
 <Assembly: AssemblyDescription("Animation Checker")> 
 <Assembly: AssemblyCompany("Dunois Software")> 
-<Assembly: AssemblyProduct("AnimationCheckerPro")> 
-<Assembly: AssemblyCopyright("Copyright ©  2010 - 2013 REAL TIME Dunois Software")> 
+<Assembly: AssemblyProduct("AnimationCheckerPro")>
+<Assembly: AssemblyCopyright("Copyright ©  2010 - 2016 REAL TIME Dunois Software")>
 <Assembly: AssemblyTrademark("REAL TIME")> 
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' 지정되도록 할 수 있습니다.
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.4.1.15200")>
-<Assembly: AssemblyFileVersion("1.4.1.15200")>
+<Assembly: AssemblyVersion("1.4.2.14200")>
+<Assembly: AssemblyFileVersion("1.4.2.14200")>

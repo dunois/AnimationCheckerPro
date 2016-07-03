@@ -2,7 +2,7 @@
 Imports System.IO
 
 Public Class MainForm
-    Public Version As Double = 1.411
+    Public Version As Double = 1.42
     Public ACDataFolder As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData
     Public WeekdayName As String
     Public LoadedListStatus As Integer = 0
@@ -136,7 +136,6 @@ Public Class MainForm
             GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/ACP" & ListQuater & ".rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
             ListDownloadError = False
         Catch ex As Exception
-            MsgBox("서버에 지정된 리스트(" & TimeInfo.ToString("yy") & "년 " & GetQMonth & "월" & ")가 존재하지 않아 이전 리스트를 다운로드 합니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "리스트 존재하지 않음")
             GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/AnimationCheckerProList.rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
             ListDownloadError = True
         End Try
@@ -176,6 +175,7 @@ Public Class MainForm
             SearchButton.Visible = True
             SubLinkButton.Visible = True
         End If
+
     End Sub
     Public Sub ExtraWork()
         Dim getUpdateStatus As String = XMLReader(SettingFileLocation, "System", "UpdateStatus")
@@ -185,7 +185,8 @@ Public Class MainForm
             Dim DownloadListYear As String = INIRead("System", "ListTargetYear", ACDataFolder & "\AnimationCheckerProList.ini")
             Dim DownloadListMonth As String = INIRead("System", "ListTargetMonth", ACDataFolder & "\AnimationCheckerProList.ini")
             Dim DownloadListQuarter As String = INIRead("System", "ListTargetQuarter", ACDataFolder & "\AnimationCheckerProList.ini")
-            MsgBox(DownloadListYear & "년 " & DownloadListMonth & "월 " & DownloadListQuarter & "분기 리스트를 다운로드 했습니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "확인")
+            MsgBox("서버에 " & TimeInfo.ToString("yyyy") & "년 " & GetQMonth & "월 " & "리스트가 존재하지 않아 " & DownloadListYear & "년 " & DownloadListMonth & "월 리스트를 다운로드 했습니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "확인")
+            ListQuater = DownloadListYear.Substring(2, 2) & DownloadListMonth
         End If
         If getUpdateStatus = "1" Or Command() = "-manual" Then
             If My.Computer.FileSystem.FileExists(ACDataFolder & "\Update.log") Then
@@ -207,6 +208,7 @@ Public Class MainForm
         End If
 
     End Sub
+
     Public Sub Listloading()
         Dim getWeekdayName As Integer = WeekComboBox.SelectedIndex + 1
         If getWeekdayName = 1 Then
@@ -292,6 +294,7 @@ Public Class MainForm
     End Sub
     Private Sub ErrorCloseButton_Click(sender As Object, e As EventArgs) Handles ErrorCloseButton.Click
         End
+
     End Sub
     Public Sub AniListReading(ByVal Type As String)
         Dim getSelectedItem As Integer = AnimationListBox.SelectedIndex + 1
@@ -643,5 +646,10 @@ Public Class MainForm
                 NotifyIcon.Visible = False
             End If
         End If
+    End Sub
+
+    Private Sub ListChangeButton_Click(sender As Object, e As EventArgs) Handles ListChangeButton.Click
+        ProgramOption.OptionTreeView.SelectedNode = ProgramOption.OptionTreeView.Nodes(1).Nodes(0)
+        ProgramOption.ShowDialog()
     End Sub
 End Class

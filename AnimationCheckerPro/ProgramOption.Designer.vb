@@ -32,7 +32,7 @@ Partial Class ProgramOption
         Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("검색엔진 설정", New System.Windows.Forms.TreeNode() {TreeNode5, TreeNode6})
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ProgramOption))
         Me.OptionTreeView = New System.Windows.Forms.TreeView()
-        Me.OptionPresetChooseComboBox = New System.Windows.Forms.ComboBox()
+        Me.OptionPreset = New System.Windows.Forms.ComboBox()
         Me.ResetButton = New System.Windows.Forms.Button()
         Me.SaveSettingButton = New System.Windows.Forms.Button()
         Me.OptionTab = New System.Windows.Forms.GroupBox()
@@ -109,15 +109,15 @@ Partial Class ProgramOption
         Me.OptionTreeView.Size = New System.Drawing.Size(255, 357)
         Me.OptionTreeView.TabIndex = 1
         '
-        'OptionPresetChooseComboBox
+        'OptionPreset
         '
-        Me.OptionPresetChooseComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.OptionPresetChooseComboBox.FormattingEnabled = True
-        Me.OptionPresetChooseComboBox.Items.AddRange(New Object() {"기본설정"})
-        Me.OptionPresetChooseComboBox.Location = New System.Drawing.Point(12, 8)
-        Me.OptionPresetChooseComboBox.Name = "OptionPresetChooseComboBox"
-        Me.OptionPresetChooseComboBox.Size = New System.Drawing.Size(255, 23)
-        Me.OptionPresetChooseComboBox.TabIndex = 2
+        Me.OptionPreset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.OptionPreset.FormattingEnabled = True
+        Me.OptionPreset.Items.AddRange(New Object() {"기본설정"})
+        Me.OptionPreset.Location = New System.Drawing.Point(12, 8)
+        Me.OptionPreset.Name = "OptionPreset"
+        Me.OptionPreset.Size = New System.Drawing.Size(255, 23)
+        Me.OptionPreset.TabIndex = 2
         '
         'ResetButton
         '
@@ -536,7 +536,7 @@ Partial Class ProgramOption
         Me.Controls.Add(Me.OptionSaveButton)
         Me.Controls.Add(Me.SaveSettingButton)
         Me.Controls.Add(Me.ResetButton)
-        Me.Controls.Add(Me.OptionPresetChooseComboBox)
+        Me.Controls.Add(Me.OptionPreset)
         Me.Controls.Add(Me.OptionTreeView)
         Me.Controls.Add(Me.OptionTab)
         Me.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
@@ -564,7 +564,7 @@ Partial Class ProgramOption
 
     End Sub
     Friend WithEvents OptionTreeView As System.Windows.Forms.TreeView
-    Friend WithEvents OptionPresetChooseComboBox As System.Windows.Forms.ComboBox
+    Friend WithEvents OptionPreset As System.Windows.Forms.ComboBox
     Friend WithEvents ResetButton As System.Windows.Forms.Button
     Friend WithEvents SaveSettingButton As System.Windows.Forms.Button
     Friend WithEvents OptionTab As System.Windows.Forms.GroupBox

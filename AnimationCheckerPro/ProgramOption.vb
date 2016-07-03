@@ -11,6 +11,7 @@ Public Class ProgramOption
     Dim ActionTypeOption As String = XMLReader(MainForm.SettingFileLocation, "System", "ActionType")
     Dim NTCatOption As String = XMLReader(MainForm.SettingFileLocation, "System", "NTCat")
     Dim NTFilterOption As String = XMLReader(MainForm.SettingFileLocation, "System", "NTFilter")
+    Dim DLCCheck As Boolean = False
 
     Private Sub ProgramOption_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim ListDate As String = MainForm.INIRead("System", "ListDate", MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
@@ -49,6 +50,8 @@ Public Class ProgramOption
         End If
         ListDateLabel.Text = ListDate
         ListProducerLabel.Text = ListProducer
+        OptionPreset.SelectedIndex = 0
+
     End Sub
 
     Private Sub OptionTreeView_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles OptionTreeView.AfterSelect
@@ -58,12 +61,14 @@ Public Class ProgramOption
         ElseIf OptionTreeView.SelectedNode.Name = "ListConfigNode" Then
             ListInfoPanel.BringToFront()
         ElseIf OptionTreeView.SelectedNode.Name = "AvailiableListShowNode" Then
+            AvailiableListPanel.BringToFront()
+            AvailiableListComboBox.Items.Clear()
             If My.Computer.FileSystem.FileExists(MainForm.ACDataFolder & "\DownloadableList.ini") Then
                 My.Computer.FileSystem.DeleteFile(MainForm.ACDataFolder & "\DownloadableList.ini")
             End If
             Try
+                AvailiableListDownloadButton.Enabled = True
                 My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/ACPData/DLCList.ini", MainForm.ACDataFolder & "\DownloadableList.ini")
-                AvailiableListPanel.BringToFront()
                 AvailiableListComboBox.Items.Clear()
                 Dim DLCListNumber As Integer = MainForm.INIRead("DLCL", "Number", MainForm.ACDataFolder & "\DownloadableList.ini")
                 For i As Integer = 1 To DLCListNumber
@@ -77,8 +82,13 @@ Public Class ProgramOption
                         Exit For
                     End If
                 Next
+                DLCCheck = False
             Catch ex As Exception
-                MsgBox("다운로드에 실패하였습니다! 인터넷 문제일수있습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+                MsgBox("다운로드 가능한 리스트를 가져올 수 없습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+                AvailiableListComboBox.Items.Add("불러오기 실패")
+                AvailiableListComboBox.SelectedIndex = 0
+                AvailiableListDownloadButton.Enabled = False
+                DLCCheck = True
             End Try
         ElseIf OptionTreeView.SelectedNode.Name = "ExpandModeSetting" Then
             ExpandModePanel.BringToFront()
@@ -114,6 +124,8 @@ Public Class ProgramOption
                 AvailiableListDownloadButton.Enabled = False
                 AvailiableListDownloadButton.Width = 155
                 AvailiableListDownloadButton.Text = "현재 다운로드한 리스트"
+            ElseIf DLCCheck = True Then
+                AvailiableListDownloadButton.Enabled = False
             Else
                 AvailiableListDownloadButton.Enabled = True
                 AvailiableListDownloadButton.Width = 75
@@ -125,14 +137,14 @@ Public Class ProgramOption
     Private Sub AvailiableListDownloadButton_Click(sender As Object, e As EventArgs) Handles AvailiableListDownloadButton.Click
         Dim getSelectedListLocate As String = MainForm.INIRead("DLCL", "List" & AvailiableListComboBox.SelectedIndex + 1 & "Location", MainForm.ACDataFolder & "\DownloadableList.ini")
         Dim getSelectedListQut As String = MainForm.INIRead("DLCL", "List" & AvailiableListComboBox.SelectedIndex + 1 & "Qut", MainForm.ACDataFolder & "\DownloadableList.ini")
-        MainForm.AnimationListBox.Items.Clear()
-        MainForm.SearchListBox.Items.Clear()
-        MainForm.SubListBox.Items.Clear()
         If My.Computer.FileSystem.FileExists(MainForm.ACDataFolder & "\AnimationCheckerProList.ini") Then
             My.Computer.FileSystem.DeleteFile(MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
         End If
         Try
             My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/" & getSelectedListLocate, MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
+            MainForm.AnimationListBox.Items.Clear()
+            MainForm.SearchListBox.Items.Clear()
+            MainForm.SubListBox.Items.Clear()
             MainForm.Listloading()
             MainForm.ListQuater = getSelectedListQut
             MainForm.SearchListBox.Items.Add("애니메이션을 선택하세요")
@@ -142,7 +154,7 @@ Public Class ProgramOption
             AvailiableListDownloadButton.Width = 155
             AvailiableListDownloadButton.Text = "현재 다운로드한 리스트"
         Catch ex As Exception
-            MsgBox("다운로드에 실패하였습니다! 인터넷 문제일수있습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+            MsgBox("선택한 리스트를 다운로드 할 수 없습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
         End Try
     End Sub
 
@@ -161,9 +173,21 @@ Public Class ProgramOption
         XMLWriter(MainForm.SettingFileLocation, "System", "ActionType", ButtonActionComboBox.SelectedIndex)
         XMLWriter(MainForm.SettingFileLocation, "System", "CloseAlert", CloseAlertComboBox.SelectedIndex)
         XMLWriter(MainForm.SettingFileLocation, "System", "ImageFilter", ImageFilteringComboBox.SelectedIndex)
-        XMLWriter(MainForm.SettingFileLocation, "System", "NTCat", NTCatComboBox.Text)
         XMLWriter(MainForm.SettingFileLocation, "System", "NTFilter", NTFilterComboBox.SelectedIndex)
         XMLWriter(MainForm.SettingFileLocation, "System", "SystemTray", SystemTrayComboBox.SelectedIndex)
+        If NTCatComboBox.SelectedIndex = 0 Then
+            XMLWriter(MainForm.SettingFileLocation, "System", "NTCat", "1_11")
+        ElseIf NTCatComboBox.SelectedIndex = 1 Then
+            XMLWriter(MainForm.SettingFileLocation, "System", "NTCat", "0_0")
+        ElseIf NTCatComboBox.SelectedIndex = 2 Then
+            XMLWriter(MainForm.SettingFileLocation, "System", "NTCat", "1_0")
+        ElseIf NTCatComboBox.SelectedIndex = 3 Then
+            XMLWriter(MainForm.SettingFileLocation, "System", "NTCat", "3_0")
+        ElseIf NTCatComboBox.SelectedIndex = 4 Then
+            XMLWriter(MainForm.SettingFileLocation, "System", "NTCat", "3_14")
+        ElseIf NTCatComboBox.SelectedIndex = 5 Then
+            XMLWriter(MainForm.SettingFileLocation, "System", "NTCat", "3_15")
+        End If
         If SystemTrayComboBox.SelectedIndex = 1 Then
             MainForm.NotifyIcon.Visible = True
         Else

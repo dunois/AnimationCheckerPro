@@ -55,6 +55,7 @@ Partial Class MainForm
         Me.ToolMenuButton = New System.Windows.Forms.ToolStripDropDownButton()
         Me.SubFileNameChangerMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.AnimationSaveFolderOpenMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ListChangeButton = New System.Windows.Forms.ToolStripButton()
         Me.SubListBox = New System.Windows.Forms.ListBox()
         Me.SearchListBox = New System.Windows.Forms.ListBox()
         Me.AnimationListBox = New System.Windows.Forms.ListBox()
@@ -300,7 +301,7 @@ Partial Class MainForm
         '
         'MainMenu
         '
-        Me.MainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WeekComboBox, Me.OptionButton, Me.ToolMenuButton})
+        Me.MainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WeekComboBox, Me.OptionButton, Me.ToolMenuButton, Me.ListChangeButton})
         Me.MainMenu.Location = New System.Drawing.Point(0, 0)
         Me.MainMenu.Name = "MainMenu"
         Me.MainMenu.Size = New System.Drawing.Size(1354, 25)
@@ -328,25 +329,26 @@ Partial Class MainForm
         'ProgramInformationButton
         '
         Me.ProgramInformationButton.Name = "ProgramInformationButton"
-        Me.ProgramInformationButton.Size = New System.Drawing.Size(150, 22)
+        Me.ProgramInformationButton.Size = New System.Drawing.Size(152, 22)
         Me.ProgramInformationButton.Text = "프로그램 정보"
         '
         'ProgramConfigButton
         '
         Me.ProgramConfigButton.Name = "ProgramConfigButton"
-        Me.ProgramConfigButton.Size = New System.Drawing.Size(150, 22)
+        Me.ProgramConfigButton.Size = New System.Drawing.Size(152, 22)
         Me.ProgramConfigButton.Text = "프로그램 설정"
         '
         'SkinRootButton
         '
         Me.SkinRootButton.Name = "SkinRootButton"
-        Me.SkinRootButton.Size = New System.Drawing.Size(150, 22)
+        Me.SkinRootButton.Size = New System.Drawing.Size(152, 22)
         Me.SkinRootButton.Text = "배경화면 설정"
         '
         'ToolMenuButton
         '
         Me.ToolMenuButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.ToolMenuButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SubFileNameChangerMenu, Me.AnimationSaveFolderOpenMenu})
+        Me.ToolMenuButton.Enabled = False
         Me.ToolMenuButton.Image = CType(resources.GetObject("ToolMenuButton.Image"), System.Drawing.Image)
         Me.ToolMenuButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolMenuButton.Name = "ToolMenuButton"
@@ -365,6 +367,15 @@ Partial Class MainForm
         Me.AnimationSaveFolderOpenMenu.Name = "AnimationSaveFolderOpenMenu"
         Me.AnimationSaveFolderOpenMenu.Size = New System.Drawing.Size(218, 22)
         Me.AnimationSaveFolderOpenMenu.Text = "애니메이션 저장 폴더 열기"
+        '
+        'ListChangeButton
+        '
+        Me.ListChangeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ListChangeButton.Image = CType(resources.GetObject("ListChangeButton.Image"), System.Drawing.Image)
+        Me.ListChangeButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ListChangeButton.Name = "ListChangeButton"
+        Me.ListChangeButton.Size = New System.Drawing.Size(75, 22)
+        Me.ListChangeButton.Text = "리스트 변경"
         '
         'SubListBox
         '
@@ -557,4 +568,5 @@ Partial Class MainForm
     Friend WithEvents QuickToggle As StatusStrip
     Friend WithEvents ListDateTitle As ToolStripStatusLabel
     Friend WithEvents ListDateLabel As ToolStripStatusLabel
+    Friend WithEvents ListChangeButton As ToolStripButton
 End Class
