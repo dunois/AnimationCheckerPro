@@ -2,7 +2,7 @@
 Imports System.IO
 
 Public Class MainForm
-    Public Version As Double = 1.42
+    Public Version As Double = 1.43
     Public ACDataFolder As String = My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData
     Public WeekdayName As String
     Public LoadedListStatus As Integer = 0
@@ -20,13 +20,14 @@ Public Class MainForm
     Dim ListDownloadError As Boolean = False
     Dim TodayDate = Weekday(My.Computer.Clock.LocalTime)
     Dim TimeInfo As Date = Date.Now
-    Dim ImageUrl As String = ""
     Dim GetQMonth As String = ""
     Dim bCreated As Boolean
     Dim mtx As New System.Threading.Mutex(True, "AnimationCheckerPro.exe", bCreated)
     Dim SystemTrayed As Boolean = False
     Dim ErrorStatus As Boolean = False
     Dim LoadStageChecker As Boolean = True
+    Dim ImageFile As System.IO.FileStream
+    Dim ImageFileLocation As String
 
     '필요 구분 선언
     Public Function INIRead(ByVal Session As String, ByVal KeyValue As String, ByVal INIFILE As String) As String
@@ -88,7 +89,7 @@ Public Class MainForm
             My.Computer.FileSystem.DeleteFile(ACDataFolder & "\VersionInfo.ini")
         End If
         Try
-            My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/ACPData/ACPVersion.ini", ACDataFolder & "\VersionInfo.ini")
+            My.Computer.Network.DownloadFile("http://dunois403.cafe24.com/ACPData/ACPVersion.ini", ACDataFolder & "\VersionInfo.ini")
         Catch ex As Exception
             MsgBox("버전 정보를 가져올 수 없습니다!", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
             DownloadStatusLabel.Text = "다운로드 오류"
@@ -102,12 +103,12 @@ Public Class MainForm
         Dim UpdaterVersion As String = XMLReader(SettingFileLocation, "System", "UpdaterVersion")
         Dim InternalUpdaterVersion As Double = INIRead("System", "UpdaterVersion", ACDataFolder & "\VersionInfo.ini")
         If My.Computer.FileSystem.FileExists(ACDataFolder & "\ACPUpdater.exe") = False Or UpdaterVersion = "Error" Then
-            GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/ACPUpdater.exe", ACDataFolder & "\ACPUpdater.exe", "Updater")
+            GetFileFromUrl("http://dunois403.cafe24.com/ACPData/ACPUpdater.exe", ACDataFolder & "\ACPUpdater.exe", "Updater")
             XMLWriter(SettingFileLocation, "System", "UpdaterVersion", InternalUpdaterVersion)
         Else
             If UpdaterVersion < InternalUpdaterVersion Then
                 My.Computer.FileSystem.DeleteFile(ACDataFolder & "\ACPUpdater.exe")
-                GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/ACPUpdater.exe", ACDataFolder & "\ACPUpdater.exe", "Updater")
+                GetFileFromUrl("http://dunois403.cafe24.com/ACPData/ACPUpdater.exe", ACDataFolder & "\ACPUpdater.exe", "Updater")
                 XMLWriter(SettingFileLocation, "System", "UpdaterVersion", InternalUpdaterVersion)
             End If
         End If
@@ -130,13 +131,13 @@ Public Class MainForm
         End If
         getListQuater()
         Try
-            Dim rq = Net.WebRequest.Create("http://gkskvhtm403.cafe24.com/ACPData/ACP" & ListQuater & ".rev.ini")
+            Dim rq = Net.WebRequest.Create("http://dunois403.cafe24.com/ACPData/ACP" & ListQuater & ".rev.ini")
             rq.Timeout = 5000
             rq.GetResponse()
-            GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/ACP" & ListQuater & ".rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
+            GetFileFromUrl("http://dunois403.cafe24.com/ACPData/ACP" & ListQuater & ".rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
             ListDownloadError = False
         Catch ex As Exception
-            GetFileFromUrl("http://gkskvhtm403.cafe24.com/ACPData/AnimationCheckerProList.rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
+            GetFileFromUrl("http://dunois403.cafe24.com/ACPData/AnimationCheckerProList.rev.ini", ACDataFolder & "\AnimationCheckerProList.ini", "AnimationList")
             ListDownloadError = True
         End Try
     End Sub
@@ -192,13 +193,13 @@ Public Class MainForm
             If My.Computer.FileSystem.FileExists(ACDataFolder & "\Update.log") Then
                 My.Computer.FileSystem.DeleteFile(ACDataFolder & "\Update.log")
             End If
-            My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/ACPData/Update.log", ACDataFolder & "\Update.log")
+            My.Computer.Network.DownloadFile("http://dunois403.cafe24.com/ACPData/Update.log", ACDataFolder & "\Update.log")
             UpdateCompleteForm.ShowDialog()
             XMLWriter(SettingFileLocation, "System", "UpdateStatus", 0)
         Else
             XMLWriter(SettingFileLocation, "System", "UpdateStatus", 0)
         End If
-        ListDateLabel.Text = getListDate
+        Me.Text = Me.Text + " : " & getListDate
         Dim getCurrentNotice As String = XMLReader(SettingFileLocation, "System", "Notice")
         Dim getInternalNotice As String = INIRead("Notice", "ImpNoticeType", ACDataFolder & "\AnimationCheckerProList.ini")
         If getCurrentNotice = "Error" Then
@@ -206,7 +207,11 @@ Public Class MainForm
         ElseIf getCurrentNotice = getInternalNotice = False Then
             ImportantNotice.ShowDialog()
         End If
+        If My.Computer.FileSystem.DirectoryExists(ACDataFolder & "\cache") Then
 
+        Else
+            My.Computer.FileSystem.CreateDirectory(ACDataFolder & "\cache")
+        End If
     End Sub
 
     Public Sub Listloading()
@@ -288,90 +293,125 @@ Public Class MainForm
                 LoadStageChecker = False
             End If
         Else
-            MsgBox("에러코드 : " & Stage & Chr(10) & "문제가 계속되면 tarry403@gmail.com 으로 연락주시기 바랍니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+            MsgBox("프로그램을 로드할 수 없습니다!" & Chr(10) & "에러코드 : PL" & Stage, MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
             End
         End If
     End Sub
     Private Sub ErrorCloseButton_Click(sender As Object, e As EventArgs) Handles ErrorCloseButton.Click
         End
-
     End Sub
-    Public Sub AniListReading(ByVal Type As String)
+    Public Sub ListReader()
+        Application.DoEvents()
         Dim getSelectedItem As Integer = AnimationListBox.SelectedIndex + 1
-        Dim getImgFilter As String = XMLReader(SettingFileLocation, "System", "SystemTray")
+        Dim getImageUrl As String = "http://dunois403.cafe24.com/" & INIRead(WeekdayName, "Ani" & getSelectedItem & "PictureUrl", ACDataFolder & "\AnimationCheckerProList.ini")
+        Dim getImageFilterSet As String = XMLReader(SettingFileLocation, "System", "ImageFilter")
+        Dim getImageRate As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "PictureType", ACDataFolder & "\AnimationCheckerProList.ini")
         Dim getDN As Integer = WeekComboBox.SelectedIndex + 1
-        If Type = "t,img" Then
+        If Not (StillCutPictureBox.Image Is Nothing) Then
+            'StillCutPictureBox.Image.Dispose()
             StillCutPictureBox.Image = Nothing
             StillCutPictureBox.Width = 910
             StillCutPictureBox.Height = 420
-            ImageErrorLabel.Visible = False
-            Dim getTime As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "Time", ACDataFolder & "\AnimationCheckerProList.ini")
-            Dim getImageType As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "PictureType", ACDataFolder & "\AnimationCheckerProList.ini")
-            Dim getImageUrl As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "PictureUrl", ACDataFolder & "\AnimationCheckerProList.ini")
-            Dim getImageFilterRate As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "PictureRate", ACDataFolder & "\AnimationCheckerProList.ini")
-            If getImageType = 0 Then
-                ImageUrl = "http://gkskvhtm403.cafe24.com/" & getImageUrl
-            End If
-            Dim ImgReq = Net.WebRequest.Create(ImageUrl)
-            ImgReq.Timeout = 5000
-            Try
-                ImgReq.GetResponse()
-                If getImgFilter = 1 Then
-                    If getImageFilterRate = "1" Then
-                        ImageShowButton.Visible = True
-                    Else
-                        ImageShowButton.Visible = False
-                        StillCutPictureBox.ImageLocation = ImageUrl
-                    End If
-                Else
-                    StillCutPictureBox.ImageLocation = ImageUrl
-                End If
-                ImageErrorLabel.Visible = False
-                StillCutHideButton.Enabled = True
-                ShowLargeImageButton.Enabled = True
-            Catch ex As Exception
-                ImageErrorLabel.Visible = True
-                StillCutHideButton.Enabled = False
-                ShowLargeImageButton.Enabled = False
-            End Try
-            ImgReq.Abort()
-            OnAirTimeLabel.Text = getTime
-        ElseIf Type = "sub" Then
-            Dim getSubNumber As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "SubNumber", ACDataFolder & "\AnimationCheckerProList.ini")
-            If getSubNumber = 0 Then
-                SubListBox.Items.Add("등록된 자막 제작자가 없습니다.")
-            Else
-                For i As Integer = 1 To getSubNumber
-                    Dim getSubName As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "Sub" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini")
-                    If getSubName = "" Then
-                        MsgBox("리스트를 불러오는 도중 오류가 발생하였습니다." & Chr(10) & "오류코드 : L.READ.LOAD_DATE" & getDN & "_ITEM" & getSelectedItem & "_SN" & i & Chr(10) & "문제가 계속되면 tarry403@gmail.com 으로 오류코드를 전송해주시면 빠르게 해결하겠습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
-                    Else
-                        SubListBox.Items.Add(getSubName)
-                    End If
-                Next
-            End If
-        ElseIf Type = "search" Then
-            Dim getSearchNumber As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "SearchNumber", ACDataFolder & "\AnimationCheckerProList.ini")
-            If getSearchNumber = 0 Then
-                SearchListBox.Items.Add("항목이 없습니다.")
-            Else
-                For i As Integer = 1 To getSearchNumber
-                    Dim GetSearchName As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini")
-                    If GetSearchName = "" Then
-                        MsgBox("리스트를 불러오는 도중 오류가 발생하였습니다." & Chr(10) & "오류코드 : L.READ.LOAD_DN" & getDN & "_ITEM" & getSelectedItem & "_TN" & i & Chr(10) & "문제가 계속되면 tarry403@gmail.com 으로 오류코드를 전송해주시면 빠르게 해결하겠습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
-                    Else
-                        Dim getSearchType As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Type", ACDataFolder & "\AnimationCheckerProList.ini")
-                        If getSearchType = 0 Then
-                            SearchListBox.Items.Add(GetSearchName & " (접속상태 : " & NTStatus & ")")
-                        Else
-                            SearchListBox.Items.Add(GetSearchName)
-                        End If
-                    End If
-                Next
-            End If
         End If
+        If ImageChecker(getImageUrl) = 0 Then
+            Dim ImageLocation As String = ImageDownlaoder(getImageUrl)
+            AnimationListBox.Enabled = True
+            AnimationListBox.Focus()
+            ImageFile = New System.IO.FileStream(ImageLocation, IO.FileMode.Open, IO.FileAccess.Read)
+            ImageFileLocation = ImageLocation
+            If getImageFilterSet = 1 And getImageRate = 1 Then
+                FilterCancelButton.Visible = True
+                HideImageButton.Visible = False
+                ShowImageButton.Visible = False
+                ImageErrorLabel.Visible = False
+            Else
+                FilterCancelButton.Visible = False
+                HideImageButton.Visible = True
+                ShowImageButton.Visible = True
+                ImageErrorLabel.Visible = False
+                StillCutPictureBox.Image = System.Drawing.Image.FromStream(ImageFile)
+                ImageFile.Close()
+            End If
+        Else
+            ImageErrorLabel.Visible = True
+            HideImageButton.Visible = False
+            ShowImageButton.Visible = False
+        End If
+        Dim getSubNumber As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "SubNumber", ACDataFolder & "\AnimationCheckerProList.ini")
+        If getSubNumber = 0 Then
+            SubListBox.Items.Add("등록된 자막 제작자가 없습니다.")
+        Else
+            For i As Integer = 1 To getSubNumber
+                Dim getSubName As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "Sub" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini")
+                If getSubName = "" Then
+                    MsgBox("리스트를 불러오는 도중 오류가 발생하였습니다." & Chr(10) & "오류코드 : 2xD" & getDN & "_ITEM" & getSelectedItem & "_N" & i, MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+                Else
+                    SubListBox.Items.Add(getSubName)
+                End If
+            Next
+        End If
+        Dim getSearchNumber As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "SearchNumber", ACDataFolder & "\AnimationCheckerProList.ini")
+        If getSearchNumber = 0 Then
+            SearchListBox.Items.Add("항목이 없습니다.")
+        Else
+            For i As Integer = 1 To getSearchNumber
+                Dim GetSearchName As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Name", ACDataFolder & "\AnimationCheckerProList.ini")
+                If GetSearchName = "" Then
+                    MsgBox("리스트를 불러오는 도중 오류가 발생하였습니다." & Chr(10) & "오류코드 : 1xD" & getDN & "N" & i, MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
+                Else
+                    Dim getSearchType As Integer = INIRead(WeekdayName, "Ani" & getSelectedItem & "Search" & i & "Type", ACDataFolder & "\AnimationCheckerProList.ini")
+                    If getSearchType = 0 Then
+                        SearchListBox.Items.Add(GetSearchName & " (접속상태 : " & NTStatus & ")")
+                    Else
+                        SearchListBox.Items.Add(GetSearchName)
+                    End If
+                End If
+            Next
+        End If
+        Dim getTime As String = INIRead(WeekdayName, "Ani" & getSelectedItem & "Time", ACDataFolder & "\AnimationCheckerProList.ini")
+        TimeToolTip.ToolTipTitle = "방영시간"
+        TimeToolTip.Show(getTime, AnimationListBox, 5000)
     End Sub
-
+    Public Function ImageChecker(ByVal RequestUrl As String)
+        Dim ImgReq = WebRequest.Create(RequestUrl)
+        ImgReq.Timeout = 5000
+        Try
+            ImgReq.GetResponse()
+            ImgReq.Abort()
+            Return 0
+        Catch ex As Exception
+            ImgReq.Abort()
+            Return 1
+        End Try
+    End Function
+    Public Function ImageDownlaoder(ByVal DownloadUrl As String)
+        Dim FileNameOnly As String = DownloadUrl.Substring(DownloadUrl.LastIndexOf("/") + 1)
+        If My.Computer.FileSystem.FileExists(ACDataFolder & "\cache\" & FileNameOnly) Then
+            Return ACDataFolder & "\cache\" & FileNameOnly
+        End If
+        AnimationListBox.Enabled = False
+        Dim DownloadDestination As String = ACDataFolder & "\cache\" & FileNameOnly
+        ImgDownloadProgressBar.Visible = True
+        Dim ReDownBufferSize As Double = 0
+        Dim ThisRequest As HttpWebRequest = DirectCast(WebRequest.Create(DownloadUrl), HttpWebRequest)
+        Dim ThisResponese As HttpWebResponse = DirectCast(ThisRequest.GetResponse(), HttpWebResponse)
+        Dim TotalSize As Integer = ThisResponese.ContentLength
+        Dim MyThisStream As Stream = ThisResponese.GetResponseStream()
+        Dim GetFileStream As New FileStream(DownloadDestination, FileMode.Create)
+        Dim buff As Byte() = New Byte(TotalSize) {}
+        Dim buffer As Byte() = buff
+        Do Until GetFileStream.Length = TotalSize
+            ReDownBufferSize = MyThisStream.Read(buff, 0, 1024)
+            GetFileStream.Write(buffer, 0, ReDownBufferSize)
+            Application.DoEvents()
+            ImgDownloadProgressBar.Value = Math.Round(GetFileStream.Length) / Math.Round(TotalSize) * 100
+        Loop
+        GetFileStream.Close()
+        MyThisStream.Close()
+        ThisResponese.Close()
+        ImgDownloadProgressBar.Visible = False
+        Return ACDataFolder & "\cache\" & FileNameOnly
+    End Function
     Private Sub AnimationListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AnimationListBox.SelectedIndexChanged
         Application.DoEvents()
         If AnimationListBox.SelectedIndex = -1 Then
@@ -379,27 +419,32 @@ Public Class MainForm
             SubListBox.Items.Clear()
             SearchListBox.Items.Add("애니메이션을 선택하세요")
             SubListBox.Items.Add("애니메이션을 선택하세요")
-            NameLabel.Text = "애니메이션을 선택하세요"
         Else
             SearchListBox.Items.Clear()
             SubListBox.Items.Clear()
             SearchButton.Enabled = False
             SubLinkButton.Enabled = False
-            NameLabel.Text = AnimationListBox.SelectedItem
-            AniListReading("t,img")
-            AniListReading("sub")
-            AniListReading("search")
+            ListReader()
         End If
     End Sub
     Private Sub WeekComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles WeekComboBox.SelectedIndexChanged
         AnimationListBox.Items.Clear()
         SubListBox.Items.Clear()
         SearchListBox.Items.Clear()
+        If Not (StillCutPictureBox.Image Is Nothing) Then
+            StillCutPictureBox.Image.Dispose()
+            StillCutPictureBox.Image = Nothing
+            StillCutPictureBox.Width = 910
+            StillCutPictureBox.Height = 420
+        End If
         SubListBox.Items.Add("애니메이션을 선택하세요")
         SearchListBox.Items.Add("애니메이션을 선택하세요")
-        NameLabel.Text = "애니메이션을 선택하세요"
+        FilterCancelButton.Visible = False
         SearchButton.Enabled = False
         SubLinkButton.Enabled = False
+        HideImageButton.Visible = False
+        ShowImageButton.Visible = False
+        ImageErrorLabel.Visible = False
         Listloading()
     End Sub
     Public Sub GetSearchLink()
@@ -435,15 +480,6 @@ Public Class MainForm
         End If
     End Sub
 
-    Private Sub StillCutHideButton_Click(sender As Object, e As EventArgs) Handles StillCutHideButton.Click
-        If StillCutPictureBox.Visible = True Then
-            StillCutPictureBox.Visible = False
-            StillCutHideButton.Text = "사진 보이기"
-        Else
-            StillCutPictureBox.Visible = True
-            StillCutHideButton.Text = "사진 숨기기"
-        End If
-    End Sub
     Public Sub SearchFunc(ByVal Act As Integer, ByVal Type As Integer)
         If SearchListBox.SelectedIndex = -1 Or SearchListBox.SelectedItem = "항목이 없습니다." Or SearchListBox.SelectedItem = "애니메이션을 선택하세요" Then
             SearchButton.Enabled = False
@@ -498,11 +534,6 @@ Public Class MainForm
         Process.Start(SubLink)
     End Sub
 
-    Private Sub ShowLargeImageButton_Click(sender As Object, e As EventArgs) Handles ShowLargeImageButton.Click
-        LargeImageForm.LargePictureBox.ImageLocation = StillCutPictureBox.ImageLocation
-        LargeImageForm.ShowDialog()
-    End Sub
-
     Private Sub ProgramConfigButton_Click(sender As Object, e As EventArgs) Handles ProgramConfigButton.Click
         ProgramOption.ShowDialog()
     End Sub
@@ -523,16 +554,22 @@ Public Class MainForm
             WindowState = FormWindowState.Normal
             Dim CloseAlertMsg = MsgBox("정말로 종료하시겠습니까?" & Chr(10) & "(이 설정은 옵션 - 프로그램 설정 에서 설정할수있습니다.)", MsgBoxStyle.YesNo + MsgBoxStyle.Information, "확인")
             If CloseAlertMsg = vbYes Then
-
+                'DeleteCache()
             Else
                 e.Cancel = True
             End If
         ElseIf getCloseAlert = 1 Then
             NotifyIcon.Visible = False
+            'DeleteCache()
             End
         End If
     End Sub
-
+    Private Sub DeleteCache()
+        If Not (StillCutPictureBox.Image Is Nothing) Then
+            StillCutPictureBox.Image.Dispose()
+        End If
+        My.Computer.FileSystem.DeleteDirectory(ACDataFolder & "\cache", FileIO.DeleteDirectoryOption.DeleteAllContents)
+    End Sub
     Private Sub SkinSetButton_Click(sender As Object, e As EventArgs)
         SkinSettingForm.ShowDialog()
 
@@ -565,6 +602,8 @@ Public Class MainForm
                 Dim ErrorMsg As String = ""
                 If ex.Message = "작업 시간이 초과되었습니다." Then
                     ErrorMsg = "접속 실패"
+                Else
+                    ErrorMsg = "알 수 없는 오류"
                 End If
                 If i = 1 Then
                     NTStatus = ErrorMsg
@@ -576,9 +615,12 @@ Public Class MainForm
         ProgramOption.ReTestButton.Enabled = True
     End Sub
 
-    Private Sub ImageShowButton_Click(sender As Object, e As EventArgs) Handles ImageShowButton.Click
-        StillCutPictureBox.ImageLocation = ImageUrl
-        ImageShowButton.Visible = False
+    Private Sub ImageShowButton_Click(sender As Object, e As EventArgs) Handles FilterCancelButton.Click
+        StillCutPictureBox.Image = System.Drawing.Image.FromStream(ImageFile)
+        ImageFile.Close()
+        FilterCancelButton.Visible = False
+        HideImageButton.Visible = True
+        ShowImageButton.Visible = True
     End Sub
 
     Private Sub CloseQuickMenu_Click(sender As Object, e As EventArgs) Handles CloseQuickMenu.Click
@@ -630,10 +672,6 @@ Public Class MainForm
     Private Sub NotifyIcon_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles NotifyIcon.MouseDoubleClick
         OpenAppTray()
     End Sub
-
-    Private Sub MainForm_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
-        NotifyIcon.Visible = False
-    End Sub
     Public Sub OpenAppTray()
         Dim getTray As String = XMLReader(SettingFileLocation, "System", "SystemTray")
         If SystemTrayed = True Then
@@ -651,5 +689,35 @@ Public Class MainForm
     Private Sub ListChangeButton_Click(sender As Object, e As EventArgs) Handles ListChangeButton.Click
         ProgramOption.OptionTreeView.SelectedNode = ProgramOption.OptionTreeView.Nodes(1).Nodes(0)
         ProgramOption.ShowDialog()
+    End Sub
+
+    Private Sub ShowImageButton_Click(sender As Object, e As EventArgs) Handles ShowImageButton.Click
+        ImageFile = New System.IO.FileStream(ImageFileLocation, IO.FileMode.Open, IO.FileAccess.Read)
+        LargeImageForm.LargePictureBox.Image = Image.FromStream(ImageFile)
+        ImageFile.Close()
+        LargeImageForm.ShowDialog()
+    End Sub
+
+    Private Sub HideImageButton_Click(sender As Object, e As EventArgs) Handles HideImageButton.Click
+        If StillCutPictureBox.Visible = True Then
+            StillCutPictureBox.Visible = False
+            HideImageButton.Text = "이미지 보이기"
+        Else
+            StillCutPictureBox.Visible = True
+            HideImageButton.Text = "이미지 숨기기"
+        End If
+    End Sub
+    Private Sub StillCutPictureBox_SizeChanged(sender As Object, e As EventArgs) Handles StillCutPictureBox.SizeChanged
+        If StillCutPictureBox.Width > 975 Then
+
+        Else
+            ImagePanel.Width = StillCutPictureBox.Width + 45
+        End If
+    End Sub
+
+    Private Sub DeleteCacheButton_Click(sender As Object, e As EventArgs) Handles DeleteCacheButton.Click
+        DeleteCache()
+        My.Computer.FileSystem.CreateDirectory(ACDataFolder & "\cache")
+        MsgBox("이미지 캐시를 지웠습니다.", MsgBoxStyle.OkOnly + MsgBoxStyle.Information, "완료")
     End Sub
 End Class

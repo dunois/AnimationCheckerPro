@@ -68,7 +68,7 @@ Public Class ProgramOption
             End If
             Try
                 AvailiableListDownloadButton.Enabled = True
-                My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/ACPData/DLCList.ini", MainForm.ACDataFolder & "\DownloadableList.ini")
+                My.Computer.Network.DownloadFile("http://dunois403.cafe24.com/ACPData/DLCList.ini", MainForm.ACDataFolder & "\DownloadableList.ini")
                 AvailiableListComboBox.Items.Clear()
                 Dim DLCListNumber As Integer = MainForm.INIRead("DLCL", "Number", MainForm.ACDataFolder & "\DownloadableList.ini")
                 For i As Integer = 1 To DLCListNumber
@@ -141,7 +141,7 @@ Public Class ProgramOption
             My.Computer.FileSystem.DeleteFile(MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
         End If
         Try
-            My.Computer.Network.DownloadFile("http://gkskvhtm403.cafe24.com/" & getSelectedListLocate, MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
+            My.Computer.Network.DownloadFile("http://dunois403.cafe24.com/" & getSelectedListLocate, MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
             MainForm.AnimationListBox.Items.Clear()
             MainForm.SearchListBox.Items.Clear()
             MainForm.SubListBox.Items.Clear()
@@ -153,6 +153,7 @@ Public Class ProgramOption
             AvailiableListDownloadButton.Enabled = False
             AvailiableListDownloadButton.Width = 155
             AvailiableListDownloadButton.Text = "현재 다운로드한 리스트"
+            'MainForm.ListDateLabel.Text = MainForm.INIRead("System", "ListDate", MainForm.ACDataFolder & "\AnimationCheckerProList.ini")
         Catch ex As Exception
             MsgBox("선택한 리스트를 다운로드 할 수 없습니다.", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "오류")
         End Try

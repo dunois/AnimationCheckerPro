@@ -38,7 +38,16 @@ Public Class SkinSettingForm
                 DeleteSkinButton.Enabled = True
                 ShowLargeImageButton.Enabled = True
             Else
-                MsgBox("스킨 파일이 존재하지 않습니다.", MsgBoxStyle.OkOnly + MsgBoxStyle.Critical, "오류")
+                If MsgBox("배경화면 파일이 지워졌거나 존재하지 않습니다." & Chr(10) & "배경화면을 지우시겠습니까?", MsgBoxStyle.YesNo + MsgBoxStyle.Critical, "오류") = DialogResult.Yes Then
+                    XMLWriter(MainForm.SettingFileLocation, "System", "SkinUse", 0)
+                    XMLWriter(MainForm.SettingFileLocation, "System", "SkinPath", "None")
+                    MsgBox("완료되었습니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "완료")
+                    SkinFileLocationTextBox.Text = ""
+                    ShowLargeImageButton.Enabled = False
+                    DeleteSkinButton.Enabled = False
+                    SkinApplyButton.Enabled = False
+                    SkinPictureBox.Image = Nothing
+                End If
             End If
         End If
     End Sub
@@ -61,7 +70,7 @@ Public Class SkinSettingForm
     End Sub
 
     Private Sub DeleteSkinButton_Click(sender As Object, e As EventArgs) Handles DeleteSkinButton.Click
-        If MsgBox("선택한 스킨이 지워집니다." & Chr(10) & "그래도 진행하시겠습니까?", MsgBoxStyle.Exclamation + MsgBoxStyle.YesNo, "확인") = System.Windows.Forms.DialogResult.Yes Then
+        If MsgBox("선택한 배경화면이 지워집니다." & Chr(10) & "그래도 진행하시겠습니까?", MsgBoxStyle.Exclamation + MsgBoxStyle.YesNo, "확인") = DialogResult.Yes Then
             XMLWriter(MainForm.SettingFileLocation, "System", "SkinUse", 0)
             XMLWriter(MainForm.SettingFileLocation, "System", "SkinPath", "None")
             MsgBox("완료되었습니다.", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "완료")
